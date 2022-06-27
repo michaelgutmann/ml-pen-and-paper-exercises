@@ -1,0 +1,92 @@
+
+
+%% COLOURS
+\definecolor{dkblue}{rgb}{0,0.1,0.5}
+\definecolor{dkgreen}{rgb}{0,0.4,0}
+\definecolor{dkred}{rgb}{0.6,0,0}
+\definecolor{midred}{RGB}{224, 100, 89}
+\definecolor{verylightgrey}{RGB}{245, 245, 245}
+
+%% LISTINGS
+\lstset{language=Python,
+        morekeywords=[1]{type,val,fun,model,table,static,inst,out,rnd,det,qry,let,in,of,try,if,then,else,rec,input,field,latent,var,observed,output,hyper,link,sizeof,infer,len,param,init,sample,marginal,observe,upto,range,scan,nil,yield,unit,bool,int,real,string,vector,row_vector,matrix,local,fail,fst,snd,case,inl,inr,elsif,gen,static,withprior,withhyper,sm,im,sv,iv,target,def,return,ty,void,skip,gen, double},
+        %  morekeywords=[1]{random},
+        %  morekeywords=[1]{Vector,Matrix,PositiveDefiniteMatrix,Sampleable},
+        %  morekeywords=[1]{Bernoulli,Poisson,Gaussian,VectorGaussian,Gamma,Discrete,DiscreteUniform,Beta,Binomial,Dirichlet,Wishart,Marginal},
+        morekeywords=[2]{public,interface},
+        morekeywords=[3]{},%
+        morekeywords=[4]{fv,dom,env,clauses},%
+        morekeywords=[5]{,genquant, transformed, parameters, generated, quantities, model, functions},
+        % morekeywords=[5]{,data},
+        morestring=[b]",
+        sensitive=true,%
+        columns=[l]fullflexible,
+        texcl=true,
+        mathescape=true,
+        %  xleftmargin=10pt,
+        identifierstyle={\sffamily},
+        keywordstyle=[1]{\sffamily\bfseries\color{dkblue}},
+        keywordstyle=[2]{\sffamily\bfseries\color{dkblue}},
+        keywordstyle=[3]{\sffamily\bfseries\color{black}},
+        keywordstyle=[4]{\itshape},
+        keywordstyle=[5]{\sffamily\bfseries\color{dkblue}},
+        morecomment=*[l][identifierstyle]{//},
+        morecomment=*[l][identifierstyle]{///},
+        % Here is the range marker stuff
+        rangeprefix=(*---\ ,
+        includerangemarker=false,
+        basicstyle=\ttfamily,
+        stringstyle=\ttfamily\color{dkred},
+        commentstyle=\itshape\color{dkgreen},
+        showspaces=false,
+        showstringspaces=false,
+        literate={/\\}{$\wedge\,$}{2} {\\/}{$\vee\,$}{2}
+        {==}{$\sim$}{1}
+        {|->}{$\mapsto$}{1}
+        {Bluec}{{\maybecolor{dkblue}c}}{1}
+        {->}{$\rightarrow\,$}{1} 
+        {=>}{$\Rightarrow\,$}{1}
+        {<-}{$\leftarrow\,$}{1}
+        {<=>}{$\Leftrightarrow\,$}{3}
+        %{~}{$\sim\;\,$}{1}
+        {'}{$\delta$}{1},
+        tabsize=4,
+        breaklines=true,
+        moredelim=[is][\sffamily\textcolor{midred}]{\%\%}{\%\%},
+        moredelim=[is][\sc\textcolor{dkgreen}]{+++}{+++},
+        backgroundcolor = \color{verylightgrey}
+}
+
+%% LISTINGS FANCY
+
+\usepackage{tikz}
+% add frame environment
+\usepackage[%
+framemethod=tikz,
+skipbelow=\topskip,
+skipabove=\topskip
+]{mdframed}
+\mdfsetup{%
+        leftmargin=6pt,
+        rightmargin=6pt,
+        innertopmargin=6pt,
+        innerbottommargin=4pt,
+        backgroundcolor=verylightgrey,
+        middlelinecolor=black,
+        roundcorner=4
+}
+
+%\usepackage{etoolbox}% >= v2.1 2011-01-03
+\BeforeBeginEnvironment{lstlisting}{\begin{mdframed}\vspace{-0.7em}}
+        \AfterEndEnvironment{lstlisting}{\vspace{-0.5em}\end{mdframed}}  
+%%%%%%%%%%%%%%%%%%%
+
+
+
+% The following is inline: \lstinline|for i in range(10):|
+
+% \begin{lstlisting}
+%   def func(*args, **kwargs):
+%       # your code here
+%       pass
+% \end{lstlisting}

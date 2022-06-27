@@ -1,0 +1,178 @@
+% tikz commands kindly shared by David Barber
+% as used for his book Bayesian Reasoning and Machine Learning
+% http://web4.cs.ucl.ac.uk/staff/D.Barber/pmwiki/pmwiki.php?n=Brml.HomePage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{scalerel}[2016/12/29] % for scaling
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,backgrounds,through,shadows,positioning}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{calc}
+\usetikzlibrary{fit} %
+\usetikzlibrary{graphs,graphs.standard}
+\usepackage{pgfplots}
+\usetikzlibrary{tikzmark,positioning}
+
+\tikzstyle{neur}=[rectangle,draw=green!50,fill=green!50,minimum size=6mm,line width=2pt,>=stealth]  % continuous
+
+% my basic style definitions for Graphical Models
+\newcommand{\betadist}[3]{B\br{#1|#2,#3}}
+
+\tikzstyle{fact}=[fill,minimum size=1.5mm,line width=2pt,>=stealth]
+
+\tikzstyle{cont2}=[circle,draw=black!50,top color=white, % a shading that is white at the top...
+bottom color=lilla!50!black!20,thick,minimum size=6mm,line width=1pt,>=stealth]  % continuous  node
+
+\tikzstyle{contredb}=[circle,draw=red,top color=red, % a shading that is white at the top...
+bottom color=red!50!black!20,thick,minimum size=8.1mm,line width=1pt,>=stealth]  % continuous  node
+\tikzstyle{contyellowb}=[circle,draw=yellow,top color=yellow, % a shading that is white at the top...
+bottom color=yellow!50!black!20,thick,minimum size=8.1mm,line width=1pt,>=stealth]  % continuous  node
+\tikzstyle{contblueb}=[circle,draw=blue,top color=blue, % a shading that is white at the top...
+bottom color=blue!50!black!20, thick,minimum size=8.1mm,line width=1pt,>=stealth]  % continuous  node
+
+\tikzstyle{contred}=[circle,draw=red,top color=red, % a shading that is white at the top...
+bottom color=white,thick,minimum size=6mm,line width=1pt,>=stealth]  % continuous  node
+%\tikzstyle{contred}=[circle,draw=red,top color=white, % a shading that is white at the top...
+%bottom color=white,thick,minimum size=6mm,line width=1pt,>=stealth]  % continuous  node
+\tikzstyle{contyellow}=[circle,draw=yellow,top color=yellow, % a shading that is white at the top...
+bottom color=yellow!50!black!20,thick,minimum size=6mm,line width=1pt,>=stealth]  % continuous  node
+\tikzstyle{contblue}=[circle,draw=blue,top color=blue!80!black!50, % a shading that is white at the top...
+bottom color=white, thick,minimum size=6mm,line width=1pt,>=stealth]  % continuous  node
+\tikzstyle{contgreen}=[circle,draw=green,top color=green!80!black!50, % a shading that is white at the top...
+bottom color=white, thick,minimum size=6mm,line width=1pt,>=stealth]  % continuous  node
+\tikzstyle{contwhite}=[circle,draw=white,color=white, thick,minimum size=6mm,line width=1pt,>=stealth]  % continuous  node
+\tikzstyle{contwhiteb}=[circle,draw=white,color=white, thick,minimum size=7.5mm,line width=1pt,>=stealth]  % continuous  node
+
+\tikzstyle{cont}=[circle, draw,% a shading that is white at the top...
+thick,minimum size=6mm,line width=1pt,>=stealth]  % continuous  node
+
+\tikzstyle{contb}=[circle,draw=black!50,top color=white, % a shading that is white at the top...
+bottom color=darkgreen!50!black!20,thick,inner sep=0pt,minimum size=8.1mm,line width=1pt,>=stealth]  % continuous  node
+
+\tikzstyle{ocont}=[ellipse,draw=blue!50,thick,minimum size=6mm,>=stealth]  % continuous  node
+\tikzstyle{blackcont}=[circle,draw=black!50,thick,minimum size=6mm,line width=2pt,>=stealth]  % continuous  node
+%\tikzstyle{par}=[circle,fill,left]  % parameter  node
+\tikzstyle{oval}=[ellipse,draw=blue!50,thick,minimum size=6mm,line width=1pt,>=stealth]  % continuous node
+\tikzstyle{ovalb}=[ellipse,draw=blue!50,thick,minimum size=7.5mm,line width=1pt,>=stealth]  % continuous node
+\tikzstyle{disc}=[rectangle,draw=blue!50,thick,line width=1pt,minimum size=6mm]  % discrete node
+\tikzstyle{obs}=[fill=blue!20,thick]  % observed node
+\tikzstyle{opt}=[star,draw=red!50,thick,minimum size=6mm]  % decision node
+
+\tikzstyle{fillred}=[fill=red!20,thick]  % observed node
+\tikzstyle{fillgreen}=[fill=green!20,thick]  % observed node
+\tikzstyle{purered}=[fill=red]  % observed node
+\tikzstyle{state}=[rectangle,fill=red!20]  % state
+\tikzstyle{sobs}=[fill=green!15,thick]  % sequentally observed node
+\tikzstyle{fact}=[fill,minimum size=1.5mm,line width=2pt,>=stealth]
+\tikzstyle{varfact}=[draw,minimum size=1.5mm,line width=2pt,>=stealth]
+\tikzstyle{sep}=[rectangle,draw=magenta!50,thick,minimum size=6mm]  % discrete node
+\tikzstyle{det}=[fill=red!15,rectangle,draw=red!50,thick,minimum size=6mm]  % deterministic node
+
+\tikzstyle{dethid}=[diamond,draw=red!50,thick,minimum size=6mm]  % deterministic  hidden node
+
+\tikzstyle{lineball}=[fill,-*,draw=red!50,line width=1.5pt]
+\tikzstyle{redball}=[mark=*,mark options={fill=red!50,draw=red},mark size=0.5pt]
+\tikzstyle{greenball}=[mark=*,mark options={fill=green!50,draw=green},mark size=0.5pt]
+\tikzstyle{hid}=[circle,draw,thick]  %  non observed node
+
+\tikzstyle{dec}=[rectangle,draw=red!50,thick,minimum size=6mm]  % decision node
+\tikzstyle{utility}=[diamond,draw=red!50,thick,minimum size=6mm]  % utility node
+\tikzstyle{contdec}=[circle,draw=blue!50,thick,fill=blue!10,line width=2pt]  % observed node after a decision
+\tikzstyle{decutility}=[diamond,draw=red!50,thick,minimum size=6mm]  % utility node
+
+% dependent styles
+\tikzstyle{contobs}+=[cont]
+\tikzstyle{contobs}+=[obs]
+\tikzstyle{discobs}+=[disc]
+\tikzstyle{discobs}+=[obs]
+
+\tikzstyle{obsred}+=[obs]
+\tikzstyle{obsred}+=[red]
+
+%\tikzstyle{every picture}+=[remember picture]
+\tikzstyle{background grid}=[draw, black!50,step=.1cm]
+%\tikzstyle{dgraph}=[->,>=latex', line width=1.5pt]
+\tikzstyle{dgraph}=[->, line width=1.5pt]
+\tikzstyle{ugraph}=[line width=1.5pt]
+
+\newcommand{\boxit}[4]
+{
+\path #2+(-#4,-#4) node(bottomleft){};
+\path #3+(#4,#4) node(upperright){};
+\draw[rounded corners,red!20] (bottomleft) rectangle (upperright);
+%\path (#2-|#3) node(bottomright){};
+\path (bottomleft-|upperright) node(bottomright){};
+\path (bottomright) node[above left]{#1};
+}
+\newcommand{\boxitur}[4]
+{
+\path #2+(-#4,-#4) node(bottomleft){};
+\path #3+(#4,#4) node(upperright){};
+\draw[rounded corners,red!20] (bottomleft) rectangle (upperright);
+%\path (#2-|#3) node(bottomright){};
+\path (bottomleft-|upperright) node(bottomright){};
+\path (upperright) node[below left]{#1};
+}
+
+
+% sum-product
+\newcommand{\fxmess}[3]{\scaleobj{#3}{\mu_{{#1\rightarrow #2}}}}
+\newcommand{\xfmess}[3]{\scaleobj{#3}{\mu_{{#1\rightarrow #2}}}}
+
+% sum-product vector
+\newcommand{\fxmessb}[2]{\pmb{\mu_{{#1\rightarrow #2}}}}
+\newcommand{\xfmessb}[2]{\pmb{\mu_{{#1\rightarrow #2}}}}
+
+
+% max-product
+\newcommand{\mfxmess}[3]{\scaleobj{#3}{\gamma_{{#1\rightarrow #2}}}}
+\newcommand{\mxfmess}[3]{\scaleobj{#3}{\gamma_{{#1\rightarrow #2}}}}
+
+% My commands:
+
+
+\definecolor{magenta}{cmyk}{0.1,1,1,0.5}
+\definecolor{darkgreen}{cmyk}{0.6,0.1,0.6,0.6}
+\definecolor{pink}{cmyk}{0.1,1,1,0.1}
+\definecolor{azzurro}{cmyk}{0.9333, 0.2471, 0.5569, 0.102}
+\definecolor{lilla}{rgb}{0.5, 0, 0.5}
+\definecolor{mygreen}{rgb}{0, 0.5, 0}
+\definecolor{darkorange}{rgb}{1, 0.4, 0} % is probably not visible...
+\definecolor{darkred}{rgb}{0.8, 0, 0}
+
+
+% ----------------------------
+
+\newcommand{\convexpath}[2]{
+[   
+    create hullnodes/.code={
+        \global\edef\namelist{#1}
+        \foreach [count=\counter] \nodename in \namelist {
+            \global\edef\numberofnodes{\counter}
+            \node at (\nodename) [draw=none,name=hullnode\counter] {};
+        }
+        \node at (hullnode\numberofnodes) [name=hullnode0,draw=none] {};
+        \pgfmathtruncatemacro\lastnumber{\numberofnodes+1}
+        \node at (hullnode1) [name=hullnode\lastnumber,draw=none] {};
+    },
+    create hullnodes
+]
+($(hullnode1)!#2!-90:(hullnode0)$)
+\foreach [
+    evaluate=\currentnode as \previousnode using \currentnode-1,
+    evaluate=\currentnode as \nextnode using \currentnode+1
+    ] \currentnode in {1,...,\numberofnodes} {
+  let
+    \p1 = ($(hullnode\currentnode)!#2!-90:(hullnode\previousnode)$),
+    \p2 = ($(hullnode\currentnode)!#2!90:(hullnode\nextnode)$),
+    \p3 = ($(\p1) - (hullnode\currentnode)$),
+    \n1 = {atan2(\y3,\x3)},
+    \p4 = ($(\p2) - (hullnode\currentnode)$),
+    \n2 = {atan2(\y4,\x4)},
+    \n{delta} = {-Mod(\n1-\n2,360)}
+  in 
+    {-- (\p1) arc[start angle=\n1, delta angle=\n{delta}, radius=#2] -- (\p2)}
+}
+-- cycle
+}

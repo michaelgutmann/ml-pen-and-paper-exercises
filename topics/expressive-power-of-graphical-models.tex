@@ -1,0 +1,1851 @@
+% Emacs, this is -*-latex-*-
+
+\ex{I-equivalence}
+\label{ex:I-equiv}
+
+\begin{exenumerate}
+\item Which of three graphs represent the same set of independencies? Explain.\\
+
+  \begin{tikzpicture}[dgraph]
+    \node[cont] (v) at (0,0) {$v$};
+    \node[cont, below right= of v] (w) {$w$};
+    \node[cont, right= of v] (x) {$x$};
+    \node[cont, below right= of x] (y) {$y$};
+    \node[cont, right= of x] (z) {$z$};
+
+    \node[below= 0.2 of w] {Graph 1};
+
+    \draw (v) -- (w);
+    \draw (w) -- (x);
+    \draw (x) -- (y);
+    \draw (z) -- (y);   
+  \end{tikzpicture}
+  \hspace{5ex}
+  \begin{tikzpicture}[dgraph]
+    \node[cont] (v) at (0,0) {$v$};
+    \node[cont, below right= of v] (w) {$w$};
+    \node[cont, right= of v] (x) {$x$};
+    \node[cont, below right= of x] (y) {$y$};
+    \node[cont, right= of x] (z) {$z$};
+
+    \node[below= 0.2 of w] {Graph 2};
+    
+    \draw (w) -- (v);
+    \draw (x) -- (w);
+    \draw (x) -- (y);
+    \draw (z) -- (y);   
+  \end{tikzpicture}
+ \hspace{5ex}
+  \begin{tikzpicture}[dgraph]
+    \node[cont] (v) at (0,0) {$v$};
+    \node[cont, below right= of v] (w) {$w$};
+    \node[cont, right= of v] (x) {$x$};
+    \node[cont, below right= of x] (y) {$y$};
+    \node[cont, right= of x] (z) {$z$};
+
+    \node[below= 0.2 of w] {Graph 3};
+    
+    \draw (w) -- (v);
+    \draw (x) -- (w);
+    \draw (y) -- (x);
+    \draw (z) -- (y);
+
+  \end{tikzpicture}
+
+  \begin{solution}
+    To check whether the graphs are I-equivalent, we have to check the skeletons and the immoralities. All have the same skeleton, but graph 1 and graph 2 also have the same immorality. The answer is thus: graph 1 and 2 encode the same independencies.\\
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[cont] (v) at (0,0) {$v$};
+        \node[cont, below right= of v] (w) {$w$};
+        \node[cont, right= of v] (x) {$x$};
+        \node[cont, below right= of x] (y) {$y$};
+        \node[cont, right= of x] (z) {$z$};
+        
+        \node[below= 0.2 of w] {skeleton};
+        
+        \draw (w) -- (v);
+        \draw (x) -- (w);
+        \draw (y) -- (x);
+        \draw (z) -- (y);
+        
+      \end{tikzpicture}
+      \hspace{4ex}
+      \begin{tikzpicture}[ugraph]
+        \node[cont] (v) at (0,0) {$v$};
+        \node[cont, below right= of v] (w) {$w$};
+        \node[cont, right= of v] (x) {$x$};
+        \node[cont, below right= of x] (y) {$y$};
+        \node[cont, right= of x] (z) {$z$};
+        
+        \node[below= 0.2 of w] {immorality};
+        
+        \draw (w) -- (v);
+        \draw (x) -- (w);
+        \draw[->, red] (x) -- (y);
+        \draw[->,red] (z) -- (y);
+        
+      \end{tikzpicture}
+    \end{center}
+    \end{solution}
+
+  
+\item Which of three graphs represent the same set of independencies? Explain.\\
+
+  \begin{tikzpicture}[dgraph]
+    \node[cont] (v) at (0,0) {$v$};
+    \node[cont, right= of v] (x) {$x$};
+    \node[cont, below = of x] (w) {$w$};
+    \node[cont, right= of w] (y) {$y$};
+    \node[cont, below= of y] (z) {$z$};
+
+    \node[below= 2 of w] {Graph 1};
+
+    \draw (v) -- (x);
+    \draw (v) -- (w);
+    \draw (x) -- (w);
+    \draw (w) -- (z);
+    \draw (y) -- (z);   
+  \end{tikzpicture}
+  \hspace{5ex}
+  \begin{tikzpicture}[dgraph]
+    \node[cont] (v) at (0,0) {$v$};
+    \node[cont, right= of v] (x) {$x$};
+    \node[cont, below = of x] (w) {$w$};
+    \node[cont, right= of w] (y) {$y$};
+    \node[cont, below= of y] (z) {$z$};
+
+    \node[below= 2 of w] {Graph 2};
+
+    \draw (x) -- (v);
+    \draw (w) -- (v);
+    \draw (x) -- (w);
+    \draw (w) -- (z);
+    \draw (y) -- (z);   
+  \end{tikzpicture}
+  \hspace{5ex}
+  \begin{tikzpicture}[dgraph]
+    \node[cont] (v) at (0,0) {$v$};
+    \node[cont, right= of v] (x) {$x$};
+    \node[cont, below = of x] (w) {$w$};
+    \node[cont, right= of w] (y) {$y$};
+    \node[cont, below= of y] (z) {$z$};
+    
+    \node[below= 2 of w] {Graph 3};
+    
+    \draw (v) -- (w);
+    \draw (x) -- (w);
+    \draw (w) -- (z);
+    \draw (y) -- (z);   
+  \end{tikzpicture}
+  \hspace{5ex}
+  
+  \begin{solution}
+    The skeleton of graph 3 is different from the skeleton of graphs 1
+    and 2, so that graph 3 cannot be I-equivalent to graph 1 or 2, and
+    we do not need to further check the immoralities for graph 3. Graph 1 and 2
+    have the same skeleton, and they also have the same
+    immorality. Hence, graph 1 and 2 are I-equivalent. Note that node
+    $w$ in graph 1 is in a collider configuration along trail $v-w-x$
+    but it is not an immorality because its parents are connected
+    (covering edge); equivalently for node $v$ in graph 2.
+    
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[cont] (v) at (0,0) {$v$};
+        \node[cont, right= of v] (x) {$x$};
+        \node[cont, below = of x] (w) {$w$};
+        \node[cont, right= of w] (y) {$y$};
+        \node[cont, below= of y] (z) {$z$};
+        
+        \node[below= 2 of w] {skeleton};
+        
+        \draw (v) -- (x);
+        \draw (v) -- (w);
+        \draw (x) -- (w);
+        \draw (w) -- (z);
+        \draw (y) -- (z);   
+      \end{tikzpicture}
+      \hspace{4ex}
+      \begin{tikzpicture}[ugraph]
+        \node[cont] (v) at (0,0) {$v$};
+        \node[cont, right= of v] (x) {$x$};
+        \node[cont, below = of x] (w) {$w$};
+        \node[cont, right= of w] (y) {$y$};
+        \node[cont, below= of y] (z) {$z$};
+        
+        \node[below= 2 of w] {immorality};
+        
+        \draw (v) -- (x);
+        \draw (v) -- (w);
+        \draw (x) -- (w);
+        \draw[->, red] (w) -- (z);
+        \draw[->, red] (y) -- (z);   
+      \end{tikzpicture}
+    \end{center}
+    \end{solution}
+
+\item Assume the graph below is a perfect map for a set of independencies $\mathcal{U}$.
+
+\begin{center}
+  \begin{tikzpicture}[dgraph]
+    \node[cont] (x1) at (0,0) {$x_1$};
+    \node[cont, right= of x1] (x2) {$x_2$};
+    \node[cont, below = of x1] (x3) {$x_3$};
+    \node[cont, right= of x3] (x4) {$x_4$};
+    \node[cont, right= of x4] (x5) {$x_5$};
+    \node[cont, below= of x3] (x6) {$x_6$};
+    \node[cont, below= of x4] (x7) {$x_7$};
+    
+    \node[below= 0.2 of x6] {Graph 0};
+
+    \draw (x1) -- (x3);
+    \draw (x2) -- (x4);
+    \draw (x2) -- (x5);
+    \draw (x3) -- (x6);
+    \draw (x4) -- (x7);
+    \draw (x5) -- (x7);
+    \draw (x7) -- (x6);
+    \draw (x3) -- (x7);
+  \end{tikzpicture}
+\end{center}
+
+For each of the three graphs below, explain whether the graph is a perfect map, an I-map, or not an I-map for $\mathcal{U}$.
+
+\begin{center}
+  \begin{tikzpicture}[dgraph]
+    \node[cont] (x1) at (0,0) {$x_1$};
+    \node[cont, right= of x1] (x2) {$x_2$};
+    \node[cont, below = of x1] (x3) {$x_3$};
+    \node[cont, right= of x3] (x4) {$x_4$};
+    \node[cont, right= of x4] (x5) {$x_5$};
+    \node[cont, below= of x3] (x6) {$x_6$};
+    \node[cont, below= of x4] (x7) {$x_7$};
+    
+    \node[below= 0.2 of x6] {Graph 1};
+
+    \draw (x1) -- (x3);
+    \draw (x2) -- (x4);
+    \draw (x2) -- (x5);
+    \draw (x3) -- (x6);
+    \draw (x4) -- (x7);
+    \draw (x7) -- (x5);
+    \draw (x7) -- (x6);
+    \draw (x3) -- (x7);
+  \end{tikzpicture}
+  \begin{tikzpicture}[dgraph]
+    \node[cont] (x1) at (0,0) {$x_1$};
+    \node[cont, right= of x1] (x2) {$x_2$};
+    \node[cont, below = of x1] (x3) {$x_3$};
+    \node[cont, right= of x3] (x4) {$x_4$};
+    \node[cont, right= of x4] (x5) {$x_5$};
+    \node[cont, below= of x3] (x6) {$x_6$};
+    \node[cont, below= of x4] (x7) {$x_7$};
+    
+    \node[below= 0.2 of x6] {Graph 2};
+    
+    \draw (x1) -- (x3);
+    \draw (x2) -- (x4);
+    \draw (x2) -- (x5);
+    \draw (x3) -- (x6);
+    \draw (x4) -- (x7);
+    \draw (x5) -- (x7);
+    \draw (x7) -- (x6);
+    \draw (x7) -- (x3);
+  \end{tikzpicture}
+  \begin{tikzpicture}[dgraph]
+    \node[cont] (x1) at (0,0) {$x_1$};
+    \node[cont, right= of x1] (x2) {$x_2$};
+    \node[cont, below = of x1] (x3) {$x_3$};
+    \node[cont, right= of x3] (x4) {$x_4$};
+    \node[cont, right= of x4] (x5) {$x_5$};
+    \node[cont, below= of x3] (x6) {$x_6$};
+    \node[cont, below= of x4] (x7) {$x_7$};
+    
+    \node[below= 0.2 of x6] {Graph 3};
+
+    \draw (x1) -- (x3);
+    \draw (x2) -- (x4);
+    \draw (x5) -- (x2);
+    \draw (x3) -- (x6);
+    \draw (x4) -- (x7);
+    \draw (x5) -- (x7);
+    \draw (x7) -- (x6);
+    \draw (x3) -- (x7);
+  \end{tikzpicture}
+\end{center}
+
+\begin{solution}
+  \begin{itemize}
+    \item Graph 1 has an immorality $x_2 \rightarrow x_5
+      \leftarrow x_7$ which graph 0 does not have. The graph is thus not I-equivalent to graph 0
+      and can thus not be a perfect map. Moreover, graph 1 asserts
+      that $x_2 \independent x_7 | x_4$ which is not case for graph
+      0. Since graph 0 is a perfect map for $\mathcal{U}$, graph 1
+      asserts an independency that does not hold for $\mathcal{U}$ and
+      can thus not be an I-map for $\mathcal{U}.$
+    \item Graph 2 has an immorality $x_1 \rightarrow x_3 \leftarrow x_7$ which graph 0 does not have. Graph 2 thus asserts that $x_1 \independent x_7$, which is not the case for graph 0. Hence, for the same reason as for graph 1, graph 2 is not an I-map for $\mathcal{U}$.
+    \item Graph 3 has the same skeleton and set of immoralities as graph 0. It is thus I-equivalent to graph 0, and hence also a perfect map.
+  \end{itemize}
+\end{solution}
+
+
+\end{exenumerate}
+
+
+\ex{Minimal I-maps}
+\label{ex:minimal-I-maps-1}
+\begin{exenumerate}
+\item Assume that the graph $G$ in Figure \ref{fig:I-map} is a perfect I-map for $p(a,z,q,e,h)$. Determine the minimal 
+  directed I-map using the ordering $(e,h,q,z,a)$. Is the obtained graph I-equivalent to $G$?
+  \begin{figure}[ht]
+    \begin{center}
+      \scalebox{0.9}{ % x,y
+        \begin{tikzpicture}[dgraph]
+          \node[cont] (a) at (0,2) {$a$};
+          \node[cont] (z) at (2,2) {$z$};
+          \node[cont] (q) at (1,1) {$q$};
+          \node[cont] (e) at (1,-0.4) {$e$};
+          \node[cont] (h) at (3,1) {$h$};
+          \draw(a) -- (q);
+          \draw(z) -- (h);
+          \draw(z) -- (q);
+          \draw(q) -- (e);
+      \end{tikzpicture}}
+    \end{center}
+    \caption{\label{fig:I-map} Perfect I-map $G$ for \exref{ex:minimal-I-maps-1}, question \ref{q:directed-I-maps}.}
+    \end{figure}
+\label{q:directed-I-maps}
+  \begin{solution} Since the graph $G$ is a perfect I-map for $p$, we can use
+    $G$ to check whether $p$ satisfies a certain
+    independency. This gives the following
+    recipe to construct the minimal directed I-map:
+    \begin{enumerate}
+    \item Assume an ordering of the
+    variables. Denote the ordered random variables by $x_1, \ldots, x_d$.
+    \item For each $i$, find a minimal subset of variables
+    $\pap_i \subseteq \pre_i$ such that $$
+    x_i \independent \{\pre_i \setminus \pap_i \} \mid \pap_i$$ is in
+    $\Ind(G)$ (only works if $G$ is a perfect I-map for
+    $\Ind(p)$)
+    \item Construct a graph with parents $\pa_i=\pap_i$.
+    \end{enumerate}
+   
+    Note: For I-maps $G$ that are not perfect, if the graph does not
+    indicate that a certain independency holds, we have to check
+    that the independency indeed does not hold for $p$. If we
+    don't, we won't obtain a minimal I-map but just an I-map for
+    $\Ind(p)$. This is because $p$ may have independencies that are
+    not encoded in the graph $G$. 
+
+    Given the ordering $(e,h,q,z,a)$, we build a graph where $e$ is the
+    root. From Figure \ref{fig:I-map} (and the perfect map
+    assumption), we see that $h \independent e$ does not hold. We
+    thus set $e$ as parent of $h$, see first graph in Figure
+    \ref{fig:I-map2}. Then:
+    \begin{itemize}
+      \item We consider $q$: $\pre_q = \{e,h\}$. There is no subset
+        $\pap_q$ of $\pre_q$ on which we could condition to make $q$
+        independent of $\pre_q \setminus \pap_q$, so that we set the
+        parents of $q$ in the graph to $\pa_q = \{e,h\}$. (Second
+        graph in Figure \ref{fig:I-map2}.)
+      \item We consider $z$: $\pre_z = \{e,h,q\}$. From the graph in
+        Figure \ref{fig:I-map}, we see that for $\pap_z = \{q,h\}$ we
+        have $z \independent \pre_z \setminus \pap_z | \pap_z$. Note
+        that $\pap_z = \{q\}$ does not work because $z \independent
+        e,h | q$ does not hold. We thus set $\pa_z =\{q,h\}$. (Third
+        graph in Figure \ref{fig:I-map2}.)
+      \item We consider $a$: $\pre_a = \{e,h,q,z\}$. This is the last
+        node in the ordering. To find the minimal set $\pap_a$ for
+        which $a \independent \pre_a \setminus \pap_a | \pap_a$, we
+        can determine its Markov blanket $\MB(a)$. The Markov blanket
+        is the set of parents (none), children ($q$), and co-parents
+        of $a$ ($z$) in Figure \ref{fig:I-map}, so that $\MB(a) = \{q,z\}$. We
+        thus set $\pa_a = \{q,z\}$.(Fourth graph in Figure
+        \ref{fig:I-map2}.)
+\end{itemize}
+    \begin{figure}[h]
+      \centering
+      \scalebox{0.9}{ % x,y
+        \begin{tikzpicture}[dgraph]
+          \node[cont] (a) at (0,2) {$a$};
+          \node[cont] (z) at (2,2) {$z$};
+          \node[cont] (q) at (1,1) {$q$};
+          \node[cont] (e) at (1,-0.4) {$e$};
+          \node[cont] (h) at (3,1) {$h$};
+          \draw(e) -- (h);
+
+          \draw[-,gray,dotted] (3.7,-0.4) -- (3.7,2);
+      \end{tikzpicture}}
+      \hspace{1ex}
+      \scalebox{0.9}{ % x,y
+        \begin{tikzpicture}[dgraph]
+          \node[cont] (a) at (0,2) {$a$};
+          \node[cont] (z) at (2,2) {$z$};
+          \node[cont] (q) at (1,1) {$q$};
+          \node[cont] (e) at (1,-0.4) {$e$};
+          \node[cont] (h) at (3,1) {$h$};
+          \draw(e) -- (h);
+          \draw(e) -- (q);
+          \draw(h) -- (q);
+          
+          \draw[-,gray,dotted] (3.7,-0.4) -- (3.7,2);
+      \end{tikzpicture}}
+      \hspace{1ex}
+      \scalebox{0.9}{ % x,y
+        \begin{tikzpicture}[dgraph]
+          \node[cont] (a) at (0,2) {$a$};
+          \node[cont] (z) at (2,2) {$z$};
+          \node[cont] (q) at (1,1) {$q$};
+          \node[cont] (e) at (1,-0.4) {$e$};
+          \node[cont] (h) at (3,1) {$h$};
+          \draw(e) -- (h);
+          \draw(e) -- (q);
+          \draw(h) -- (q);
+          \draw(q) -- (z);
+          \draw(h) -- (z);
+
+          \draw[-,gray,dotted] (3.7,-0.4) -- (3.7,2);
+      \end{tikzpicture}}
+      \hspace{1ex}
+      \scalebox{0.9}{ % x,y
+        \begin{tikzpicture}[dgraph]
+          \node[cont] (a) at (0,2) {$a$};
+          \node[cont] (z) at (2,2) {$z$};
+          \node[cont] (q) at (1,1) {$q$};
+          \node[cont] (e) at (1,-0.4) {$e$};
+          \node[cont] (h) at (3,1) {$h$};
+          \draw(e) -- (h);
+          \draw(e) -- (q);
+          \draw(h) -- (q);
+          \draw(q) -- (z);
+          \draw(h) -- (z);
+          \draw(q) -- (a);
+          \draw(z) -- (a);    
+      \end{tikzpicture}}
+      \caption{\label{fig:I-map2} \exref{ex:minimal-I-maps-1}, Question \ref{q:directed-I-maps}:Construction of a minimal directed I-map for the ordering $(e,h,q,z,a)$. }
+    \end{figure}
+
+Since the skeleton in the obtained minimal I-map is different from the
+skeleton of $G$, we do not have I-equivalence. Note that the ordering
+$(e,h,q,z,a)$ yields a denser graph (Figure \ref{fig:I-map2}) than the
+graph in Figure \ref{fig:I-map}. Whilst a minimal I-map, the graph does
+e.g.\ not show that $a \independent z$. Furthermore, the causal
+interpretation of the two graphs is different.
+
+  \end{solution}
+
+\item For the collection of random variables $(a,z,h,q,e)$ you are given the following Markov blankets for each variable:
+  \begin{itemize}
+  \item \MB(a) = \{q,z\}
+  \item \MB(z) = \{a,q,h\}
+  \item \MB(h) = \{z\}
+  \item \MB(q) = \{a,z,e\}
+  \item \MB(e) = \{q\}
+  \end{itemize}
+  \begin{exenumerate}
+    \item Draw the undirected minimal I-map representing the independencies.
+    \item Indicate a Gibbs distribution that satisfies the independence relations specified by the Markov blankets.
+  \end{exenumerate}
+
+  \begin{solution} Connecting each variable to all variables in its
+    Markov blanket yields the desired undirected minimal I-map. Note
+    that the Markov blankets are not mutually
+    disjoint.  \begin{figure}[h] \begin{center} \scalebox{0.9}{ %
+    x,y \begin{tikzpicture}[ugraph] \node[cont] (a) at (0,2)
+    {$a$}; \node[cont] (z) at (2,2) {$z$}; \node[cont] (q) at (1,1)
+    {$q$}; \node[cont] (e) at (1,-0.4) {$e$}; \node[cont] (h) at (3,1)
+    {$h$}; \draw(a) -- (q); \draw(a) -- (z); \draw[-,gray,dotted]
+    (3.7,-0.4) -- (3.7,2);
+
+          \node[below = of e] {After $\MB(a)$};
+        \end{tikzpicture}
+        \vspace{3ex}
+        \begin{tikzpicture}[ugraph]
+          \node[cont] (a) at (0,2) {$a$};
+          \node[cont] (z) at (2,2) {$z$};
+          \node[cont] (q) at (1,1) {$q$};
+          \node[cont] (e) at (1,-0.4) {$e$};
+          \node[cont] (h) at (3,1) {$h$};
+          \draw(a) -- (q);
+          \draw(a) -- (z);
+          \draw(z) -- (h);
+          \draw(z) -- (q);
+          \draw[-,gray,dotted] (3.7,-0.4) -- (3.7,2);
+          \node[below = of e] {After $\MB(z)$};
+        \end{tikzpicture}
+        \vspace{3ex}
+      \begin{tikzpicture}[ugraph]
+        \node[cont] (a) at (0,2) {$a$};
+        \node[cont] (z) at (2,2) {$z$};
+        \node[cont] (q) at (1,1) {$q$};
+        \node[cont] (e) at (1,-0.4) {$e$};
+        \node[cont] (h) at (3,1) {$h$};
+        \draw(a) -- (q);
+        \draw(a) -- (z);
+        \draw(z) -- (h);
+        \draw(z) -- (q);
+        \draw(q) -- (e);
+        \node[below = of e] {After $\MB(q)$};
+      \end{tikzpicture}}
+    \end{center}
+    \end{figure}
+
+    For positive distributions, the set of distributions that satisfy
+    the local Markov property relative to a graph (as given by the
+    Markov blankets) is the same as the set of Gibbs distributions
+    that factorise according to the graph. Given the I-map, we can now
+    easily find the Gibbs distribution
+    $$p(a,z,h,q,e) = \frac{1}{Z} \phi_1(a,z,q) \phi_2(q,e) \phi_3(z,h),$$
+    where the $\phi_i$ must take positive values on their domain. Note that we
+    used the maximal clique $(a,z,q)$.
+      
+  \end{solution}
+\end{exenumerate}
+
+
+\ex{I-equivalence between directed and undirected graphs}
+
+\begin{exenumerate}
+\item Verify that the following two graphs are I-equivalent by listing and
+  comparing the independencies that each graph implies.
+
+\begin{center}
+  \scalebox{1}{ % x,y
+    \begin{tikzpicture}[ugraph]
+      \node[cont] (z) at (0,0) {$z$};
+      \node[cont] (y) at (1,1) {$y$};
+      \node[cont] (x) at (0,2) {$x$};
+      \node[cont] (u) at (-1,1) {$u$};
+      \draw(x) -- (y);
+      \draw(y) -- (z);
+      \draw(z) -- (u);
+      \draw(u) -- (x);
+      \draw(u) -- (y);
+    \end{tikzpicture}
+    \hspace{6ex}
+    \begin{tikzpicture}[dgraph]
+      \node[cont] (z) at (0,0) {$z$};
+      \node[cont] (y) at (1,1) {$y$};
+      \node[cont] (x) at (0,2) {$x$};
+      \node[cont] (u) at (-1,1) {$u$};
+      \draw(x) -- (y);
+      \draw(y) -- (z);
+      \draw(u) -- (z);
+      \draw(x) -- (u);
+      \draw(u) -- (y);
+    \end{tikzpicture}
+  }
+\end{center}
+
+\begin{solution}
+  First, note that both graphs share the same skeleton and the only
+  reason that they are not fully connected is the missing edge between
+  $x$ and $z$.
+
+  For the DAG, there is also only one ordering that is topological to
+  the graph: $x, u, y, z$. The missing edge between $x$ and $y$
+  corresponds to the only independency encoded by the graph: $z
+  \independent \pre_z \setminus \pa_z | \pa_z$, i.e.
+  $$z \independent x | u, y.$$ This is the same independency that we
+  get from the directed local Markov property.
+
+  For the undirected graph, 
+  $$z \independent x | u, y$$ holds because $u, y$ block all paths
+  between $z$ and $x$. All variables but $z$ and $x$ are connected to
+  each other, so that no further independency can hold.
+
+  Hence both graphs only encode $z \independent x | u, y$ and they are
+  thus I-equivalent.
+  
+\end{solution}
+
+ 
+\item Are the following two graphs, which are directed and undirected hidden Markov models, I-equivalent?
+  \begin{center}
+  \scalebox{0.8}{
+    \begin{tikzpicture}[dgraph]
+      \node[cont] (y1) at (0,0) {$y_1$};
+      \node[cont] (y2) at (2,0) {$y_2$};
+      \node[cont] (y3) at (4,0) {$y_3$};
+      \node[cont] (y4) at (6,0) {$y_4$};
+      \node[cont] (x1) at (0,2) {$x_1$};
+      \node[cont] (x2) at (2,2) {$x_2$};
+      \node[cont] (x3) at (4,2) {$x_3$};
+      \node[cont] (x4) at (6,2) {$x_4$};
+      \draw(x1)--(y1);\draw(x2)--(y2);\draw(x3)--(y3);\draw(x4)--(y4);
+      \draw(x1)--(x2);\draw(x2)--(x3);\draw(x3)--(x4);
+  \end{tikzpicture}}
+  \hspace{6ex}
+  \scalebox{0.8}{
+    \begin{tikzpicture}[ugraph]
+      \node[cont] (y1) at (0,0) {$y_1$};
+      \node[cont] (y2) at (2,0) {$y_2$};
+      \node[cont] (y3) at (4,0) {$y_3$};
+      \node[cont] (y4) at (6,0) {$y_4$};
+      \node[cont] (x1) at (0,2) {$x_1$};
+      \node[cont] (x2) at (2,2) {$x_2$};
+      \node[cont] (x3) at (4,2) {$x_3$};
+      \node[cont] (x4) at (6,2) {$x_4$};
+      \draw(x1)--(y1);\draw(x2)--(y2);\draw(x3)--(y3);\draw(x4)--(y4);
+      \draw(x1)--(x2);\draw(x2)--(x3);\draw(x3)--(x4);
+  \end{tikzpicture}}
+  \end{center}
+
+  \begin{solution}
+    The skeleton of the two graphs is the same and there are no
+    immoralities. Hence, the two graphs are I-equivalent. 
+  \end{solution}
+
+\item Are the following two graphs I-equivalent?
+  \begin{center}
+  \scalebox{0.8}{
+    \begin{tikzpicture}[dgraph]
+      \node[cont] (y1) at (0,0) {$y_1$};
+      \node[cont] (y2) at (2,0) {$y_2$};
+      \node[cont] (y3) at (4,0) {$y_3$};
+      \node[cont] (y4) at (6,0) {$y_4$};
+      \node[cont] (x1) at (0,2) {$x_1$};
+      \node[cont] (x2) at (2,2) {$x_2$};
+      \node[cont] (x3) at (4,2) {$x_3$};
+      \node[cont] (x4) at (6,2) {$x_4$};
+      \draw(x1)--(y1);\draw(x2)--(y2);\draw(x3)--(y3);\draw(x4)--(y4);
+      \draw(x1)--(x2);\draw(x3)--(x2);\draw(x3)--(x4);
+  \end{tikzpicture}}
+  \hspace{6ex}
+  \scalebox{0.8}{
+    \begin{tikzpicture}[ugraph]
+      \node[cont] (y1) at (0,0) {$y_1$};
+      \node[cont] (y2) at (2,0) {$y_2$};
+      \node[cont] (y3) at (4,0) {$y_3$};
+      \node[cont] (y4) at (6,0) {$y_4$};
+      \node[cont] (x1) at (0,2) {$x_1$};
+      \node[cont] (x2) at (2,2) {$x_2$};
+      \node[cont] (x3) at (4,2) {$x_3$};
+      \node[cont] (x4) at (6,2) {$x_4$};
+      \draw(x1)--(y1);\draw(x2)--(y2);\draw(x3)--(y3);\draw(x4)--(y4);
+      \draw(x1)--(x2);\draw(x2)--(x3);\draw(x3)--(x4);
+  \end{tikzpicture}}
+  \end{center}
+
+  \begin{solution}
+    The two graphs are not I-equivalent because $x_1-x_2-x_3$ forms an
+    immorality. Hence, the undirected graph encodes $x_1 \independent
+    x_3 | x_2$ which is not represented in the directed graph. On the
+    other hand, the directed graph asserts $x_1 \independent x_3$
+    which is not represented in the undirected graph.
+  \end{solution}
+
+\end{exenumerate}
+
+\ex{Moralisation: Converting DAGs to undirected minimal I-maps}
+\label{ex:DAG-to-undirected}
+The following recipe constructs undirected minimal I-maps for
+$\Ind(p)$:
+\begin{itemize}
+\item Determine the Markov blanket for each variable $x_i$
+\item Construct a graph where the neighbours of $x_i$ are given by its
+  Markov blanket.
+\end{itemize}
+We can adapt the recipe to construct an undirected minimal I-map for
+the independencies $\Ind(G)$ encoded by a DAG $G$. What we need to do
+is to use $G$ to read out the Markov blankets for the variables $x_i$
+rather than determining the Markov blankets from the distribution $p$.
+
+Show that this procedure leads to the following recipe to
+convert DAGs to undirected minimal I-maps:
+\begin{enumerate}
+\item For all immoralities in the graph: add edges between \emph{all} parents of the collider node.
+\item Make all edges in the graph undirected.
+\end{enumerate}
+The first step is sometimes called ``moralisation'' because we
+``marry'' all the parents in the graph that are not already directly
+connected by an edge. The resulting undirected graph is called the
+moral graph of $G$, sometimes denoted by $\mathcal{M}(G)$.
+
+\begin{solution}
+  The Markov blanket of a variable $x$ is the set of its parents,
+  children, and co-parents, as shown in the graph below in sub-figure (a). The parents and children are connected
+  to $x$ in the directed graph, but the co-parents are not directly
+  connected to $x$. Hence, according to ``Construct a graph where the
+  neighbours of $x_i$ are its Markov blanket.'', we need to introduce
+  edges between $x$ and all its co-parents. This gives the
+  intermediate graph in sub-figure (b).
+
+  Now, considering the top-left parent of $x$, we see that for that node,
+  the Markov blanket includes the other parents of $x$. This means
+  that we need to connect all parents of $x$, which gives the graph in
+  sub-figure (c). This is sometimes called ``marrying''
+  the parents of $x$. Continuing in this way, we see that we need to
+  ``marry'' all parents in the graph that are not already married.
+
+  Finally, we need to make all edges in the graph undirected, which
+  gives sub-figure (d).
+
+  A simpler approach is to note that the DAG specifies the
+  factorisation $p(\x) = \prod_i p(x_i | \pa_i)$. We can consider each
+  conditional $p(x_i | \pa_i)$ to be a factor $\phi_i(x_i, \pa_i)$ so
+  that we obtain the Gibbs distribution $p(\x) = \prod_i \phi_i(x_i |
+  \pa_i)$. Visualising the distribution by connecting all variables in
+  the same factor $\phi_i(x_i | \pa_i)$ leads to the ``marriage'' of
+  all parents of $x_i$. This corresponds to the first step in the
+  recipe because $x_i$ is in a collider configuration with respect to
+  the parent nodes. Not all parents form an immorality but this does
+  here not matter because those that do not form an immorality are
+  already connected by a covering edge in the first place.
+  
+  \begin{figure}[htb]
+    \centering
+    \begin{tabular}[b]{c}
+      \scalebox{0.7}{ % x,y
+        \begin{tikzpicture}[dgraph]
+          % x,y
+          
+          \node[cont] (lowest1) at ( 2,0) {};
+          \node[cont] (lowest2) at ( 3.5,0) {};
+          \node[cont] (lowest3) at ( 4.5,0) {};
+          
+          \node[cont] (belowleft) at ( 2,1) {};
+          \node[cont] (belowright) at ( 4,1) {};
+          
+          %\node[cont] at ( 0,2) {};
+          \node[cont] (copleft) at ( 1,2) {};
+          %\node[cont] at ( 2,2) {};
+          \node[cont] (x) at ( 3,2) {$x$};
+          % \node[cont] at ( 4,2) {};
+          \node[cont] (copright) at ( 5,2) {};
+          
+          \node (abovemostleft) at ( 1,3) {};
+          \node[cont] (aboveleft) at ( 2,3) {};
+          \node[cont] (above) at ( 3,3) {};
+          \node[cont] (aboveright) at ( 4,3) {};
+          \node (abovemostright) at ( 5,3) {};
+          
+          \node (top1) at ( 1,4) {};
+          \node[cont] (top2) at ( 2,4) {};
+          \node (top3) at ( 3,4) {};
+          \node[cont] (top4) at ( 4,4) {};
+          \node (top5) at ( 5,4) {};
+          
+          \draw (top1) -- (aboveleft);
+          \draw (top2) -- (aboveleft);
+          \draw (top3) -- (above);
+          \draw (top4) -- (aboveright);
+          \draw (top5) -- (aboveright);
+          
+          \draw (aboveright) -- (x);
+          \draw (aboveleft) -- (x);
+          \draw (above) -- (x);
+          
+          \draw (x) -- (belowright);
+          \draw (x) -- (belowleft);
+          
+          \draw (copleft) -- (belowleft);
+          \draw (copright) -- (belowright);
+          
+          \draw (abovemostleft) -- (copleft);
+          \draw (abovemostright) -- (copright);
+          
+          \draw (belowright) -- (lowest2);
+          \draw (belowright) -- (lowest3);
+          \draw (belowleft) -- (lowest1);
+
+          \node[contobs] at ( 2,3) {};
+          \node[contobs] at ( 3,3) {};
+          \node[contobs] at ( 4,3) {};
+          
+          \node[contobs] at ( 2,1) {};
+          \node[contobs] at ( 4,1) {};
+          
+          \node[contobs] at ( 1,2) {};
+          \node[contobs] at ( 5,2) {};
+      \end{tikzpicture}}\\
+      {\small (a) DAG}
+    \end{tabular}
+    \begin{tabular}[b]{c}
+      \scalebox{0.7}{ % x,y
+        \begin{tikzpicture}[dgraph]
+          % x,y
+          
+          \node[cont] (lowest1) at ( 2,0) {};
+          \node[cont] (lowest2) at ( 3.5,0) {};
+          \node[cont] (lowest3) at ( 4.5,0) {};
+          
+          \node[cont] (belowleft) at ( 2,1) {};
+          \node[cont] (belowright) at ( 4,1) {};
+          
+          %\node[cont] at ( 0,2) {};
+          \node[cont] (copleft) at ( 1,2) {};
+          %\node[cont] at ( 2,2) {};
+          \node[cont] (x) at ( 3,2) {$x$};
+          % \node[cont] at ( 4,2) {};
+          \node[cont] (copright) at ( 5,2) {};
+          
+          \node (abovemostleft) at ( 1,3) {};
+          \node[cont] (aboveleft) at ( 2,3) {};
+          \node[cont] (above) at ( 3,3) {};
+          \node[cont] (aboveright) at ( 4,3) {};
+          \node (abovemostright) at ( 5,3) {};
+          
+          \node (top1) at ( 1,4) {};
+          \node[cont] (top2) at ( 2,4) {};
+          \node (top3) at ( 3,4) {};
+          \node[cont] (top4) at ( 4,4) {};
+          \node (top5) at ( 5,4) {};
+          
+          \draw (top1) -- (aboveleft);
+          \draw (top2) -- (aboveleft);
+          \draw (top3) -- (above);
+          \draw (top4) -- (aboveright);
+          \draw (top5) -- (aboveright);
+          
+          \draw (aboveright) -- (x);
+          \draw (aboveleft) -- (x);
+          \draw (above) -- (x);
+          
+          \draw (x) -- (belowright);
+          \draw (x) -- (belowleft);
+          
+          \draw (copleft) -- (belowleft);
+          \draw (copright) -- (belowright);
+          
+          \draw (abovemostleft) -- (copleft);
+          \draw (abovemostright) -- (copright);
+          
+          \draw (belowright) -- (lowest2);
+          \draw (belowright) -- (lowest3);
+          \draw (belowleft) -- (lowest1);
+
+          \node[contobs] at ( 2,3) {};
+          \node[contobs] at ( 3,3) {};
+          \node[contobs] at ( 4,3) {};
+          
+          \node[contobs] at ( 2,1) {};
+          \node[contobs] at ( 4,1) {};
+          
+          \node[contobs] at ( 1,2) {};
+          \node[contobs] at ( 5,2) {};
+
+          \draw[-] (copleft) -- (x);
+          \draw[-] (copright) -- (x);
+      \end{tikzpicture}}\\
+    {\small  (b) Intermediate step 1}
+    \end{tabular}
+    \begin{tabular}[b]{c}
+      \scalebox{0.7}{ % x,y
+        \begin{tikzpicture}[dgraph]
+          % x,y
+          
+          \node[cont] (lowest1) at ( 2,0) {};
+          \node[cont] (lowest2) at ( 3.5,0) {};
+          \node[cont] (lowest3) at ( 4.5,0) {};
+          
+          \node[cont] (belowleft) at ( 2,1) {};
+          \node[cont] (belowright) at ( 4,1) {};
+          
+          %\node[cont] at ( 0,2) {};
+          \node[cont] (copleft) at ( 1,2) {};
+          %\node[cont] at ( 2,2) {};
+          \node[cont] (x) at ( 3,2) {$x$};
+          % \node[cont] at ( 4,2) {};
+          \node[cont] (copright) at ( 5,2) {};
+          
+          \node (abovemostleft) at ( 1,3) {};
+          \node[cont] (aboveleft) at ( 2,3) {};
+          \node[cont] (above) at ( 3,3) {};
+          \node[cont] (aboveright) at ( 4,3) {};
+          \node (abovemostright) at ( 5,3) {};
+          
+          \node (top1) at ( 1,4) {};
+          \node[cont] (top2) at ( 2,4) {};
+          \node (top3) at ( 3,4) {};
+          \node[cont] (top4) at ( 4,4) {};
+          \node (top5) at ( 5,4) {};
+          
+          \draw (top1) -- (aboveleft);
+          \draw (top2) -- (aboveleft);
+          \draw (top3) -- (above);
+          \draw (top4) -- (aboveright);
+          \draw (top5) -- (aboveright);
+          
+          \draw (aboveright) -- (x);
+          \draw (aboveleft) -- (x);
+          \draw (above) -- (x);
+          
+          \draw (x) -- (belowright);
+          \draw (x) -- (belowleft);
+          
+          \draw (copleft) -- (belowleft);
+          \draw (copright) -- (belowright);
+          
+          \draw (abovemostleft) -- (copleft);
+          \draw (abovemostright) -- (copright);
+          
+          \draw (belowright) -- (lowest2);
+          \draw (belowright) -- (lowest3);
+          \draw (belowleft) -- (lowest1);
+
+          \node[contobs] at ( 2,3) {};
+          \node[contobs] at ( 3,3) {};
+          \node[contobs] at ( 4,3) {};
+          
+          \node[contobs] at ( 2,1) {};
+          \node[contobs] at ( 4,1) {};
+          
+          \node[contobs] at ( 1,2) {};
+          \node[contobs] at ( 5,2) {};
+
+          \draw[-] (copleft) -- (x);
+          \draw[-] (copright) -- (x);
+          \draw[-] (aboveleft) -- (above);
+          \draw[-] (aboveleft) to [bend right=-45] (aboveright);
+          \draw[-] (above) -- (aboveright);
+      \end{tikzpicture}}\\
+     {\small (c) Intermediate step 2}
+    \end{tabular}
+    \begin{tabular}[b]{c}
+      \scalebox{0.7}{ % x,y
+        \begin{tikzpicture}[ugraph]
+           % x,y
+           
+          \node[cont] (lowest1) at ( 2,0) {};
+          \node[cont] (lowest2) at ( 3.5,0) {};
+          \node[cont] (lowest3) at ( 4.5,0) {};
+          
+          \node[cont] (belowleft) at ( 2,1) {};
+          \node[cont] (belowright) at ( 4,1) {};
+          
+          %\node[cont] at ( 0,2) {};
+          \node[cont] (copleft) at ( 1,2) {};
+          %\node[cont] at ( 2,2) {};
+          \node[cont] (x) at ( 3,2) {$x$};
+          % \node[cont] at ( 4,2) {};
+          \node[cont] (copright) at ( 5,2) {};
+          
+          \node (abovemostleft) at ( 1,3) {};
+          \node[cont] (aboveleft) at ( 2,3) {};
+          \node[cont] (above) at ( 3,3) {};
+          \node[cont] (aboveright) at ( 4,3) {};
+          \node (abovemostright) at ( 5,3) {};
+          
+          \node (top1) at ( 1,4) {};
+          \node[cont] (top2) at ( 2,4) {};
+          \node (top3) at ( 3,4) {};
+          \node[cont] (top4) at ( 4,4) {};
+          \node (top5) at ( 5,4) {};
+          
+          \draw (top1) -- (aboveleft);
+          \draw (top2) -- (aboveleft);
+          \draw (top3) -- (above);
+          \draw (top4) -- (aboveright);
+          \draw (top5) -- (aboveright);
+          
+          \draw (aboveright) -- (x);
+          \draw (aboveleft) -- (x);
+          \draw (above) -- (x);
+          
+          \draw (x) -- (belowright);
+          \draw (x) -- (belowleft);
+          
+          \draw (copleft) -- (belowleft);
+          \draw (copright) -- (belowright);
+          
+          \draw (abovemostleft) -- (copleft);
+          \draw (abovemostright) -- (copright);
+          
+          \draw (belowright) -- (lowest2);
+          \draw (belowright) -- (lowest3);
+          \draw (belowleft) -- (lowest1);
+
+          \node[contobs] at ( 2,3) {};
+          \node[contobs] at ( 3,3) {};
+          \node[contobs] at ( 4,3) {};
+          
+          \node[contobs] at ( 2,1) {};
+          \node[contobs] at ( 4,1) {};
+          
+          \node[contobs] at ( 1,2) {};
+          \node[contobs] at ( 5,2) {};
+
+          \draw[-] (copleft) -- (x);
+          \draw[-] (copright) -- (x);
+          \draw[-] (aboveleft) -- (above);
+          \draw[-] (aboveleft) to [bend right=-45] (aboveright);
+          \draw[-] (above) -- (aboveright);
+          \draw[-] (top1) to [bend right=-45] (top2);
+          \draw[-] (top4) to [bend right=-45] (top5); 
+      \end{tikzpicture}}\\
+     {\small (d) Undirected graph}
+    \end{tabular}
+    \caption{Answer to \exref{ex:DAG-to-undirected}: Illustrating the moralisation process}
+  \end{figure}
+\end{solution}
+
+\ex{Moralisation exercise}
+\label{ex:moralisation}
+
+For the DAG $G$ below find the minimal undirected I-map for $\Ind(G)$.
+  
+ \begin{center}
+  \scalebox{0.8}{
+    \begin{tikzpicture}[dgraph]
+
+      \node[cont] (x2) at (2,0) {$x_2$};
+      \node[cont, left = of x2] (x1) {$x_1$};
+      \node[cont, right = of x2] (x3) {$x_3$};
+      \node[cont, below = of x2] (x4) {$x_4$};
+      \node[cont, right = of x4] (x5) {$x_5$};
+      \node[cont, below = of x4] (x6) {$x_6$};
+      \node[cont, below = of x5] (x7) {$x_7$};
+
+      \draw (x1) -- (x4);
+      \draw (x2) -- (x4);
+      \draw (x3) -- (x4);
+      \draw (x4) -- (x6);
+      \draw (x4) -- (x7);
+      \draw (x5) -- (x7);
+      
+    \end{tikzpicture}
+    }
+\end{center}
+  
+  \begin{solution}
+
+    To derive an undirected minimal I-map from a directed one, we have
+    to construct the moralised graph where the ``unmarried'' parents
+    are connected by a covering edge. This is because each conditional
+    $p(x_i | \pa_i)$ corresponds to a factor $\phi_i(x_i,\pa_i)$ and
+    we need to connect all variables that are arguments of the same factor with edges.
+
+    Statistically, the reason for marrying the parents is as follows:
+    An independency $x \independent y | \{\text{child, other nodes}\}$
+    does not hold in the directed graph in case of collider connections
+    but would hold in the undirected graph if we didn't marry the
+    parents. Hence links between the parents must be added.
+
+    It is important to add edges between \emph{all} parents of a
+    node. Here, $p(x_4 | x_1, x_2, x_3)$ corresponds to a factor
+    $\phi(x_4, x_1, x_2, x_3)$ so that all four variables need to be
+    connected. Just adding edges $x_1 - x_2$ and $x_2 - x_3$ would not be enough.
+
+    The moral graph, which is the requested minimal undirected I-map,
+    is shown below.
+
+     \begin{center}
+       \scalebox{0.8}{
+         \begin{tikzpicture}[ugraph]
+           
+           \node[cont] (x2) at (2,0) {$x_2$};
+           \node[cont, left = of x2] (x1) {$x_1$};
+           \node[cont, right = of x2] (x3) {$x_3$};
+           \node[cont, below = of x2] (x4) {$x_4$};
+           \node[cont, right = of x4] (x5) {$x_5$};
+           \node[cont, below = of x4] (x6) {$x_6$};
+           \node[cont, below = of x5] (x7) {$x_7$};
+
+           \draw (x1) -- (x4);
+           \draw (x2) -- (x4);
+           \draw (x3) -- (x4);
+           \draw (x4) -- (x6);
+           \draw (x4) -- (x7);
+           \draw (x5) -- (x7);
+
+           %covering edges
+           \draw (x1) -- (x2);
+           \draw (x2) -- (x3);
+           \draw (x1) to [bend left=45] (x3);
+           \draw (x4) -- (x5);
+           
+         \end{tikzpicture}
+       }
+     \end{center}
+     
+  \end{solution}
+
+  % -------------------------------------------------------------------
+  \ex{Moralisation exercise}
+
+  Consider the DAG $G$:
+  \begin{center}
+    \scalebox{0.9}{ % x,y
+      \begin{tikzpicture}[dgraph]
+        \node[cont] (y) at (0,0) {$y$};
+        \node[cont] (z1) at (-1.75,1.5) {$z_1$};
+        \node[cont] (z2) at (1.75,1.5) {$z_2$};
+        \node[cont] (x1) at (-3,3) {$x_1$};
+        \node[cont] (x2) at (-1.75,3) {$x_2$};
+        \node[cont] (x3) at (-0.5,3) {$x_3$};
+        \node[cont] (x4) at (0.5,3) {$x_4$};
+        \node[cont] (x5) at (1.75,3) {$x_5$};
+        \node[cont] (x6) at (3,3) {$x_6$};
+        
+        \draw (z1) -- (y);
+        \draw (z2) -- (y);
+        \draw (x1) -- (z1);
+        \draw (x2) -- (z1);
+        \draw (x3) -- (z1);
+        \draw (x4) -- (z2);
+        \draw (x5) -- (z2);
+        \draw (x6) -- (z2);
+    \end{tikzpicture}}
+  \end{center}
+  A friend claims that the undirected graph below is the moral
+  graph $\mathcal{M}(G)$ of $G$. Is your friend correct? If not,
+  state which edges needed to be removed or added, and explain, in
+  terms of represented independencies, why the changes are
+  necessary for the graph to become the moral graph of
+  $G$. 
+
+  \begin{center}
+    \scalebox{0.9}{ % x,y
+      \begin{tikzpicture}[ugraph]
+        \node[cont] (y) at (0,0) {$y$};
+        \node[cont] (z1) at (-1.75,1.5) {$z_1$};
+        \node[cont] (z2) at (1.75,1.5) {$z_2$};
+        \node[cont] (x1) at (-3,3) {$x_1$};
+        \node[cont] (x2) at (-1.75,3) {$x_2$};
+        \node[cont] (x3) at (-0.5,3) {$x_3$};
+        \node[cont] (x4) at (0.5,3) {$x_4$};
+        \node[cont] (x5) at (1.75,3) {$x_5$};
+        \node[cont] (x6) at (3,3) {$x_6$};
+        
+        \draw (z1) -- (y);
+        \draw (z2) -- (y);
+        \draw (x1) -- (z1);
+        \draw (x2) -- (z1);
+        \draw (x3) -- (z1);
+        \draw (x4) -- (z2);
+        \draw (x5) -- (z2);
+        \draw (x6) -- (z2);
+
+        \draw (x1) -- (x2);
+        \draw (x2) -- (x3);
+        \draw (x4) -- (x5);
+        \draw (x5) -- (x6);
+
+        \draw (x1) to [out=40,in=140] (x6);
+
+        \draw (z1) -- (z2);
+    \end{tikzpicture}}
+  \end{center}
+
+  \begin{solution}
+    The moral graph $\mathcal{M}(G)$ is an undirected minimal I-map of
+    the independencies represented by $G$. Following the procedure of
+    connecting ``unmarried'' parents of colliders, we obtain the following moral graph of $G$:
+ 
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[cont] (y) at (0,0) {$y$};
+        \node[cont] (z1) at (-1.75,1.5) {$z_1$};
+        \node[cont] (z2) at (1.75,1.5) {$z_2$};
+        \node[cont] (x1) at (-3,3) {$x_1$};
+        \node[cont] (x2) at (-1.75,3) {$x_2$};
+        \node[cont] (x3) at (-0.5,3) {$x_3$};
+        \node[cont] (x4) at (0.5,3) {$x_4$};
+        \node[cont] (x5) at (1.75,3) {$x_5$};
+        \node[cont] (x6) at (3,3) {$x_6$};
+        
+        \draw (z1) -- (y);
+        \draw (z2) -- (y);
+        \draw (x1) -- (z1);
+        \draw (x2) -- (z1);
+        \draw (x3) -- (z1);
+        \draw (x4) -- (z2);
+        \draw (x5) -- (z2);
+        \draw (x6) -- (z2);
+
+        \draw (x1) -- (x2);
+        \draw (x2) -- (x3);
+        \draw (x1) to [out=45,in=135] (x3);
+
+        \draw (x4) -- (x5);
+        \draw (x5) -- (x6);
+        \draw (x4) to [out=45,in=135] (x6);
+
+        \draw (z1) -- (z2);
+      \end{tikzpicture}
+      %}
+    \end{center}
+    We can thus see that the friend's undirected graph is not the
+    moral graph of $G$.
+
+    The edge between $x_1$ and $x_6$ can be removed. This is because
+    for $G$, we have e.g.\ the independencies $x_1 \independent x_6 |
+    z_1$, $x_1 \independent x_6 | z_2$, $x_1 \independent x_6 | z_1,
+    z_2$ which is not represented by the drawn undirected
+    graph.
+    
+    We need to add edges between $x_1$ and $x_3$, and between $x_4$
+    and $x_6$. Otherwise, the undirected graph makes the wrong
+    independency assertion that $x_1 \independent x_3 | x_2, z_1$ (and
+    equivalent for $x_4$ and $x_6$).
+   
+  \end{solution}
+
+  
+\ex{Triangulation: Converting undirected graphs to directed minimal I-maps}
+\label{ex:undirected-to-DAG}
+
+In \exref{ex:DAG-to-undirected} we adapted a recipe for constructing
+undirected minimal I-maps for $\Ind(p)$ to the case of $\Ind(G)$,
+where $G$ is a DAG. The key difference was that we used the graph $G$
+to determine independencies rather than the distribution $p$.
+
+We can similarly adapt the recipe for constructing a directed minimal
+I-map for $\Ind(p)$ to build a directed minimal I-map for $\Ind(H)$,
+where $H$ is an undirected graph:
+\begin{enumerate}
+  \item Choose an ordering of the random variables.
+  \item For all variables $x_i$, use $H$ to determine a \emph{minimal}
+    subset $\pap_i$ of the predecessors $\pre_i$ such that
+    $$ x_i \independent \left(\pre_i \setminus \pap_i\right) \mid \pap_i $$
+    holds.
+  \item Construct a DAG with the $\pap_i$ as parents $\pa_i$ of $x_i$.
+\end{enumerate}
+Remarks: (1) Directed minimal I-maps obtained with different orderings
+are generally not I-equivalent. (2) The directed minimal I-maps
+obtained with the above method are always chordal graphs. Chordal
+graphs are graphs where the longest trail without shortcuts is a
+triangle (\url{https://en.wikipedia.org/wiki/Chordal_graph}). They are
+thus also called triangulated graphs. We obtain chordal graphs because
+if we had trails without shortcuts that involved more than 3 nodes, we would
+necessarily have an immorality in the graph. But immoralities encode
+independencies that an undirected graph cannot represent, which would
+make the DAG not an I-map for $\Ind(H)$ any more.
+
+\begin{exenumerate}
+\item Let $H$ be the undirected graph below. Determine the directed
+  minimal I-map for $\Ind(H)$ with the variable ordering $x_1, x_2,
+  x_3, x_4, x_5$.
+  \label{q:undirected-to-directed-I-map}
+  \begin{center}
+    \scalebox{0.9}{ % x,y
+      \begin{tikzpicture}[ugraph]
+        \node[cont] (x1) at (0,0) {$x_1$};
+        \node[cont] (x2) at (2,0) {$x_2$};
+        \node[cont] (x3) at (0,-1.5) {$x_3$};
+        \node[cont] (x4) at (2,-1.5) {$x_4$};
+        \node[cont] (x5) at (1,-3) {$x_5$};
+
+        \draw(x1) -- (x2);
+        \draw(x1) -- (x3);
+        \draw(x3) -- (x5);
+        \draw(x2) -- (x4);
+        \draw(x4) -- (x5);
+    \end{tikzpicture}}
+  \end{center}
+
+  \begin{solution}
+    We use the ordering $x_1, x_2, x_3, x_4, x_5$ and follow the
+    conversion procedure:
+    
+    \begin{itemize}
+      \item $x_2$ is not independent from $x_1$ so that we set $\pa_2 =\{x_1\}$. See first graph in Figure \ref{fig:undirected-to-directed-I-map}.
+      \item Since $x_3$ is connected to both $x_1$ and $x_2$, we
+        don't have $x_3 \independent x_2, x_1$. We cannot
+        make $x_3$ independent from $x_2$ by conditioning on $x_1$
+        because there are two paths from $x_3$ to $x_2$ and $x_1$ only
+        blocks the upper one. Moreover, $x_1$ is a neighbour of $x_3$
+        so that conditioning on $x_2$ does make them
+        independent. Hence we must set $\pa_3 = \{x_1, x_2\}$.  See
+        second graph in Figure \ref{fig:undirected-to-directed-I-map}.
+      \item For $x_4$, we see from the undirected graph, that $x_4
+        \independent x_1 \mid x_3, x_2$. The graph further shows that
+        removing either $x_3$ or $x_2$ from the conditioning set is
+        not possible and conditioning on $x_1$ won't make $x_4$
+        independent from $x_2$ or $x_3$. We thus have $\pa_4 = \{x_2,
+        x_3\}$.  See fourth graph in Figure \ref{fig:undirected-to-directed-I-map}.
+      \item The same reasoning shows that $\pa_5 = \{x_3,x_4\}$. See last graph in Figure \ref{fig:undirected-to-directed-I-map}.
+    \end{itemize}
+    This results in the triangulated directed graph in Figure
+    \ref{fig:undirected-to-directed-I-map} on the right.
+ 
+    \begin{figure}[h!]
+    \centering
+    \scalebox{0.9}{ % x,y
+       \begin{tikzpicture}[dgraph]
+        \node[cont] (x1) at (0,0) {$x_1$};
+        \node[cont] (x2) at (2,0) {$x_2$};
+        \node[cont] (x3) at (0,-1.5) {$x_3$};
+        \node[cont] (x4) at (2,-1.5) {$x_4$};
+        \node[cont] (x5) at (1,-3) {$x_5$};
+
+        \draw(x1) -- (x2);
+
+        \draw[-,gray,dotted] (2.5,-3) -- (2.5,0);
+       \end{tikzpicture}
+       \hspace{2ex}
+      \begin{tikzpicture}[dgraph]
+        \node[cont] (x1) at (0,0) {$x_1$};
+        \node[cont] (x2) at (2,0) {$x_2$};
+        \node[cont] (x3) at (0,-1.5) {$x_3$};
+        \node[cont] (x4) at (2,-1.5) {$x_4$};
+        \node[cont] (x5) at (1,-3) {$x_5$};
+
+        \draw(x1) -- (x2);
+        \draw(x1) -- (x3);
+        \draw(x2) -- (x3);
+
+        \draw[-,gray,dotted] (2.5,-3) -- (2.5,0);
+      \end{tikzpicture}
+      \hspace{2ex}
+      \begin{tikzpicture}[dgraph]
+        \node[cont] (x1) at (0,0) {$x_1$};
+        \node[cont] (x2) at (2,0) {$x_2$};
+        \node[cont] (x3) at (0,-1.5) {$x_3$};
+        \node[cont] (x4) at (2,-1.5) {$x_4$};
+        \node[cont] (x5) at (1,-3) {$x_5$};
+
+        \draw(x1) -- (x2);
+        \draw(x1) -- (x3);
+        \draw(x2) -- (x3);
+        \draw(x2) -- (x4);
+        \draw(x3) -- (x4);
+
+        \draw[-,gray,dotted] (2.5,-3) -- (2.5,0);
+      \end{tikzpicture}
+      \hspace{2ex}
+      \begin{tikzpicture}[dgraph]
+        \node[cont] (x1) at (0,0) {$x_1$};
+        \node[cont] (x2) at (2,0) {$x_2$};
+        \node[cont] (x3) at (0,-1.5) {$x_3$};
+        \node[cont] (x4) at (2,-1.5) {$x_4$};
+        \node[cont] (x5) at (1,-3) {$x_5$};
+
+        \draw(x1) -- (x2);
+        \draw(x1) -- (x3);
+        \draw(x2) -- (x3);
+        \draw(x2) -- (x4);
+        \draw(x3) -- (x4);
+        \draw(x3) -- (x5);
+        \draw(x4) -- (x5);
+    \end{tikzpicture}
+    }
+    \caption{\label{fig:undirected-to-directed-I-map}. Answer to \exref{ex:undirected-to-DAG}, Question \ref{q:undirected-to-directed-I-map}. }
+    
+    \end{figure}
+
+    To see why triangulation is necessary consider the case where we
+    didn't have the edge between $x_2$ and $x_3$ as in Figure
+    \ref{fig:triangulation}. The directed graph would then imply that
+    $x_3 \independent x_2 \mid x_1$ (check!). But this independency assertion
+    does not hold in the undirected graph so that the graph in Figure
+    \ref{fig:triangulation} is not an I-map.
+  
+     \begin{figure}[h!]
+       \centering
+       \begin{tikzpicture}[dgraph]
+         \node[cont] (x1) at (0,0) {$x_1$};
+         \node[cont] (x2) at (2,0) {$x_2$};
+         \node[cont] (x3) at (0,-1.5) {$x_3$};
+         \node[cont] (x4) at (2,-1.5) {$x_4$};
+         \node[cont] (x5) at (1,-3) {$x_5$};
+         
+         \draw(x1) -- (x2);
+         \draw(x1) -- (x3);
+        % \draw(x2) -- (x3);
+         \draw(x2) -- (x4);
+         \draw(x3) -- (x4);
+         \draw(x3) -- (x5);
+         \draw(x4) -- (x5);
+       \end{tikzpicture}
+       \caption{\label{fig:triangulation} Not a directed I-map for the undirected graphical model defined by the graph in \exref{ex:undirected-to-DAG}, Question \ref{q:undirected-to-directed-I-map}.}
+     \end{figure}
+  \end{solution}
+
+\item For the undirected graph from question
+  \ref{q:undirected-to-directed-I-map} above, which variable ordering
+  yields the directed minimal I-map below?
+  \label{q:undirected-to-directed-I-map-chordal-graph-variable-ordering}
+  \begin{center}
+  \begin{tikzpicture}[dgraph]
+    \node[cont] (x1) at (0,0) {$x_1$};
+    \node[cont] (x2) at (2,0) {$x_2$};
+    \node[cont] (x3) at (0,-1.5) {$x_3$};
+    \node[cont] (x4) at (2,-1.5) {$x_4$};
+    \node[cont] (x5) at (1,-3) {$x_5$};
+    
+    \draw(x1) -- (x2);
+    \draw(x1) -- (x3);
+    \draw(x1) -- (x4);
+    \draw(x2) -- (x4);
+    \draw(x4) -- (x3);
+    \draw(x3) -- (x5);
+    \draw(x4) -- (x5);
+  \end{tikzpicture}
+  \end{center}
+
+  \begin{solution}
+    $x_1$ is the root of the DAG, so it comes first. Next in the ordering
+    are the children of $x_1$: $x_2, x_3, x_4$. Since $x_3$ is a child
+    of $x_4$, and $x_4$ a child of $x_2$, we must have $x_1, x_2, x_4, x_3$. Furthermore, $x_3$ must come before $x_5$ in the ordering
+    since $x_5$ is a child of $x_3$, hence the ordering used must have
+    been: $x_1, x_2, x_4, x_3, x_5$.
+    
+  \end{solution}
+  
+\end{exenumerate}
+  
+
+\ex{I-maps, minimal I-maps, and I-equivalency}
+Consider the following probability density function for random variables $x_1, \ldots, x_6$.
+$$ p_a(x_1, \ldots, x_6) = p(x_1) p(x_2) p(x_3 | x_1,x_2) p(x_4 | x_2)
+p(x_5| x_1) p(x_6 | x_3, x_4, x_5)$$ For each of the two graphs below,
+explain whether it is a minimal I-map, not a minimal I-map but still
+an I-map, or not an I-map for the independencies that hold for $p_a$.
+
+  \begin{center}
+    \scalebox{0.95}{ % x,y
+      \begin{tikzpicture}[dgraph]
+        \node[cont] (x1) at (0,0) {$x_1$};
+        \node[cont] (x2) at (2,0) {$x_2$};
+        \node[cont] (x3) at (1,-1.5) {$x_3$};
+        \node[cont] (x4) at (3,-1.5) {$x_4$};
+        \node[cont] (x5) at (-1,-1.5) {$x_5$};
+        \node[cont] (x6) at (1,-3) {$x_6$};
+        
+        \draw (x1) -- (x3);
+        \draw (x2) -- (x3);
+        \draw (x2) -- (x4);
+        \draw (x1) -- (x5);
+        \draw (x3) -- (x6);
+        \draw (x5) -- (x6);
+        \draw (x4) -- (x6);
+
+        \draw (x3) -- (x4);
+        \draw (x3) -- (x5);
+
+        \node[] (text) at (1,-4) {graph 1};
+      \end{tikzpicture}\hspace{12ex}
+      \begin{tikzpicture}[ugraph]
+        \node[cont] (x1) at (0,0) {$x_1$};
+        \node[cont] (x2) at (2,0) {$x_2$};
+        \node[cont] (x3) at (1,-1.5) {$x_3$};
+        \node[cont] (x4) at (3,-1.5) {$x_4$};
+        \node[cont] (x5) at (-1,-1.5) {$x_5$};
+        \node[cont] (x6) at (1,-3) {$x_6$};
+        
+        \draw (x1) -- (x3);
+        \draw (x2) -- (x3);
+        \draw (x2) -- (x4);
+        \draw (x1) -- (x5);
+        \draw (x3) -- (x6);
+        \draw (x5) -- (x6);
+        \draw (x4) -- (x6);
+        
+        \draw (x3) -- (x4);
+        \draw (x3) -- (x5);
+        \draw (x1) -- (x2);
+        \node[] (text) at (1,-4) {graph 2};
+    \end{tikzpicture}}
+  \end{center}
+
+  \begin{solution}
+    The pdf can be visualised as the following directed graph, which is a minimal I-map for it.\\
+    \begin{center}
+      \scalebox{1}{ % x,y
+        \begin{tikzpicture}[dgraph]
+          \node[cont] (x1) at (0,0) {$x_1$};
+          \node[cont] (x2) at (2,0) {$x_2$};
+          \node[cont] (x3) at (1,-1.5) {$x_3$};
+          \node[cont] (x4) at (3,-1.5) {$x_4$};
+          \node[cont] (x5) at (-1,-1.5) {$x_5$};
+          \node[cont] (x6) at (1,-3) {$x_6$};
+          
+          \draw (x1) -- (x3);
+          \draw (x2) -- (x3);
+          \draw (x2) -- (x4);
+          \draw (x1) -- (x5);
+          \draw (x3) -- (x6);
+          \draw (x5) -- (x6);
+          \draw (x4) -- (x6);
+          
+      \end{tikzpicture}}
+    \end{center}
+    Graph 1 defines distributions that factorise as
+    \begin{equation}
+      p_b(\x) = p(x_1) p(x_2) p(x_3|x_1, x_2) p(x_4|x_2, x_3) p(x_5|x_1, x_3) p(x_6|x_3,x_4,x_5).
+    \end{equation}
+    Comparing with $p_a(x_1, \ldots, x_6)$, we see that only the
+    conditionals $p(x_4|x_2, x_3)$ and $p(x_5|x_1, x_3)$ are
+    different. Specifically, their conditioning set includes $x_3$,
+    which means that Graph 1 encodes fewer independencies than what
+    $p_a(x_1, \ldots, x_6)$ satisfies. In particular $x_4 \independent
+    x_3 | x_2$ and $x_5 \independent x_3 | x_1$ are not represented in
+    the graph. This means that we could remove $x_3$ from the
+    conditioning sets, or equivalently remove the edges $x_3
+    \rightarrow x_4$ and $x_3 \rightarrow x_5$ from the graph without
+    introducing independence assertions that do not hold for
+    $p_a$. This means graph 1 is an I-map but not a minimal I-map.
+    
+    Graph 2 is not an I-map. To be an undirected minimal I-map, we had
+    to connect variables $x_5$ and $x_4$ that are parents of
+    $x_6$. Graph 2 wrongly claims that $x_5 \independent x_4 \mid
+    x_1,x_3,x_6$.
+    
+  \end{solution}
+
+
+  
+
+\ex{Limits of directed and undirected graphical models}
+
+We here consider the probabilistic model $p(y_1,y_2,x_1,x_2) = p(y_1,
+y_2 | x_1, x_2)p(x_1) p(x_2)$ where $p(y_1, y_2 | x_1, x_2)$
+factorises as
+\begin{equation}
+  p(y_1, y_2 | x_1, x_2) = p(y_1 | x_1) p(y_2 | x_2) \phi(y_1,y_2) n(x_1,x_2)
+\end{equation}
+with  $n(x_1,x_2)$ equal to
+\begin{equation}
+  n(x_1,x_2) = \left(\int p(y_1 | x_1) p(y_2 | x_2) \phi(y_1,y_2) \ud y_1 \ud y_2\right)^{-1}.
+  \label{eq:ndef}
+\end{equation}
+In the model, $x_1$ and $x_2$ are two independent inputs that each control
+the interacting variables $y_1$ and $y_2$ (see graph below). However, the
+nature of the interaction between $y_1$ and $y_2$ is not modelled. In
+particular, we do not assume a directionality, i.e. $y_1 \rightarrow y_2$, or $y_2 \rightarrow y_1$.
+
+\begin{center}
+  \scalebox{1}{ % x,y
+    \begin{tikzpicture}[dgraph]
+          
+      \node[cloud,opacity=0.5, fill=gray!20, cloud puffs=12, cloud puff arc= 100,
+        minimum width=4cm, minimum height=2cm, aspect=1] at (1,-2) {};
+          \node[] at (1,-2.5) {\tiny some interaction};
+          \node[cont] (x1) at (0,-0.5) {$x_1$};
+          \node[cont] (x2) at (2,-0.5) {$x_2$};
+          \node[cont] (y1) at (0,-2) {$y_1$};
+          \node[cont] (y2) at (2,-2) {$y_2$};
+          \draw(x1) -- (y1);
+          \draw(x2) -- (y2);
+          \draw[-,dotted](y1) -- (y2);
+  \end{tikzpicture}}
+\end{center}
+
+
+\begin{exenumerate}
+
+\item Use the basic characterisations of statistical independence
+  \begin{align}
+  u \independent v | z &\Longleftrightarrow p(u,v | z) = p(u|z) p(v | z) \label{eq:ind1}\\
+  u \independent v | z &\Longleftrightarrow p(u,v | z) = a(u,z) b(v,z) \quad \quad \quad (a(u,z) \ge0, b(v,z) \ge 0) \label{eq:ind2}
+  \end{align}
+  to show that $p(y_1,y_2,x_1,x_2)$ satisfies the following independencies
+\begin{align*}
+  x_1 \independent x_2 &&  x_1 \independent y_2 \mid y_1, x_2 && x_2 \independent y_1 \mid y_2, x_1
+\end{align*}
+
+  \begin{solution}
+    The pdf/pmf is
+    $$p(y_1,y_2,x_1,x_2) = p(y_1 | x_1) p(y_2 | x_2) \phi(y_1,y_2) n(x_1,x_2) p(x_1) p(x_2)$$
+    
+    For $\mathbf{x_1 \independent x_2}$\\
+    We compute $p(x_1,x_2)$ as
+    \begin{align}
+      p(x_1,x_2) & = \int p(y_1,y_2,x_1,x_2) \ud y_1 \ud y_2\\
+      & =  \int p(y_1 | x_1) p(y_2 | x_2) \phi(y_1,y_2) n(x_1,x_2) p(x_1) p(x_2) \ud y_1 \ud y_2 \\
+      & =  n(x_1,x_2) p(x_1) p(x_2) \int p(y_1 | x_1) p(y_2 | x_2) \phi(y_1,y_2) \ud y_1 \ud y_2\\
+      & \stackrel{\eqref{eq:ndef}}=  n(x_1,x_2) p(x_1) p(x_2) \frac{1}{n(x_1,x_2)}\\
+      & = p(x_1) p(x_2).
+    \end{align}
+    Since $p(x_1)$ and $p(x_2)$ are the univariate marginals of $x_1$ and $x_2$, respectively, it follows from \eqref{eq:ind1} that $x_1 \independent x_2$.
+
+    \vspace{2ex}
+    For $\mathbf{x_1 \independent y_2 \mid y_1, x_2}$\\
+    We rewrite $p(y_1,y_2,x_1,x_2)$ as
+    \begin{align}
+      p(y_1,y_2,x_1,x_2) & =  p(y_1 | x_1) p(y_2 | x_2) \phi(y_1,y_2) n(x_1,x_2) p(x_1) p(x_2)\\
+      & =  \left[p(y_1 | x_1) p(x_1)  n(x_1,x_2)\right]\left[ p(y_2 | x_2)\phi(y_1,y_2)p(x_2)\right]\\
+      & = \phi_A(x_1,y_1,x_2) \phi_B(y_2,y_1,x_2)
+    \end{align}
+    With \eqref{eq:ind2}, we have that $x_1 \independent y_2 \mid y_1,x_2$. Note that $p(x_2)$ can be associated either with $\phi_A$ or with $\phi_B$.
+
+    \vspace{2ex}
+    For $\mathbf{x_2 \independent y_1 \mid y_2, x_1}$\\ We use here the
+    same approach as for $x_1 \independent y_2 \mid y_1, x_2$. (By
+    symmetry considerations, we could immediately see that the
+    relation holds but let us write it out for clarity).  We rewrite $p(y_1,y_2,x_1,x_2)$ as
+    \begin{align}
+      p(y_1,y_2,x_1,x_2) & =  p(y_1 | x_1) p(y_2 | x_2) \phi(y_1,y_2) n(x_1,x_2) p(x_1) p(x_2)\\
+      & =  \left[  p(y_2 | x_2)  n(x_1,x_2) p(x_2)p(x_1) )\right]\left[ p(y_1 | x_1) \phi(y_1,y_2) ]\right)\\
+      & = \tilde{\phi}_A(x_2,x_1,y_2) \tilde{\phi}_B(y_1,y_2,x_1)
+    \end{align}
+    With \eqref{eq:ind2}, we have that $x_2 \independent y_1 \mid y_2,x_1$. 
+
+  \end{solution}
+
+
+\item Is there an undirected perfect map for the independencies
+  satisfied by $p(y_1,y_2,x_1,x_2)$?
+
+  \begin{solution}
+    We write 
+    $$p(y_1,y_2,x_1,x_2) = p(y_1 | x_1) p(y_2 | x_2) \phi(y_1,y_2) n(x_1,x_2) p(x_1) p(x_2)$$
+    as a Gibbs distribution
+    \begin{align}
+      p(y_1,y_2,x_1,x_2) & = \phi_1(y_1,x_1) \phi_2(y_2,x_2) \phi_3(y_1,y_2) \phi_4(x_1,x_2) \quad \quad \text{with} \\
+      \phi_1(y_1,x_1) & =p(y_1 | x_1)p(x_1)   \\
+      \phi_2(y_2,x_2)& =  p(y_2 | x_2)p(x_2)\\
+      \phi_3(y_1,y_2)& =  \phi(y_1,y_2) \\
+      \phi_4(x_1,x_2)& = n(x_1,x_2). 
+    \end{align}
+    Visualising it as an undirected graph gives an I-map:
+     \begin{center}
+      \scalebox{1}{ % x,y
+        \begin{tikzpicture}[ugraph]
+          \node[cont] (x1) at (0,-0.5) {$x_1$};
+          \node[cont] (x2) at (2,-0.5) {$x_2$};
+          \node[cont] (y1) at (0,-2) {$y_1$};
+          \node[cont] (y2) at (2,-2) {$y_2$};
+          \draw(x1) -- (y1);
+          \draw(x2) -- (y2);
+          \draw(y1) -- (y2);
+          \draw(x1) -- (x2);
+      \end{tikzpicture}}
+     \end{center}
+   While the graph implies $x_1 \independent y_2 \mid y_1, x_2$ and
+   $x_2 \independent y_1 \mid y_2, x_1$, the independency $x_1
+   \independent x_2$ is not represented. Hence the graph is not a
+   perfect map. Note further that removing any edge would result in a
+   graph that is not an I-map for $\Ind(p)$ anymore. Hence the graph
+   is a minimal I-map for $\Ind(p)$ but that we cannot obtain a
+   perfect I-map.
+
+  \end{solution}
+\item Is there a directed perfect map for the independencies
+  satisfied by $p(y_1,y_2,x_1,x_2)$?
+   
+   \begin{solution} We construct directed minimal I-maps for
+   $p(y_1,y_2,x_1,x_2) = p(y_1, y_2 | x_1, x_2)p(x_1) p(x_2)$ for different
+   orderings. We will see that they do not represent all independencies in
+   $\Ind(p)$ and hence that they are not perfect I-maps.
+
+   To guarantee unconditional independence of $x_1$ and $x_2$, the two
+   variables must come first in the orderings (either $x_1$ and then
+   $x_2$ or the other way around).
+   
+   If we use the ordering $x_1,x_2,y_1,y_2$, and that 
+   \begin{itemize}
+   \item $x_1 \independent x_2$
+   \item $y_2 \independent x_1 | y_1, x_2$, which is $y_2 \independent \pre(y_2) \setminus \pi | \pi$ for $\pi = (y_1, x_2)$
+   \end{itemize}
+   are in $\Ind(p)$, we obtain the following directed minimal I-map:
+   \begin{center}
+     \scalebox{0.9}{ % x,y
+       \begin{tikzpicture}[dgraph]
+         \node[cont] (x1) at (0,0) {$x_1$};
+         \node[cont] (x2) at (2,0) {$x_2$};
+         \node[cont] (y1) at (0,-2) {$y_1$};
+         \node[cont] (y2) at (2,-2) {$y_2$};
+           \draw(x1) -- (y1);
+           \draw(x2) -- (y2);
+           \draw(x2) -- (y1);
+           \draw(y1) -- (y2);
+       \end{tikzpicture}
+     }
+   \end{center}
+   The graphs misses $x_2 \independent y_1 \mid y_2, x_1$.
+   
+   If we use the ordering $x_1,x_2,y_2,y_1$, and that
+   \begin{itemize}
+   \item $x_1 \independent x_2$ 
+   \item $y_1 \independent x_2 | x_1, y_2$, which is $y_1 \independent \pre(y_1) \setminus \pi | \pi$ for $\pi = (x_1, y_2)$
+   \end{itemize}
+   are in $\Ind(p)$, we obtain the following directed minimal I-map:
+    \begin{center}
+      \scalebox{0.9}{ % x,y
+        \begin{tikzpicture}[dgraph]
+          \node[cont] (x1) at (0,0) {$x_1$};
+          \node[cont] (x2) at (2,0) {$x_2$};
+          \node[cont] (y1) at (0,-2) {$y_1$};
+          \node[cont] (y2) at (2,-2) {$y_2$};
+          \draw(x1) -- (y1);
+          \draw(x2) -- (y2);
+          \draw(y2) -- (y1);
+          \draw(x1) -- (y2);
+        \end{tikzpicture}
+      }
+    \end{center}
+    The graph misses $x_1\independent y_2 \mid y_1, x_2$.
+    
+    Moreover, the graphs imply a directionality between $y_1$ and
+    $y_2$, or a direct influence of $x_1$ on $y_2$, or of $x_2$ on
+    $y_1$, in contrast to the original modelling goals.
+    
+   \end{solution}
+
+
+ \item \emph{(advanced)} The following factor graph represents $p(y_1,y_2,x_1,x_2)$:
+\begin{center}
+      \scalebox{0.75}{ % x,y
+        \begin{tikzpicture}[dgraph]
+          \node[] (middle) at (1.5,0) {};
+          \node[fact, label=left: $p(x_1)$] (f1) at (0,0) {};
+          \node[cont, below=of f1] (x1) {$x_1$};
+          \node[fact, label=right: $p(x_2)$] (f2) at (3,0) {};
+          \node[cont, below=of f2] (x2) {$x_2$};
+
+          \node[fact, below =of x1, label=left: $p(y_1 | x_1)$] (fy1) {};
+          \node[fact, below =of x2, label=right: $p(y_2 | x_2)$] (fy2) {};
+
+          \node[cont, below =of fy1] (y1) {$y_1$};
+          \node[cont, below =of fy2] (y2) {$y_2$};
+
+          \node[fact, below= 2 of middle, label=above: $n(x_1 \,x_2)$] (n) {};
+          \node[fact, below= 1 of n, label={[label distance=0.25cm]below: $\phi(y_1\,y_2)$}] (phi) {};
+
+          \draw[-] (f1) -- (x1);
+          \draw[-] (f2) -- (x2);
+          \draw  (x1) -- (fy1);
+          \draw  (x2) -- (fy2);
+          \draw  (x1) -- (n);
+          \draw  (x2) -- (n);
+          \draw  (fy1) -- (y1);
+          \draw  (fy2) -- (y2);
+          \draw  (phi) -- (y1);
+          \draw  (phi) -- (y2);
+          \draw[dashed] (n) -- (y1);
+          \draw[dashed] (n) -- (y2);
+      \end{tikzpicture}}
+    \end{center}
+
+Use the separation rules for factor graphs to verify that we can find all independence relations. The separation rules are \citep[see][Section 4.4.1]{Barber2012}, or the original paper by \citet{Frey2003}:\\[1ex]
+``If all paths are blocked, the variables are conditionally independent. A path is blocked if one or more of the following conditions is satisfied:
+\begin{enumerate}
+\item One of the variables in the path is in the conditioning set.
+\item One of the variables or factors in the path has two incoming edges that are part of the path (variable or factor collider), and neither the variable or factor nor any of its descendants are in the conditioning set.''
+\end{enumerate}
+
+Remarks:
+\begin{itemize}
+  \item ``one or more of the following'' should best be read as ``one of the following''. 
+  \item ``incoming edges'' means directed incoming edges
+  \item the descendants of a variable or factor node are all the variables that you can reach by following a path (containing directed or directed edges, but for directed edges, all directions have to be consistent)
+  \item In the graph we have dashed directed edges: they do count when you determine the descendants but they do not contribute to paths. For example, $y_1$ is a descendant of the $n(x_1,x_2)$ factor node but $x_1 - n - y_2$ is not a path.
+\end{itemize}
+
+\begin{solution}
+  $\mathbf{x_1 \independent x_2}$\\
+  There are two paths from $x_1$ to $x_2$ marked with red and blue below:
+\begin{center}
+      \scalebox{0.75}{ % x,y
+        \begin{tikzpicture}[dgraph]
+          \node[] (middle) at (1.5,0) {};
+          \node[fact, label=left: $p(x_1)$] (f1) at (0,0) {};
+          \node[cont, below=of f1] (x1) {$x_1$};
+          \node[fact, label=right: $p(x_2)$] (f2) at (3,0) {};
+          \node[cont, below=of f2] (x2) {$x_2$};
+
+          \node[fact, below =of x1, label=left: $p(y_1 | x_1)$] (fy1) {};
+          \node[fact, below =of x2, label=right: $p(y_2 | x_2)$] (fy2) {};
+
+          \node[cont, below =of fy1] (y1) {$y_1$};
+          \node[cont, below =of fy2] (y2) {$y_2$};
+
+          \node[fact, below= 2 of middle, label=above: $n(x_1 \,x_2)$] (n) {};
+          \node[fact, below= 1 of n, label={[label distance=0.25cm]below: $\phi(y_1\,y_2)$}] (phi) {};
+
+          \draw[-] (f1) -- (x1);
+          \draw[-] (f2) -- (x2);
+          \draw[blue]  (x1) -- (fy1);
+          \draw[blue]  (x2) -- (fy2);
+          \draw[red]  (x1) -- (n);
+          \draw[red]  (x2) -- (n);
+          \draw[blue]  (fy1) -- (y1);
+          \draw[blue]  (fy2) -- (y2);
+          \draw[blue]  (phi) -- (y1);
+          \draw[blue]  (phi) -- (y2);
+          \draw[dashed] (n) -- (y1);
+          \draw[dashed] (n) -- (y2);
+      \end{tikzpicture}}
+    \end{center}
+  Both the blue and red path are blocked by condition 2. 
+
+$\mathbf{x_1 \independent y_2 \mid y_1, x_2}$\\
+There are two paths from $x_1$ to $y_2$ marked with red and blue below:
+\begin{center}
+      \scalebox{0.75}{ % x,y
+        \begin{tikzpicture}[dgraph]
+          \node[] (middle) at (1.5,0) {};
+          \node[fact, label=left: $p(x_1)$] (f1) at (0,0) {};
+          \node[cont, below=of f1] (x1) {$x_1$};
+          \node[fact, label=right: $p(x_2)$] (f2) at (3,0) {};
+          \node[contobs, below=of f2] (x2) {$x_2$};
+
+          \node[fact, below =of x1, label=left: $p(y_1 | x_1)$] (fy1) {};
+          \node[fact, below =of x2, label=right: $p(y_2 | x_2)$] (fy2) {};
+
+          \node[contobs, below =of fy1] (y1) {$y_1$};
+          \node[cont, below =of fy2] (y2) {$y_2$};
+
+          \node[fact, below= 2 of middle, label=above: $n(x_1 \,x_2)$] (n) {};
+          \node[fact, below= 1 of n, label={[label distance=0.25cm]below: $\phi(y_1\,y_2)$}] (phi) {};
+
+          \draw[-] (f1) -- (x1);
+          \draw[-] (f2) -- (x2);
+          \draw[blue]  (x1) -- (fy1);
+          \draw[red]  (x2) -- (fy2);
+          \draw[red]  (x1) -- (n);
+          \draw[red]  (x2) -- (n);
+          \draw[blue]  (fy1) -- (y1);
+          \draw[red]  (fy2) -- (y2);
+          \draw[blue]  (phi) -- (y1);
+          \draw[blue]  (phi) -- (y2);
+          \draw[dashed] (n) -- (y1);
+          \draw[dashed] (n) -- (y2);
+      \end{tikzpicture}}
+\end{center}
+The observed variables are marked in blue. For the red path, the
+observed $x_2$ blocks the path (condition 1). Note that the
+$n(x_1,x_2)$ node would be open by condition 2. The blue path is
+blocked by condition 1 too. In directed graphical models, the $y_1$
+node would be open, but here while condition 2 does not apply,
+condition 1 still applies (note the \emph{one or more of ...} in the separation rules), so that
+the path is blocked.
+
+$\mathbf{x_2 \independent y_1 \mid y_2, x_1}$\\
+There are two paths from $x_2$ to $y_1$ marked with red and blue below:
+\begin{center}
+      \scalebox{0.75}{ % x,y
+        \begin{tikzpicture}[dgraph]
+          \node[] (middle) at (1.5,0) {};
+          \node[fact, label=left: $p(x_1)$] (f1) at (0,0) {};
+          \node[contobs, below=of f1] (x1) {$x_1$};
+          \node[fact, label=right: $p(x_2)$] (f2) at (3,0) {};
+          \node[cont, below=of f2] (x2) {$x_2$};
+
+          \node[fact, below =of x1, label=left: $p(y_1 | x_1)$] (fy1) {};
+          \node[fact, below =of x2, label=right: $p(y_2 | x_2)$] (fy2) {};
+
+          \node[cont, below =of fy1] (y1) {$y_1$};
+          \node[contobs, below =of fy2] (y2) {$y_2$};
+
+          \node[fact, below= 2 of middle, label=above: $n(x_1 \,x_2)$] (n) {};
+          \node[fact, below= 1 of n, label={[label distance=0.25cm]below: $\phi(x_1\,x_2)$}] (phi) {};
+
+          \draw[-] (f1) -- (x1);
+          \draw[-] (f2) -- (x2);
+          \draw[blue]  (x1) -- (fy1);
+          \draw[red]  (x2) -- (fy2);
+          \draw[blue]  (x1) -- (n);
+          \draw[blue]  (x2) -- (n);
+          \draw[blue]  (fy1) -- (y1);
+          \draw[red]  (fy2) -- (y2);
+          \draw[red]  (phi) -- (y1);
+          \draw[red]  (phi) -- (y2);
+          \draw[dashed] (n) -- (y1);
+          \draw[dashed] (n) -- (y2);
+      \end{tikzpicture}}
+\end{center}
+The same reasoning as before yields the result.
+
+Finally note that $x_1$ and $x_2$ are not independent given $y_1$ or
+$y_2$ because the upper path through $n(x_1,x_2)$ is not blocked
+whenever $y_1$ or $y_2$ are observed (condition 2).\\[1ex]
+{\small Credit: this example is discussed in the original paper by B. Frey (Figure 6).}
+
+\end{solution}   
+\end{exenumerate}
+

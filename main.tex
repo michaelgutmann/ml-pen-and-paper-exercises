@@ -1,0 +1,258 @@
+\documentclass[11pt,a4paper,twoside,openright]{book}   	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Page layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{geometry}                	
+\geometry{a4paper,
+  top=3cm,
+  bottom=3cm,
+  left=3cm,
+  right=3cm,
+  bindingoffset=0cm,
+  heightrounded,
+  headheight=110pt
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3mm}
+\setlength{\baselineskip}{6mm}
+
+\let\origdoublepage\cleardoublepage
+\newcommand{\clearemptydoublepage}{%
+  \clearpage
+  {\pagestyle{empty}\origdoublepage}%
+}
+\let\cleardoublepage\clearemptydoublepage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ethuebung package
+%
+% The internal \uebcounter from ethuebung seems to get reset/confused when used
+% with chapters, leading to conflicts. We thus define a new counter (mycounter)
+% that is incremented whenever we create a new exercise.
+%
+% I further hacked the package so that an exercise corresponds to a section
+% rather than a paragraph in order to facilitate inclusion in the table of
+% contents. The hacks are not pretty but do seem to work.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newif\ifSOL
+\SOLtrue      % if you would like to have solutions
+%\SOLfalse    % if you do not want to show the solutions
+
+\usepackage{chngcntr}  % needed to deal with the per-chapter numbering
+
+\ifSOL
+  \usepackage[sol, nogeom]{sty/ethuebungchaptersection}  % loads hyperref
+\else
+  \usepackage[nogeom]{sty/ethuebungchaptersection}       % loads hyperref
+\fi
+\UebungStyle{LargeSolutions}
+
+% set counters
+\newcounter{mycounter}[chapter]
+\counterwithin{mycounter}{chapter}
+\counterwithin{equation}{chapter}
+\counterwithin{uebeqloesung}{chapter}
+
+% Exercise label of the form: Exercise <chapter-nb>.<ex-number>
+\newcommand{\ex}[1]{\refstepcounter{mycounter}\exercise{#1}}
+\newcommand{\exref}[1]{Exercise \ref{#1}}
+
+\renewcommand{\theuebcounter}{\thechapter.\arabic{mycounter}}%
+
+% Solution label of the form: S.chapter-nb.eq-nb
+\renewcommand{\uebLoesungEqLabel}{S.\thechapter.\arabic{uebeqloesung}}
+
+% Set font style
+\UebungExTitleFont{\rmfamily }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Other packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{nicefrac}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath,amssymb,amstext,amsthm,bbm,bm,mathtools}
+\usepackage[utf8]{inputenc}
+\usepackage{subfig}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{ccicons}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[round, authoryear]{natbib}
+\bibliographystyle{plainnat}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Minitoc
+% for per-chapter table of contents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\usepackage{minitoc}
+\setcounter{minitocdepth}{1}        % only sections
+\renewcommand{\mtctitle}{Exercises} % changes the title of the minitoc
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Packages for code display
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{cprotect}               % enables the use of listing envs in the answer macro
+\usepackage{listings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Header and footer
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{calc}
+\newlength{\pageoffset}
+\setlength{\pageoffset}{1cm}
+
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{}    %section doesn't set a mark
+%\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\fancyhf{}
+\fancyhead[LE]{\makebox[\pageoffset][l]{\bfseries\thepage}\bfseries\leftmark}
+\fancyhead[RO]{\bfseries\rightmark\makebox[\pageoffset][r]{\bfseries\thepage}}
+
+%\fancyfoot[CE]{\footnotesize \scshape Pen \& Paper Exercises in Machine Learning}
+%\fancyfoot[CO]{\footnotesize \scshape Pen \& Paper Exercises in Machine Learning}
+%\renewcommand{\footrulewidth}{0.2pt}
+\renewcommand{\headrulewidth}{1pt}
+\fancypagestyle{plain}{%
+    \fancyhead{}                       % remove headers
+    \fancyfoot{}                       % remove footers
+    \renewcommand{\headrulewidth}{0pt} % remove the line
+\renewcommand{\footrulewidth}{0pt}
+}
+
+\newcommand{\blankpage}{%
+ \clearpage{\pagestyle{empty}\cleardoublepage}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Font for title
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{calligra}
+\usepackage[T1]{fontenc}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Hyperref setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\hypersetup{
+    plainpages=false,
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% Macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\input{macros/tikzstuff}
+\input{macros/macros.tex}
+\input{macros/listings.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figure path
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\graphicspath{
+  {./figs/}
+  {./figs/linear-algebra/}
+  {./figs/directed-graphical-models/}
+  {./figs/inference-for-hidden-markov-models/}
+  {./figs/model-based-learning/}
+  {./figs/sampling-and-monte-carlo-integration/}
+  {./figs/variational-inference/}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Content
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\includeonly{title, title-backside, preface, topics/linear-algebra, topics/optimisation}
+
+\begin{document}
+
+\frontmatter
+
+\include{title}
+\newpage
+\include{title-backside}
+
+\addtocontents{toc}{\protect{\pdfbookmark[0]{\contentsname}{toc}}}
+\dominitoc
+\setcounter{tocdepth}{1}    % label only up to section
+\setcounter{secnumdepth}{1} % label only up to section
+\tableofcontents
+\cleardoublepage
+
+\include{preface}
+
+\mainmatter
+
+\chapter{Linear Algebra}
+\minitoc
+\include{topics/linear-algebra} 
+
+\chapter{Optimisation} 
+\minitoc
+\include{topics/optimisation} 
+
+\chapter{Directed Graphical Models} 
+\minitoc
+\include{topics/directed-graphical-models} 
+
+\chapter{Undirected Graphical Models}
+\minitoc
+\include{topics/undirected-graphical-models} 
+
+\chapter{Expressive Power of Graphical Models} 
+\minitoc
+\include{topics/expressive-power-of-graphical-models} 
+
+\chapter{Factor Graphs and Message Passing} 
+\minitoc
+\include{topics/factor-graphs-and-message-passing} 
+
+\chapter{Inference for Hidden Markov Models}
+\minitoc
+\include{topics/inference-for-hidden-markov-models} 
+
+\chapter{Model-Based Learning} 
+\minitoc
+\include{topics/model-based-learning}
+
+\chapter{Sampling and Monte Carlo Integration}
+\minitoc
+\include{topics/sampling-and-monte-carlo-integration}
+
+\chapter{Variational Inference}
+\minitoc
+\include{topics/variational-inference}
+
+\bibliography{refs}
+\addcontentsline{toc}{chapter}{Bibliography}
+%\appendix
+
+\end{document}
+
+
+
+

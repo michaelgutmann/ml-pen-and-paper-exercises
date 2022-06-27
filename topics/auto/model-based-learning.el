@@ -1,0 +1,35 @@
+(TeX-add-style-hook
+ "model-based-learning"
+ (lambda ()
+   (LaTeX-add-labels
+    "ex:Gauss-MLE"
+    "eq:Gaussian-mult-model-based-learning"
+    "eq:mu-mult"
+    "ex:MLE-DGM"
+    "eq:p-dag"
+    "eq:pcond-fac"
+    "eq:joint-dag"
+    "q:loglik-fully-observed-dgm-sum-bernoulli"
+    "q:mle-bernoulli"
+    "eq:dag-table-mle"
+    "ex:cancer-smoking-asbestos-mle"
+    "q:cancer-smoking-asbestos-mle"
+    "ex:Bayesian-inference-Bernoulli"
+    "eq:Bernoulli-posterior-def"
+    "q:mean-beta-var"
+    "eq:mean-beta-var"
+    "q:bernoulli-posterior-predictive"
+    "eq:bernoulli-posterior-mean"
+    "ex:Bayesian-Inference-DGM"
+    "eq:p-dag2"
+    "q:dgm-posterior-predictive"
+    "eq:dgm-posterior-predictive"
+    "ex:FA"
+    "ex:ex2"
+    "ex:score-matching-exp-family"
+    "eq:Jsm-def"
+    "eq:exp-family-def"
+    "eq:Jsm-sol"
+    "eq:Q1energy"))
+ :latex)
+

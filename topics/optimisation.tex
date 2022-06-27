@@ -1,0 +1,587 @@
+% Emacs, this is -*-latex-*
+
+\ex{Gradient of vector-valued functions}
+\label{ex:grad-vector}
+For a function $J$ that maps a column vector $\w \in \mathbb{R}^n$ to $\mathbb{R}$, the gradient is defined as
+\begin{equation}
+  \nabla J(\w) = \left(
+    \begin{array}{c}
+      \frac{\partial J(\w)}{\partial w_1} \\ %
+      \vdots \\
+      \frac{\partial J(\w)}{\partial w_n}
+    \end{array} \right),
+\end{equation}
+where $\partial J(\w)/\partial w_i$ are the partial derivatives of $J(\w)$ with
+respect to the $i$-th element of the vector $\w = (w_1, \ldots, w_n)^\top$ (in
+the standard basis). Alternatively, it is defined to be the column vector $\nabla J(\w)$ such that
+\begin{align}
+  J(\w+\epsilon \h) &=  J(\w) + \epsilon \left( \nabla J(\w)\right)^\top \h+O(\epsilon^2) \label{eq:grad-vector}
+\end{align}
+for an arbitrary perturbation $\epsilon \h$. This phrases the derivative in
+terms of a first-order, or affine, approximation to the perturbed function
+$J(\w+\epsilon \h)$. The derivative $\nabla J$ is a linear transformation that
+maps $\h \in \mathbb{R}^n$ to $\mathbb{R}$ \citep[see e.g.][Chapter 9, for a
+formal treatment of derivatives]{Rudin1976}.
+
+Use either definition to determine $\nabla J(\w)$ for the following functions where $\a \in \mathbb{R}^n$, $\A \in \mathbb{R}^{n \times n}$ and
+$f: \mathbb{R} \rightarrow \mathbb{R}$ is a differentiable function.
+\begin{exenumerate}
+\item $J(\w)=\a^\top \w$.
+
+  \begin{solution}
+    First method:
+    \begin{align}
+      J(\w) &= \a^\top\w = \sum_{k=1}^n a_kw_k& \implies&& \frac{\partial{J(\w)}}{\partial{w_i}} &= a_i
+    \end{align}
+    Hence
+    \begin{equation}
+      \nabla J(\w) = \begin{pmatrix} a_1 \\ a_2 \\ \vdots \\ a_n \end{pmatrix} = \a.
+    \end{equation}
+    Second method:
+    \begin{align}
+      J(\w + \epsilon\h) &= \a^\top(\w + \epsilon\h) = \underbrace{\a^\top\w}_{J(\w)} + \epsilon \underbrace{\a^\top \h}_{\nabla J^\top\h}
+    \end{align}
+    Hence we find again $\nabla J(\w) = \a$.
+  \end{solution}
+
+\item $J(\w)=\w^\top \A\w$.
+
+  \begin{solution}
+    First method: We start with
+    \begin{align}
+      J(\w) &= \w^\top\A\w = \sum_{i=1}^n \sum_{j=1}^n w_iA_{ij}w_j
+    \end{align}
+    Hence,
+    \begin{align}
+      \frac{\partial{J(\w)}}{\partial{w_k}} &= \sum_{j=1}^n A_{kj}w_j + \sum_{i=1}^n w_i A_{ik} \\
+                                            &= \sum_{j=1}^n A_{kj}w_j + \sum_{i=1}^n w_i (\A^\top)_{ki}\\
+                                            &= \sum_{j=1}^m \left(A_{kj}+(\A^\top)_{kj}\right)w_j
+    \end{align}
+    where we have used that the entry in row $i$ and column $k$ of the matrix $\A$ equals the entry in row $k$ and column $i$ of its transpose $\A^\top$. It follows that
+    \begin{align}
+      \nabla J(\w) &=
+                     \begin{pmatrix}
+                       \sum_{j=1}^n  \left(A_{1j}+(\A^\top)_{1j}\right)w_j\\
+                       \vdots \\
+                       \sum_{j=1}^n  \left(A_{nj}+(\A^\top)_{nj}\right)w_j
+                     \end{pmatrix} \\
+                   &= (\A+\A^\top)\w,
+    \end{align}
+    where we have used that sums like $\sum_j B_{ij} w_j$ are equal to the $i$-th element of the matrix-vector product $\B \w$.
+
+    Second method:
+    \begin{align}
+      J(\w + \epsilon\h) &= (\w + \epsilon\h)^\top \A(\w + \epsilon\h) \\
+                         &= \w^\top\A\w + \w^\top\A(\epsilon\h) + \epsilon\h^\top\A\w +
+                           \underbrace{\epsilon\h^\top \A\epsilon\h}_{O(\epsilon^2)} \\
+                         &= \w^\top\A\w + \epsilon(\w^\top\A\h + \w^\top\A^\top\h) + O(\epsilon^2) \\
+                         &= \underbrace{\w^\top\A\w}_{J(\w)} +\epsilon(\underbrace{\w^\top\A + \w^\top\A^\top}_{\nabla J(\w)^\top})\h + O(\epsilon^2)
+    \end{align}
+    where we have used that $\h^\top\A\w$ is a scalar so that $\h^\top\A\w = (\h^\top\A\w)^\top = \w^\top \A^\top \h$. Hence
+    \begin{equation}
+      \nabla J(\w)^\top = \w^\top\A + \w^\top\A^\top = \w^\top(\A+\A^\top)
+    \end{equation}
+    and
+    \begin{equation}
+      \nabla J(\w) = (\A + \A^\top)\w.
+    \end{equation}
+  \end{solution}
+
+\item $J(\w)=\w^\top \w$.
+
+  \begin{solution}
+    The easiest way to calculate the gradient of $J(\w) = \w^\top\w$ is to use the previous question with $\A = \I$ (the identity matrix).
+    Therefore
+    \begin{equation}
+      \nabla J(\w) = \I\w + \I^\top\w = \w + \w = 2\w.
+    \end{equation}
+
+  \end{solution}
+
+\item $J(\w)=||\w||_2$.
+
+  \begin{solution}
+    Note that $||\w||_2 = \sqrt{\w^\top \w}$.
+
+    First method: We use the chain rule
+    \begin{equation}
+      \frac{\partial{J(\w)}}{\partial{w_k}} = \frac{\partial \sqrt{\w^\top \w}}{\partial \w^\top \w}\frac{\partial \w^\top \w}{\partial w_k}
+    \end{equation}
+    and that
+    \begin{equation}
+      \frac{\partial \sqrt{\w^\top \w}}{\partial \w^\top \w} = \frac{1}{2\sqrt{\w^\top \w}}
+    \end{equation}
+    The derivatives $\partial \w^\top \w/\partial w_k$ were calculated in the question above so that
+    \begin{equation}
+      \nabla J(\w) = \frac{1}{2\sqrt{\w^\top \w}} 2 \w = \frac{\w}{||\w||_2}
+    \end{equation}
+    Second method: Let $f(\w) = \w^\top \w$. From the previous question, we know that
+    \begin{align}
+      f(\w + \epsilon \h) & = f(\w) + \epsilon 2\w^\top \h + O(\epsilon^2).
+    \end{align}
+    Moreover,
+    \begin{align}
+      \sqrt{z + \epsilon u + O(\epsilon^2)} & = \sqrt{z} + \frac{1}{2\sqrt{z}}(\epsilon u + O(\epsilon^2)) + O(\epsilon^2)\\
+                                            & = \sqrt{z} + \epsilon \frac{1}{2\sqrt{z}} u + O(\epsilon^2)
+    \end{align}
+    With $z=f(\w)$ and $u = 2 \w^\top \h$, we thus obtain
+    \begin{align}
+      J(\w + \epsilon \h) &= \sqrt{f(\w+\epsilon \h)} \\
+                          &= \sqrt{f(\w)} + \epsilon \frac{1}{2\sqrt{f(\w)}} 2\w^\top \h + O(\epsilon^2)\\
+                          &= \sqrt{f(\w)} + \epsilon \frac{\w^\top}{\sqrt{f(\w)}}\h + O(\epsilon^2)\\
+                          &= J(\w) +  \epsilon \frac{\w^\top}{\sqrt{||\w||_2}}\h + O(\epsilon^2)
+    \end{align}
+    so that
+    \begin{equation}
+      \nabla J(\w) = \frac{\w}{||\w||_2}.
+    \end{equation}
+
+  \end{solution}
+
+\item $J(\w)=f(||\w||_2)$.
+  \begin{solution}
+    Either the chain rule or the approach with the Taylor expansion can be used
+    to deal with the outer function $f$. In any case:
+    \begin{align}
+      \nabla J(\w) &= f'(||\w||_2) \nabla ||\w||_2 = f'(||\w||_2) \frac{\w}{||\w||_2},
+    \end{align}
+    where $f'$ is the derivative of the function $f$.
+  \end{solution}
+
+\item $J(\w)=f(\w^\top\a)$.
+
+  \begin{solution}
+    We have seen that $\nabla_\w \a^\top\w = \a$. Using the chain rule then yields
+    \begin{align}
+      \nabla J(\w)  &= f'(\w^\top\a)\nabla (\w^\top\a) \\
+      =& f'(\w^\top\a) \a
+    \end{align}
+
+
+  \end{solution}
+
+\end{exenumerate}
+
+% --------------------------------------------------
+
+\ex{Newton's method}
+\label{ex:newtons_method}
+Assume that in the neighbourhood of $\w_0$, a function $J(\w)$ can be described by the quadratic approximation
+\begin{equation}
+  f(\w)=c+ \g^\top(\w-\w_0)+\frac{1}{2}(\w-\w_0)^\top \H(\w-\w_0),
+\end{equation}
+where $c=J(\w_0)$, $\g$ is the gradient of $J$ with respect to $\w$, and $\H$ a
+symmetric positive definite matrix (e.g.\ the Hessian matrix for $J(\w)$ at
+$\w_0$ if positive definite).
+
+\begin{exenumerate}
+\item Use \exref{ex:grad-vector} to determine $\nabla f(\w)$.
+  
+  \begin{solution}
+    We first write $f$ as
+    \begin{align}
+      f(\w) &= c + \g^\top(\w-\w_0)+\frac{1}{2}(\w-\w_0)^T\H(\w-\w_0) \\
+            &= c - \g^\top \w_0 + \frac{1}{2} \w_0^\top\H \w_0 + \nonumber \\
+            &\phantom{=} \g^\top \w + \frac{1}{2}\w^\top\H\w - \frac{1}{2} \w_0^\top \H \w - \frac{1}{2} \w^\top \H \w_0
+    \end{align}
+	  Using now that $\w^\top \H \w_0$ is a scalar and that $\H$ is symmetric, we have
+    \begin{equation}
+      \w^\top \H \w_0= (\w^\top \H \w_0)^\top = \w_0^\top \H^\top \w = \w_0^\top \H \w
+    \end{equation}
+    and hence
+    \begin{equation}
+      f(\w) = \text{const} + (\g^\top - \w_0^\top \H) \w +  \frac{1}{2}\w^\top\H\w
+    \end{equation}
+    With the results from \exref{ex:grad-vector} and the fact that $\H$ is symmetric, we thus obtain
+    \begin{align}
+      \nabla f(\w) &= \g-\H^\top \w_0 + \frac{1}{2}(\H^\top\w + \H\w) \\
+                   & = \g-\H \w_0 + \H\w
+    \end{align}
+    
+    The expansion of $f(\w)$ due to the $\w-\w_0$ terms is a bit
+    tedious. It is simpler to note that gradients define a linear approximation
+    of the function. We can more efficiently deal with $\w-\w_0$ by changing the
+    coordinates and determine the linear approximation of $f$ as a function of
+    $\v = \w-\w_0$, i.e.\ locally around the point $\w_0$. We then have
+    \begin{align}
+      \tilde{f}(\v) & = f(\v+\w_0)\\
+                    & = c + \g^\top \v + \frac{1}{2} \v^\top \H \v
+    \end{align}
+    With \exref{ex:grad-vector}, the derivative is
+    \begin{equation}
+      \nabla_{\v} \tilde{f}(\v) = \g + \H \v
+    \end{equation}
+    and the linear approximation becomes
+    \begin{equation}
+      \tilde{f}(\v+\epsilon \h) =  c + \epsilon (\g + \H \v)^\top \h + O(\epsilon^2)
+    \end{equation}
+    The linear approximation for $\tilde{f}$ determines a linear approximation of $f$ around $\w_0$, i.e.\
+    \begin{equation}
+      f(\w + \epsilon \h) =  \tilde{f}(\w-\w_0+\epsilon \h) =  c + \epsilon (\g + \H (\w-\w_0))^\top \h + O(\epsilon^2)
+    \end{equation}
+    so that the derivative for $f$ is
+    \begin{equation}
+      \nabla_{\w}f(\w) = \g + \H (\w-\w_0) = \g - \H \w_0 + \H \w,
+    \end{equation}
+    which is the same result as before.
+  \end{solution}
+  
+\item A necessary condition for $\w$ being optimal (leading either to a maximum, minimum or a saddle point) is $\nabla f(\w)=0$. 
+  Determine $\w^\ast$ such that $\nabla f(\w)\big|_{\w=\w^\ast}=0$. Provide arguments why $\w^\ast$ is a minimiser of $f(\w)$.
+  
+  \begin{solution}
+    We set the gradient to zero and solve for $\w$:
+    \begin{equation}
+        \g + \H(\w -\w_0) = 0 \quad \leftrightarrow \quad \w-\w_0 = - \H^{-1} \g
+      \end{equation}
+      so that
+      \begin{equation}
+        \w^\ast = \w_0 - \H^{-1} \g.
+      \end{equation}
+    As we assumed that $\H$ is positive definite, the inverse $\H$ exists (and
+    is positive definite too).
+    
+    Let us consider $f$ as a function of $\v$ around $\w^\ast$, i.e.\ $\w = \w^\ast+\v$. With $\w^\ast+\v-\w_0= -\H^{-1}\g + \v$, we have
+    \begin{align}
+      f(\w^\ast+\v) & = c + \g^\top(- \H^{-1} \g+\v) + \frac{1}{2}(-\H^{-1}\g + \v)^\top \H (-\H^{-1}\g + \v)
+    \end{align}
+    Since $\H$ is positive definite, we have that $(-\H^{-1}\g + \v)^\top \H
+    (-\H^{-1}\g + \v)>0$ for all $\v$. Hence, as we move away from $\w^\ast$,
+    the function increases quadratically, so that $\w^\ast$ minimises $f(\w)$.
+    
+  \end{solution}
+  
+  
+\item In terms of Newton's method to minimise $J(\w)$, what do $\w_0$ and $\w^\ast$ stand for?
+  
+  \begin{solution}
+    The equation
+    \begin{equation}
+      \w^\ast = \w_0 - \H^{-1} \g.
+    \end{equation}
+    corresponds to one update step in Newton's method where $\w_0$ is the
+    current value of $\w$ in the optimisation of $J(\w)$ and $\w^\ast$ is the
+    updated value. In practice rather than determining the inverse $\H^{-1}$, we solve
+    \begin{equation}
+      \H \p = \g
+    \end{equation}
+    for $\p$ and then set $\w^\ast = \w_0 - \p$. The vector $\p$ is the
+    search direction, and it is possible include a step-length $\alpha$ so that
+    the update becomes $\w^\ast = \w_0 - \alpha \p$. The value of $\alpha$ may
+    be set by hand or can be determined via line-search methods \citep[see
+    e.g.][]{Nocedal1999}.
+\end{solution}
+\end{exenumerate}
+
+% --------------------------------------------------
+
+\ex{Gradient of matrix-valued functions}
+\label{ex:grad-matrix}
+For functions $J$ that map a matrix $\W \in \mathbb{R}^{n\times m}$ to $\mathbb{R}$, the gradient is defined as 
+\begin{equation}
+  \nabla J(\W) = 
+  \begin{pmatrix}
+    \frac{\partial J(\W)}{\partial W_{11}} & \ldots &  \frac{\partial J(\W)}{\partial W_{1m}} \\
+    \vdots & \vdots & \vdots\\
+    \frac{\partial J(\W)}{\partial W_{n1}} & \ldots &  \frac{\partial J(\W)}{\partial W_{nm}}
+  \end{pmatrix}.
+\end{equation}
+
+Alternatively, it is defined to be the matrix $\nabla J$ such that
+\begin{align}
+  J(\W+\epsilon \H) &= J(\w) + \epsilon \tr(\nabla J^\top \H) + O(\epsilon^2) \label{eq:grad-matrix}\\
+                    &= J(\w) + \epsilon \tr(\nabla J \H^\top) + O(\epsilon^2)
+\end{align}
+This definition is analogue to the one for vector-valued functions
+in \eqref{eq:grad-vector}. It phrases the derivative in terms of a linear
+approximation to the perturbed objective $J(\W+\epsilon \H)$ and, more formally,
+$\tr \nabla J^\top$ is a linear transformation that maps
+$\H \in \mathbb{R}^{n \times m}$ to $\mathbb{R}$ \citep[see e.g.][Chapter 9, for a formal treatment of derivatives]{Rudin1976}.
+
+Let $\e^{(i)}$ be \emph{column} vector which is everywhere zero but in slot $i$
+where it is 1. Moreover let $\e^{[j]}$ be a \emph{row} vector which is
+everywhere zero but in slot $j$ where it is 1. The outer product
+$\e^{(i)}\e^{[j]}$ is then a matrix that is everywhere zero but in row $i$ and
+column $j$ where it is one. For $\H = \e^{(i)} \e^{[j]}$, we obtain
+\begin{align}
+  J(\W+\epsilon \e^{(i)}\e^{[j]}) &= J(\W) + \epsilon \tr((\nabla J)^\top \e^{(i)} \e^{[j]}) + O(\epsilon^2)\\
+                                  &= J(\W) + \epsilon  \e^{[j]} (\nabla J)^\top \e^{(i)} + O(\epsilon^2)\\
+                                  &= J(\W) + \epsilon \e^{[i]} \nabla J  \e^{(j)}+O(\epsilon^2)
+\end{align}
+Note that $\e^{[i]} \nabla J \e^{(j)}$ picks the element of the
+matrix $\nabla J$ that is in row $i$ and column $j$, i.e.\ $\e^{[i]} \nabla J
+\e^{(j)}=\partial J/\partial W_{ij}$.
+
+Use either of the two definitions to find $\nabla
+J(\W)$ for the functions below, where
+$\u \in \mathbb{R}^n, \v \in \mathbb{R}^m, \A \in \mathbb{R}^{n \times m}$, and
+$f: \mathbb{R} \rightarrow \mathbb{R}$ is differentiable.
+
+\begin{exenumerate}
+\item $J(\W) = \u^\top\W\v$.
+  
+\begin{solution}
+  First method: With $J(\W) = \sum_{i=1}^n \sum_{j=1}^m u_iW_{ij}v_j$ we have
+  \begin{align}
+    \frac{\partial J(\W)}{W_{kl}} &= u_kv_l = (\u\v^\top)_{kl}
+  \end{align}
+  and hence
+\begin{equation}
+  \nabla J(\W) = \u\v^\top
+\end{equation}
+
+Second method: 
+\begin{align}
+  J(\W + \epsilon \H) & = \u^\top (\W+\epsilon \H)\v\\
+                      & = J(\W) + \epsilon \u^\top \H \v\\
+                      & = J(\W) + \epsilon \tr(\u^\top \H \v)\\
+                      & = J(\W) + \epsilon \tr(\v \u^\top \H)
+\end{align}
+Hence:
+\begin{align}
+  \nabla J(\W) & = \u\v^\top
+\end{align}
+
+\end{solution}
+
+\item $J(\W) = \u^\top(\W+\A)\v$.
+\begin{solution}
+  Expanding the objective function gives $J(\W) = \u^\top \W \v
+  + \u^\top \A \v$. The second term does not depend on $\W$. With the previous
+  question, the derivative thus is
+  \begin{equation}
+    \nabla J(\W) = \u \v^\top
+  \end{equation}
+  
+\end{solution}
+\item $J(\W) = \sum_n f(\w_n^\top\v)$, where $\w_n^\top$ are the rows of the matrix $\W$.
+  
+  \begin{solution}
+    First method:
+    \begin{align}
+      \frac{\partial J(\W)}{\partial W_{ij}} &= \sum_{k=1}^n \frac{\partial}{\partial W_{ij}} f(\w_k^\top\v) \\
+                                             &= f'(\w_i^\top\v) \frac{\partial}{\partial W_{ij}} \underbrace{\w_i^\top\v}_\text{$\sum_{j=1}^m W_{ij}v_j$} \\
+                                             &= f'(\w_i^\top\v)v_j
+    \end{align}
+    Hence
+    \begin{equation}
+      \nabla J(\W) = f'(\W\v)\v^\top,
+    \end{equation}
+    where $f'$ operates element-wise on the vector $\W\v$.
+    
+    Second method:
+    \begin{align}
+      J(\W) &= \sum_{k=1}^n f(\w_k^\top\v)\\
+            &= \sum_{k=1}^n f(\e^{[k]}\W\v),
+    \end{align}
+    where $\e^{[k]}$ is the unit row vector that is zero everywhere but for element $k$ which equals one. We now perform a perturbation of $\W$ by $\epsilon \H$.
+    \begin{align}
+J(\W + \epsilon \H) &= \sum_{k=1}^n f(\e^{[k]}(\W + \epsilon \H)\v) \\
+                    &= \sum_{k=1}^n f(\e^{[k]}\W\v + \epsilon\e^{[k]}\H\v) \\
+         					  &= \sum_{k=1}^n (f(\e^{[k]}\W\v) + \epsilon f'(\e^{[k]}\W\v)\e^{[k]}\H\v + O(\epsilon^2)\\
+                    &= J(\W) + \epsilon \left( \sum_{k=1}^n  f'(\e^{[k]}\W\v)\e^{[k]}\right) \H \v + O(\epsilon^2)
+    \end{align}
+    The term $f'(\e^{[k]}\W\v) \e^{[k]}$ is a row vector that equals $(0, \ldots, 0,f'(\e^{[k]}\W\v), 0, \ldots, 0)$. Hence, we have
+    \begin{equation}
+      \sum_{k=1}^n  f'(\e^{[k]}\W\v)\e^{[k]}) = f'(\W\v)^\top
+    \end{equation}
+    where $f'$ operates element-wise on the column vector $\W\v$. The perturbed objective function thus is
+    \begin{align}
+      J(\W + \epsilon \H) & = J(\W) + \epsilon f'(\W\v)^\top \H \v  + O(\epsilon^2)\\
+                          & =  J(\W) + \epsilon \tr\left(f'(\W\v)^\top \H \v\right)  + O(\epsilon^2)\\
+                          & =  J(\W) + \epsilon \tr\left(\v f'(\W\v)^\top \H \right)  + O(\epsilon^2)
+    \end{align}
+    Hence, the gradient is the transpose of $\v f'(\W\v)^\top$, i.e.\
+    \begin{equation}
+      \nabla J(\W) = f'(\W\v) \v^\top
+\end{equation}
+\end{solution}
+
+\item $J(\W) = \u^\top \W^{-1}\v$ (\emph{Hint: $(\W+\epsilon \H)^{-1} = \W^{-1} -\epsilon \W^{-1}\H\W^{-1}+O(\epsilon^2)$.})
+  \begin{solution}
+    We first verify the hint:
+    \begin{align}
+      \left(\W^{-1} -\epsilon \W^{-1}\H\W^{-1}+O(\epsilon^2)\right) (\W+\epsilon \H)&=  \I + \epsilon \W^{-1} \H - \epsilon \W^{-1}\H + O(\epsilon^2)\\
+                                                                                    &= \I + O(\epsilon^2)
+    \end{align}
+    Hence the identity holds up to terms smaller than $\epsilon^2$, which is
+    sufficient we do not care about terms of order $\epsilon^2$ and smaller 
+    in the definition of the gradient in \eqref{eq:grad-matrix}.
+    
+    Let us thus make a first-order approximation of the perturbed objective $J(\W + \epsilon \H)$: 
+    \begin{align}
+      J(\W + \epsilon\H) &= \u^\top(\W + \epsilon\H\v)^{-1}\v \\
+                         &\overset{\textrm{hint}}{=} \u^\top(\W^{-1} - \epsilon \W^{-1}\H \W^{-1} + O(\epsilon^2))\v \\
+                         &= \u^\top \W^{-1}\v - \epsilon \u^\top\W^{-1}\H\W^{-1}\v + O(\epsilon^2) \\
+                         &= J(\W) -  \epsilon \tr\left(\u^\top\W^{- 1}\H\W^{-1}\v\right) + O(\epsilon^2) \\
+                         &= J(\W) - \epsilon \tr\left(\W^{-1}\v\u^\top\W^{-1}\H\right) + O(\epsilon^2)
+    \end{align}
+    Comparison with \eqref{eq:grad-matrix} gives
+    \begin{equation}
+      \nabla J^\top = -\W^{-1}\v\u^\top\W^{-1}
+    \end{equation}
+    and hence
+    \begin{equation}
+      \nabla J = -\W^{-\top}\u\v^\top\W^{-\top},
+    \end{equation}
+where $\W^{-\top}$ is the transpose of the inverse of $\W$.
+
+\end{solution}
+\end{exenumerate}
+
+% --------------------------------------------------
+
+\ex{Gradient of the log-determinant}
+\label{ex:grad-log-det}
+The goal of this exercise is to determine the gradient of
+\begin{equation}
+  J(\W) = \log | \det(\W)|.
+\end{equation}
+
+\begin{exenumerate}
+\item Show that the $n$-th eigenvalue $\lambda_n$ can be written as
+  \begin{equation}
+    \lambda_n=\v_n^\top \W \u_n,
+  \end{equation}
+  where $\u_n$ is the $n$th eigenvector and $\v_n$ the $n$th column vector of $\U^{-1}$, with $\U$ being the matrix with the eigenvectors $\u_n$ as columns.
+  
+  \begin{solution}
+    As in \exref{ex:eigenvalue-decomposition}, let $\U\Lambdab \V^\top$ be the
+    eigenvalue decomposition of $\W$ (with $\V^\top = \U^{-1}$). Then $\Lambdab = \V^\top
+    \W\U$ and
+    \begin{align}
+      \lambda_n &= \e^{[n]}\Lambdab\e^{(n)} \\
+                &= \e^{[n]}\V^\top \W \U\e^{(n)} \\
+                &= (\V\e^{(n)})^\top \W\U\e^{(n)} \\
+                &= \v_n^\top \W\u_n,
+    \end{align}
+    where $\e^{(n)}$ is the standard basis (unit) vector with a 1 in the $n$-th
+    slot and zeros elsewhere, and $\e^{[n]}$ is the corresponding row vector.
+  \end{solution}
+  
+\item Calculate the gradient of $\lambda_n$ with respect to $\W$, i.e. $\nabla \lambda_n(\W)$.
+
+  \begin{solution}
+    With \exref{ex:grad-matrix}, we have
+    \begin{align}
+      \nabla_{\W} \lambda_n(\W) &= \nabla_{\W} \v_n^\top \W \u_n = \v_n \u_n^\top.
+    \end{align}
+  \end{solution}
+  
+\item Write $J(\W)$ in terms of the eigenvalues $\lambda_n$ and calculate $\nabla J(\mathbf{\W})$.
+  \begin{solution}
+    In \exref{ex:trace-determinants-eigenvalues}, we have shown that $\det(\W) = \prod_i \lambda_i$ and hence $|\textrm{det}(W)| = \prod_i |\lambda_i|.$
+    \begin{enumerate}
+    \item[(i)] If $\W$ is positive definite, its eigenvalues are positive and
+      we can drop the absolute values so that $|\det(W)| = \prod_i \lambda_i$.
+    \item[(ii)] If $\W$ is a matrix with real entries, then $\W\u = \lambda\u$
+        implies $\W\bar{\u} = \bar{\lambda}\bar{\u}$, i.e. if $\lambda$ is a
+        complex eigenvalue, then $\bar{\lambda}$ (the complex conjugate of
+        $\lambda$) is also an eigenvalue. Since $|\lambda|^2 =
+        \lambda\bar{\lambda}$,
+        \begin{align}
+          |\det(\W)| = \left(\prod_{\lambda_i \in \mathbb{C}} \lambda_i \right) \left(\prod_{\lambda_j \in \mathbb{R}} |\lambda_j| \right).
+        \end{align}
+      \end{enumerate}
+      Now we can write $J(\W)$ in terms of the eigenvalues:
+      \begin{align}
+        J(\W)  &= \log |\det(\W)| \\
+               &= \log\left(\prod_{\lambda_i \in \mathbb{C}} \lambda_i \right) \left(\prod_{\lambda_j \in \mathbb{R}} |\lambda_j|\right) \\
+               &= \log\left(\prod_{\lambda_i \in \mathbb{C}} \lambda_i \right) + \log\left(\prod_{\lambda_j \in \mathbb{R}} |\lambda_j| \right) \\
+               &= \sum_{\lambda_i \in \mathbb{C}} \log \lambda_i + \sum_{\lambda_j \in \mathbb{R}} \log |\lambda_j|.
+      \end{align}
+      Assume that the real-valued $\lambda_j$ are non-zero so that
+      \begin{align}
+        \nabla_{\W} \log |\lambda_j| & = \frac{1}{|\lambda_j|} \nabla_{\W} |\lambda_j|\\
+                                     & =  \frac{1}{|\lambda_j|} \textrm{sign}(\lambda_j)\nabla_{\W}\lambda_j
+      \end{align}
+      Hence
+      \begin{align}
+        \nabla J(\W) &= \sum_{\lambda_i \in \mathbb{C}}  \nabla_{\W}\log \lambda_i + \sum_{\lambda_j \in \mathbb{R}}  \nabla_{\W} \log |\lambda_j|\\ 
+                     &= \sum_{\lambda_i \in \mathbb{C}} \frac{1}{\lambda_i} \nabla_{\W} \lambda_i + 
+                       \sum_{\lambda_i \in \mathbb{R}} \frac{1}{|\lambda_i|} \textrm{sign}(\lambda_i)\nabla_{\W}\lambda_i\\
+                     &= \sum_{\lambda_i \in \mathbb{C}} \frac{\v_i\u_i^\top}{\lambda_i} + 
+                       \sum_{\lambda_i \in \mathbb{R}} \frac{\textrm{sign}(\lambda_i)\v_i\u_i^\top}{|\lambda_i|} \\
+                     &= \sum_{\lambda_i \in \mathbb{C}} \frac{\v_i\u_i^\top}{\lambda_i} + 
+                       \sum_{\lambda_i \in \mathbb{R}} \frac{\v_i\u_i^\top}{\lambda_i} \\
+                     &= \sum_i  \frac{\v_i\u_i^\top}{\lambda_i}.
+      \end{align}
+      
+    \end{solution}
+  \item Show that
+    \begin{equation}
+      \nabla J(\W) = (\W^{-1})^\top.
+    \end{equation}
+    
+    \begin{solution}
+    This follows from \exref{ex:eigenvalue-decomposition} where we have found
+    that
+    \begin{equation}
+      \W^{-1}= \sum_i \frac{1}{\lambda_i}\u_i \v_i^\top.
+    \end{equation}
+    Indeed:
+    \begin{align}
+      \nabla J(\W) = \sum_i  \frac{\v_i\u_i^\top}{\lambda_i} = \sum_i \frac{1}{\lambda_i} (\u_i\v_i^\top)^\top =  \left(\W^{-1}\right)^\top.
+    \end{align}
+    
+  \end{solution}
+\end{exenumerate}
+
+% --------------------------------------------------
+
+\ex{Descent directions for matrix-valued functions}
+\label{ex:descent-directions-for-matrix-valued-functions}
+Assume we would like to minimise a matrix valued function $J(\W)$ by gradient
+descent, i.e. the update equation is
+\begin{equation}
+  \W \leftarrow \W - \epsilon \nabla J(\W),
+\end{equation}
+where $\epsilon$ is the step-length. The gradient $\nabla J(\W)$ was defined in
+\exref{ex:grad-matrix}. It was there pointed out that the gradient defines a
+first order approximation to the perturbed objective function $J(\W+\epsilon
+\H)$. With \eqref{eq:grad-matrix},
+\begin{align}
+  J(\W - \epsilon \nabla J(\W)) & = J(\W) - \epsilon \tr(\nabla J(\W)^\top \nabla J(\W)) + O(\epsilon^2)
+\end{align}
+For any (nonzero) matrix $\M$, it holds that
+\begin{align}
+  \tr(\M^\top \M) &= \sum_{i} (\M^\top\M)_{ii}\\
+                  &= \sum_i \sum_j (\M^\top)_{ij} (\M)_{ji}\\
+                  &= \sum_i \sum_j M_{ji} M_{ji}\\
+                  &= \sum_{ij} (M_{ji})^2\\
+                  &> 0, \label{eq:trace-nonnegativity}
+\end{align}
+which means that $\tr(\nabla J(\W)^\top \nabla J(\W)) > 0$ if the gradient is nonzero, and hence
+\begin{equation}
+  J(\W - \epsilon \nabla J(\W)) < J(\W)
+\end{equation}
+for small enough $\epsilon$. Consequently, $\nabla J(\W)$ is a descent
+direction. Show that $\A^\top \A \nabla J(\W)\B\B^\top$ for non-zero matrices
+$\A$ and $\B$ is also a descent direction or leaves the leaves the objective invariant.
+
+\begin{solution}
+  As in the introduction to the question, we appeal to \eqref{eq:grad-matrix} to
+  obtain
+  \begin{align}
+    J(\W - \epsilon \nabla J(\W)\A^\top\A \B\B^\top) & = J(\W) - \epsilon \tr(\nabla J(\W)^\top \A^\top \A \nabla J(\W)\B\B^\top) + O(\epsilon^2)\\
+                                                     & =  J(\W) - \epsilon \tr(\B^\top \nabla J(\W)^\top \A^\top \A \nabla J(\W)\B) + O(\epsilon^2),
+  \end{align}
+  where $\tr(\B^\top \nabla J(\W)^\top\A^\top \A \nabla J(\W)\B)$ takes the form
+  $\tr(\M^\top \M)$ with $\M= \A \nabla J(\W)\B$. With
+  \eqref{eq:trace-nonnegativity}, we thus have $\tr(\B^\top \nabla J(\W)^\top \A^\top
+  \A \nabla J(\W)\B) > 0$ if $\A \nabla J(\W)\B$ is non-zero, and hence
+  \begin{equation}
+    J(\W - \epsilon \A^\top \A \nabla J(\W) \B\B^\top) < J(\W)
+  \end{equation}
+  for small enough $\epsilon$. We have equality if $\A \nabla J(\W)\B = 0$,
+  e.g.\ if the columns of $\B$ are all in the null space of $\nabla J$.
+\end{solution}
+
+% Possible future question
+%\item What conditions must $\A$ and $\B$ satisfy for $\A^\top \A \nabla
+%  J(\W)\B\B^\top$ to be a descent direction?
+
+
+
+
+

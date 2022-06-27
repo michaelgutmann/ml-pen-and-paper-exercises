@@ -1,0 +1,2658 @@
+% Emacs, this is -*-latex-*-
+
+\ex{Conversion to factor graphs}
+\label{ex:DGM-vs-UGM}
+\begin{exenumerate}
+
+   \item Draw an undirected graph and an undirected factor graph for
+     $p(x_1,x_2,x_3) = p(x_1) p(x_2) p(x_3 | x_1,x_2)$
+
+     \begin{solution}
+       \begin{center}
+         \scalebox{0.9}{ % x,y
+           \begin{tikzpicture}[ugraph]
+             \node[cont] (x1) at (0,2) {$x_1$};
+             \node[cont] (x2) at (2,2) {$x_2$};
+             \node[cont] (x3) at (1,-0.2) {$x_3$};
+    
+             \draw(x1) -- (x2);
+             \draw(x2) -- (x3);
+             \draw(x3) -- (x1);
+           \end{tikzpicture}
+           \begin{tikzpicture}[ugraph]
+             \node[cont] (x1) at (0,2) {$x_1$};
+             \node[cont] (x2) at (2,2) {$x_2$};
+             \node[fact, label=right: $p(x_3 | x_1\, x_2)$] (f3) at (1,1) {};
+             \node[cont] (x3) at (1,-0.2) {$x_3$};
+             \node[fact, label=left: $p(x_1)$] (f1) at (0,3) {};
+             \node[fact, label=right: $p(x_2)$] (f2) at (2,3) {};
+
+                \draw(x1) -- (f3);
+                \draw(x2) -- (f3);
+                \draw(f3) -- (x3);
+                \draw[-](f1) -- (x1);
+                \draw[-](f2) -- (x2);
+           \end{tikzpicture}
+         }
+\end{center}
+     \end{solution}
+     
+     \item Draw an undirected factor graph for the directed graphical model defined by the graph below.
+
+  \begin{center}
+  \scalebox{0.9}{
+    \begin{tikzpicture}[dgraph]
+      \node[cont] (y1) at (0,0) {$y_1$};
+      \node[cont] (y2) at (2,0) {$y_2$};
+      \node[cont] (y3) at (4,0) {$y_3$};
+      \node[cont] (y4) at (6,0) {$y_4$};
+      \node[cont] (x1) at (0,2) {$x_1$};
+      \node[cont] (x2) at (2,2) {$x_2$};
+      \node[cont] (x3) at (4,2) {$x_3$};
+      \node[cont] (x4) at (6,2) {$x_4$};
+      \draw(x1)--(y1);\draw(x2)--(y2);\draw(x3)--(y3);\draw(x4)--(y4);
+      \draw(x1)--(x2);\draw(x2)--(x3);\draw(x3)--(x4);
+  \end{tikzpicture}}
+\end{center}
+
+  \begin{solution}
+    The graph specifies probabilistic models that factorise as
+    $$p(x_1, \ldots, x_4, y_1, \ldots, y_4) = p(x_1) p(y_1 | x_1)
+    \prod_{i=2}^4 p(y_i |x_i) p(x_i | x_{i-1})$$
+   It is the graph for a hidden Markov model. The corresponding factor graph is shown below.
+\begin{center}
+  \scalebox{0.9}{
+    \begin{tikzpicture}[ugraph]
+      \node[cont] (y1) at (0,0) {$y_1$};
+      \node[fact, label={[xshift=0.15cm,  yshift=0cm]left: $p(y_1 | x_1)$}] (fy1) at (0,1) {};
+      \node[cont] (y2) at (2,0) {$y_2$};
+      \node[fact, label={[xshift=0.15cm,  yshift=0cm]left: $p(y_2 | x_2)$}] (fy2) at (2,1) {};
+      \node[cont] (y3) at (4,0) {$y_3$};
+      \node[fact, label={[xshift=0.15cm,  yshift=0cm]left: $p(y_3 | x_3)$}] (fy3) at (4,1) {};
+      \node[cont] (y4) at (6,0) {$y_4$};
+      \node[fact, label={[xshift=0.15cm,  yshift=0cm]left: $p(y_4 | x_4)$}] (fy4) at (6,1) {};
+      
+      \node[fact, label=left: $p(x_1)$] (f1) at (-1,2) {};
+      \node[cont] (x1) at (0,2) {$x_1$};
+      \node[fact, label=above: $p(x_2 | x_1)$] (f2) at (1,2) {};
+      \node[cont] (x2) at (2,2) {$x_2$};
+      \node[fact, label=above: $p(x_3 | x_2)$] (f3) at (3,2) {};
+      \node[cont] (x3) at (4,2) {$x_3$};
+      \node[fact, label=above: $p(x_4 | x_3)$] (f4) at (5,2) {};
+      \node[cont] (x4) at (6,2) {$x_4$};
+      \draw(x1)--(y1);\draw(x2)--(y2);\draw(x3)--(y3);\draw(x4)--(y4);
+      \draw(x1)--(x2);\draw(x2)--(x3);\draw(x3)--(x4);
+
+      \draw(f1) -- (x1);
+      
+  \end{tikzpicture}}
+\end{center}
+
+  \end{solution}
+
+\item Draw the moralised graph and an undirected factor graph for directed graphical models defined by the graph below (this kind of graph is called a polytree: there are no loops but a node may have more than one parent).
+
+  \begin{center}
+    \scalebox{0.9}{ % x,y
+      \begin{tikzpicture}[dgraph]
+        \node[cont] (x1) at (0,0) {$x_1$};
+        \node[cont] (x2) at (2,0) {$x_2$};
+        \node[cont] (x3) at (-1,-1.5) {$x_3$};
+        \node[cont] (x4) at (1,-1.5) {$x_4$};
+        \node[cont] (x5) at (0,-3) {$x_5$};
+        \node[cont] (x6) at (2,-3) {$x_6$};
+        
+        \draw(x1) -- (x3);
+        \draw(x1) -- (x4);
+        \draw(x2) -- (x4);
+        \draw(x4) -- (x5);
+        \draw(x4) -- (x6);
+      \end{tikzpicture}
+      }
+  \end{center}
+
+  \begin{solution}
+    The moral graph is obtained by connecting the parents of the collider node $x_4$. See the graph on the left in the figure below.
+
+    For the factor graph, we note that the directed graph defines the
+    following class of probabilistic models
+    $$p(x_1, \ldots x_6) = p(x_1) p(x_2) p(x_3 | x_1) p(x_4|x_1,x_2) p(x_5|x_4) p(x_6|x_4)$$ 
+    This gives the factor graph on right in the figure below.
+    
+    \begin{center}
+      \scalebox{0.9}{ % x,y
+        \begin{tikzpicture}[ugraph]
+          \node[cont] (x1) at (0,0) {$x_1$};
+          \node[cont] (x2) at (2,0) {$x_2$};
+          \node[cont] (x3) at (-1,-1.5) {$x_3$};
+          \node[cont] (x4) at (1,-1.5) {$x_4$};
+          \node[cont] (x5) at (0,-3) {$x_5$};
+          \node[cont] (x6) at (2,-3) {$x_6$};
+          
+          \draw(x1) -- (x2);
+          \draw(x1) -- (x3);
+          \draw(x1) -- (x4);
+          \draw(x2) -- (x4);
+          \draw(x4) -- (x5);
+          \draw(x4) -- (x6);
+        \end{tikzpicture}
+        \hspace{10ex}
+        \begin{tikzpicture}[ugraph]
+          \node[fact, label=left: $p(x_1)$] (f1) at (-1,0) {};     
+          \node[cont] (x1) at (0,0) {$x_1$};
+
+          \node[fact, label=right: $p(x_2)$] (f2) at (3,0) {};     
+          \node[cont] (x2) at (2,0) {$x_2$};
+
+          \node[fact, label=left: $p(x_3|x_1)$] (f3) at (-1,-0.7) {};     
+          \node[cont] (x3) at (-1,-1.5) {$x_3$};
+
+          \node[fact, label=right: $p(x_4 | x_1\,x_2)$] (f4) at (1,-0.7) {};
+          \node[cont] (x4) at (1,-1.5) {$x_4$};
+
+          \node[fact, label=left: $p(x_5 | x_4)$] (f5) at (0,-2.2) {};
+          \node[cont] (x5) at (0,-3) {$x_5$};
+
+          \node[fact, label=right: $p(x_6 | x_4)$] (f6) at (2,-2.2) {};
+          \node[cont] (x6) at (2,-3) {$x_6$};
+
+          \draw(f1) -- (x1);
+          \draw(f2) -- (x2);
+          \draw(x1) -- (f4);
+          \draw(x1) -- (f3);
+          
+          \draw(x2) -- (f4);
+          \draw(f4) -- (x4);
+
+          \draw(f3) -- (x3);
+          
+          \draw(x4) -- (f5);
+          \draw(f5) -- (x5);
+
+          \draw(x4) -- (f6);
+          \draw(f6) -- (x6);
+        \end{tikzpicture}
+      }
+    \end{center}
+
+
+    Note:
+    \begin{itemize}
+    \item The moral graph contains a loop while the factor graph does not. The factor graph is still a polytree. This can be exploited for inference.
+    \item One may choose to group some factors together in order to obtain a factor graph with a particular structure (see factor graph below)
+    \end{itemize}
+    \vspace{1ex}
+
+    \begin{center}
+        \begin{tikzpicture}[ugraph]
+          \node[cont] (x1) at (0,0) {$x_1$};
+          
+          \node[cont] (x2) at (2,0) {$x_2$};
+
+          \node[fact, label=left: $p(x_3|x_1)$] (f3) at (-1,-0.7) {};     
+          \node[cont] (x3) at (-1,-1.5) {$x_3$};
+
+          \node[fact, label=right: $p(x_4 | x_1\,x_2)p(x_1)p(x_2)$] (f4) at (1,-0.7) {};
+          \node[cont] (x4) at (1,-1.5) {$x_4$};
+
+          \node[fact, label=right: $p(x_5 | x_4)p(x_6|x_4)$] (f5) at (1,-2.2) {};
+          \node[cont] (x5) at (0,-3) {$x_5$};
+          \node[cont] (x6) at (2,-3) {$x_6$};
+
+          \draw(x1) -- (f4);
+          \draw(x1) -- (f3);
+          
+          \draw(x2) -- (f4);
+          \draw(f4) -- (x4);
+
+          \draw(f3) -- (x3);
+          
+          \draw(x4) -- (f5);
+          \draw(f5) -- (x5);
+          \draw(f5) -- (x6);
+        \end{tikzpicture}
+  \end{center}
+    
+  \end{solution}
+  
+  
+\end{exenumerate}
+
+
+
+\ex{Sum-product message passing}
+\label{ex:sum-product-message-passing}
+
+We here consider the following factor tree:
+
+  \begin{center}
+    \begin{tikzpicture}[ugraph]
+      \node[fact, label=above: $\phi_A$] (fa) at (0,0) {} ; %
+      \node[cont] (x1) at (1.5,0)  {$x_1$} ; %
+      \node[fact, label=below: $\phi_C$] (fc) at (3,0) {} ; %
+      \node[cont] (x2) at (3,1)  {$x_2$} ; %
+      \node[fact, label=left: $\phi_B$] (fb) at (3,2) {} ; %
+      \node[cont] (x3) at (4.5,0)  {$x_3$} ; %
+      \node[fact, label=above: $\phi_D$] (fd) at (5.5,1) {} ; %
+      \node[cont] (x4) at (7,1)  {$x_4$} ; %
+      \node[fact, label=above: $\phi_E$] (fe) at (5.5,-1) {} ; %
+      \node[cont] (x5) at (7,-1)  {$x_5$} ; %
+      \node[fact, label=above: $\phi_F$] (ff) at (8.5,-1) {} ; %
+      \draw (fa) -- (x1);
+      \draw (x1) -- (fc);
+      \draw (fc) -- (x2);
+      \draw (x2) -- (fb);
+      \draw (fc) -- (x3);
+      \draw (x3) -- (fd);
+      \draw (x3) -- (fe);
+      \draw (fd) -- (x4);
+      \draw (fe) -- (x5);
+      \draw (x5) -- (ff);
+    \end{tikzpicture}
+  \end{center}
+  Let all variables be binary, $x_i \in \{0,1\}$, and the factors be defined as follows:
+  \begin{center}
+    \begin{tabular}{ll}
+      \toprule
+      $x_1$ & $\phi_A$\\
+      \midrule
+      0 & 2\\
+      1 & 4\\
+      \bottomrule
+    \end{tabular}
+    \hfill
+    \begin{tabular}{ll}
+      \toprule
+      $x_2$ & $\phi_B$\\
+      \midrule
+      0 & 4\\
+      1 & 4\\
+      \bottomrule
+    \end{tabular}
+    \hfill
+    \begin{tabular}{llll}
+      \toprule
+      $x_1$ & $x_2$ & $x_3$ & $\phi_C$\\
+      \midrule
+    0 & 0 & 0 & 4 \\
+    1 & 0 & 0 & 2 \\
+    0 & 1 & 0 & 2 \\
+    1 & 1 & 0 & 6 \\
+    0 & 0 & 1 & 2 \\
+    1 & 0 & 1 & 6 \\
+    0 & 1 & 1 & 6 \\
+    1 & 1 & 1 & 4 \\
+      \bottomrule
+    \end{tabular}
+    \hfill
+    \begin{tabular}{lll}
+      \toprule
+      $x_3$ & $x_4$ & $\phi_D$\\
+      \midrule
+    0 & 0 &  8 \\
+    1 & 0 &  2 \\
+    0 & 1 &  2 \\
+    1 & 1 &  6 \\
+      \bottomrule
+    \end{tabular}
+    \hfill
+    \begin{tabular}{lll}
+      \toprule
+      $x_3$ & $x_5$ & $\phi_E$\\
+      \midrule
+    0 & 0 &  3 \\
+    1 & 0 &  6 \\
+    0 & 1 &  6 \\
+    1 & 1 &  3 \\
+      \bottomrule
+    \end{tabular}
+   \hfill
+    \begin{tabular}{ll}
+      \toprule
+      $x_5$ & $\phi_F$\\
+      \midrule
+      0 & 1\\
+      1 & 8\\
+      \bottomrule
+    \end{tabular}
+
+    
+  \end{center}
+  
+\begin{exenumerate}
+
+\item Mark the graph with arrows indicating all messages that need to
+  be computed for the computation of $p(x_1)$.
+
+  \begin{solution}
+    
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[fact, label=above: $\phi_A$] (fa) at (0,0) {} ; %
+        \node[cont] (x1) at (1.5,0)  {$x_1$} ; %
+        \node[fact, label=below: $\phi_C$] (fc) at (3,0) {} ; %
+        \node[cont] (x2) at (3,1)  {$x_2$} ; %
+        \node[fact, label=left: $\phi_B$] (fb) at (3,2) {} ; %
+        \node[cont] (x3) at (4.5,0)  {$x_3$} ; %
+        \node[fact, label=above: $\phi_D$] (fd) at (5.5,1) {} ; %
+        \node[cont] (x4) at (7,1)  {$x_4$} ; %
+        \node[fact, label=above: $\phi_E$] (fe) at (5.5,-1) {} ; %
+        \node[cont] (x5) at (7,-1)  {$x_5$} ; %
+        \node[fact, label=above: $\phi_F$] (ff) at (8.5,-1) {} ; %
+        \draw (fa) -- (x1) node[midway,above,sloped] {$\rightarrow$};
+        \draw (x1) -- (fc) node[midway,below,sloped] {$\leftarrow$};
+        \draw (fc) -- (x2) node[midway,left] {$\downarrow$} ;
+        \draw (x2) -- (fb) node[midway,left] {$\downarrow$};
+        \draw (fc) -- (x3) node[midway,below] {$\leftarrow$};
+        \draw (x3) -- (fd) node[midway,above,sloped] {$\leftarrow$};
+        \draw (fd) -- (x4) node[midway,above] {$\leftarrow$};
+        \draw (x3) -- (fe) node[midway,below,sloped] {$\leftarrow$};
+        \draw (fe) -- (x5) node[midway,below] {$\leftarrow$};
+        \draw (ff) -- (x5) node[midway,below] {$\leftarrow$};
+      \end{tikzpicture}
+    \end{center}
+    
+  \end{solution}
+  
+\item \label{q:messages} Compute the messages that you have
+  identified.
+
+  Assuming that the computation of the messages is scheduled according
+  to a common clock, group the messages together so that all messages
+  in the same group can be computed in parallel during a clock
+  cycle.
+     
+  \begin{solution}
+    Since the variables are binary, each message can be represented as a two-dimensional vector. We use the convention that the first element of the vector corresponds to the message for $x_i =0$ and the second element to the message for $x_i=1$. For example,
+    \begin{equation}
+      \fxmessb{\phi_A}{x_1}= \begin{pmatrix}
+        2 \\
+        4 \\
+      \end{pmatrix}
+    \end{equation}
+means that the message $\fxmess{\phi_A}{x_1}{1}(x_1)$ equals 2 for $x_1=0$, i.e.\ $\fxmess{\phi_A}{x_1}{1}(0)=2$.
+
+The following figure shows a grouping (scheduling) of the computation of the messages. 
+    \begin{figure}[h]
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[fact, label=above: $\phi_A$] (fa) at (0,0) {} ; %
+        \node[cont] (x1) at (1.5,0)  {$x_1$} ; %
+        \node[fact, label=below: $\phi_C$] (fc) at (3,0) {} ; %
+        \node[cont] (x2) at (3,1)  {$x_2$} ; %
+        \node[fact, label=left: $\phi_B$] (fb) at (3,2) {} ; %
+        \node[cont] (x3) at (4.5,0)  {$x_3$} ; %
+        \node[fact, label=above: $\phi_D$] (fd) at (5.5,1) {} ; %
+        \node[cont] (x4) at (7,1)  {$x_4$} ; %
+        \node[fact, label=above: $\phi_E$] (fe) at (5.5,-1) {} ; %
+        \node[cont] (x5) at (7,-1)  {$x_5$} ; %
+        \node[fact, label=above: $\phi_F$] (ff) at (8.5,-1) {} ; %
+        \draw (fa) -- (x1) node[midway,above,sloped] {$\substack{[1] \\ \rightarrow}$};
+        \draw (x1) -- (fc) node[midway,below,sloped] {$\substack{\leftarrow\\ [5]}$};
+        
+        \draw (fc) -- (x2) node[midway,left] {{\scriptsize $[2]$}$\downarrow$} ;
+        \draw (x2) -- (fb) node[midway,left] {{\scriptsize $[1]$}$\downarrow$};
+        \draw (fc) -- (x3) node[midway,below] {$\substack{\leftarrow \\ [4]}$};
+        \draw (x3) -- (fd) node[midway,above,sloped] {$\substack{[2] \\\leftarrow}$};
+        \draw (fd) -- (x4) node[midway,above] {$\substack{[1] \\ \leftarrow}$};
+        \draw (x3) -- (fe) node[midway,below,sloped] {$\substack{\leftarrow \\ [3]}$};
+        \draw (fe) -- (x5) node[midway,below] {$\substack{\leftarrow \\ [2]}$};
+        \draw (ff) -- (x5) node[midway,below] {$\substack{\leftarrow \\ [1]}$};
+      \end{tikzpicture}
+    \end{center}
+    \end{figure}
+
+    { \bf Clock cycle 1:}\\
+    \begin{align}
+      \fxmessb{\phi_A}{x_1} & = \begin{pmatrix}
+        2 \\
+        4 \\
+      \end{pmatrix}
+      & 
+      \fxmessb{\phi_B}{x_2} & = \begin{pmatrix}
+        4 \\
+        4 \\
+      \end{pmatrix}
+      &
+      \xfmessb{x_4}{\phi_D} & = \begin{pmatrix}
+        1 \\
+        1 \\
+      \end{pmatrix}
+      &
+      \fxmessb{\phi_F}{x_5} & = \begin{pmatrix}
+        1 \\
+        8 \\
+      \end{pmatrix}
+    \end{align}
+    
+    { \bf Clock cycle 2:}\\
+    \begin{align}
+      \xfmessb{x_2}{\phi_C} = \fxmessb{\phi_B}{x_2}  & = \begin{pmatrix}
+        4 \\
+        4 \\
+      \end{pmatrix}
+      &
+      \xfmessb{x_5}{\phi_E} =  \fxmessb{\phi_F}{x_5} & = \begin{pmatrix}
+        1 \\
+        8 \\
+      \end{pmatrix}
+    \end{align}
+    Message $\fxmess{\phi_D}{x_3}{1}$ is defined as
+    \begin{align}
+      \fxmess{\phi_D}{x_3}{1}(x_3) & = \sum_{x_4} \phi_D(x_3,x_4) \xfmess{x_4}{\phi_D}{1}(x_4)\end{align}
+    so that
+    \begin{align}
+      \fxmess{\phi_D}{x_3}{1}(0) & = \sum_{x_4=0}^1 \phi_D(0,x_4) \xfmess{x_4}{\phi_D}{1}(x_4) \\
+      & = \phi_D(0,0) \xfmess{x_4}{\phi_D}{1}(0) + \phi_D(0,1) \xfmess{x_4}{\phi_D}{1}(1) \\
+      & = 8 \cdot 1  + 2 \cdot 1\\
+      & = 10\\
+      \fxmess{\phi_D}{x_3}{1}(1) & = \sum_{x_4=0}^1 \phi_D(1,x_4) \xfmess{x_4}{\phi_D}{1}(x_4) \\
+      & = \phi_D(1,0) \xfmess{x_4}{\phi_D}{1}(0) + \phi_D(1,1) \xfmess{x_4}{\phi_D}{1}(1) \\
+      & = 2 \cdot 1 + 6 \cdot 1\\
+      & = 8
+    \end{align}
+    and thus
+    \begin{align}
+      \fxmessb{\phi_D}{x_3} &=  \begin{pmatrix}
+        10 \\
+        8
+      \end{pmatrix}.
+    \end{align}
+    The above computations can be written more compactly in matrix notation. Let $\pmb{\phi_D}$ be the matrix that contains the outputs of $\phi_D(x_3, x_4)$ 
+    \begin{align}
+      \pmb{\phi_D} & = \begin{pmatrix}
+        \phi_D(x_3=0,x_4=0) &  \phi_D(x_3=0,x_4=1) \\
+        \phi_D(x_3=1,x_4=0) & \phi_D(x_3=1,x_4=1)  
+      \end{pmatrix}
+       = \begin{pmatrix}
+        8 & 2 \\
+        2 & 6
+      \end{pmatrix}.
+    \end{align}
+    We can then write $\fxmessb{\phi_D}{x_3}$ in terms of a matrix vector product,
+    \begin{align}
+      \fxmessb{\phi_D}{x_3} & = \pmb{\phi_D} \xfmessb{x_4}{\phi_D}.
+    \end{align}
+    
+    { \bf Clock cycle 3:}\\
+    Representing the factor $\phi_E$ as matrix $\pmb{\phi_E}$,
+    \begin{align}
+      \pmb{\phi_E} & = \begin{pmatrix}
+        \phi_E(x_3=0,x_5=0) &  \phi_E(x_3=0,x_5=1) \\
+        \phi_E(x_3=1,x_5=0) & \phi_E(x_3=1,x_5=1)  
+      \end{pmatrix}
+      = \begin{pmatrix}
+        3 & 6 \\
+        6 & 3
+      \end{pmatrix},
+    \end{align}
+      we can write
+      \begin{align}
+        \fxmess{\phi_E}{x_3}{1}(x_3) & = \sum_{x_5} \phi_E(x_3,x_5) \xfmess{x_5}{\phi_E}{1}(x_5)
+      \end{align}
+      as a matrix vector product,
+      \begin{align}
+        \fxmessb{\phi_E}{x_3} & =  \pmb{\phi_E} \xfmessb{x_5}{\phi_E}\\
+        & = \begin{pmatrix}
+          3 & 6 \\
+          6 & 3
+        \end{pmatrix}
+        \begin{pmatrix}
+          1 \\
+          8 \\
+        \end{pmatrix}\\
+        & =  \begin{pmatrix}
+          51 \\
+          30 \\
+        \end{pmatrix}.
+      \end{align}
+      
+      { \bf Clock cycle 4:}\\
+      Variable node $x_3$ has received all incoming messages, and can thus output $\xfmess{x_3}{\phi_C}{1}$,
+      \begin{align}
+        \xfmess{x_3}{\phi_C}{1}(x_3) & = \fxmess{\phi_D}{x_3}{1}(x_3)\fxmess{\phi_E}{x_3}{1}(x_3).
+      \end{align}
+      Using $\odot$ to denote element-wise multiplication of two vectors, we have 
+      \begin{align}
+        \xfmessb{x_3}{\phi_C} & = \fxmessb{\phi_D}{x_3} \odot \fxmessb{\phi_E}{x_3}\\
+        & = \begin{pmatrix}
+        10 \\
+        8
+        \end{pmatrix}
+        \odot
+        \begin{pmatrix}
+          51 \\
+          30 \\
+        \end{pmatrix}\\
+        & = \begin{pmatrix}
+          510 \\
+          240
+        \end{pmatrix}.
+      \end{align}
+
+      { \bf Clock cycle 5:}\\
+      Factor node $\phi_C$ has received all incoming messages, and can thus output $\fxmess{\phi_C}{x_1}{1}$,
+      \begin{align}
+        \fxmess{\phi_C}{x_1}{1}(x_1) & = \sum_{x_2,x_3} \phi_C(x_1,x_2,x_3) \xfmess{x_2}{\phi_C}{1}(x_2)\xfmess{x_3}{\phi_C}{1}(x_3).
+      \end{align}      
+      Writing out the sum for $x_1=0$ and $x_1=1$ gives
+      \begin{align}
+        \fxmess{\phi_C}{x_1}{1}(0) = &  \sum_{x_2,x_3} \phi_C(0,x_2,x_3) \xfmess{x_2}{\phi_C}{1}(x_2) \xfmess{x_3}{\phi_C}{1}(x_3)\\
+                                   = &  \phi_C(0,x_2,x_3) \xfmess{x_2}{\phi_C}{1}(x_2) \xfmess{x_3}{\phi_C}{1}(x_3) \mid_{(x_2,x_3)=(0,0)} +\\
+                                   & \phi_C(0,x_2,x_3) \xfmess{x_2}{\phi_C}{1}(x_2) \xfmess{x_3}{\phi_C}{1}(x_3) \mid_{(x_2,x_3)=(1,0)} +\\
+                                   & \phi_C(0,x_2,x_3) \xfmess{x_2}{\phi_C}{1}(x_2) \xfmess{x_3}{\phi_C}{1}(x_3) \mid_{(x_2,x_3)=(0,1)} +\\
+                                   & \phi_C(0,x_2,x_3) \xfmess{x_2}{\phi_C}{1}(x_2) \xfmess{x_3}{\phi_C}{1}(x_3) \mid_{(x_2,x_3)=(1,1)}\\
+                                   = & 4 \cdot 4 \cdot 510 +\\
+                                   &  2 \cdot 4 \cdot 510 +  \\
+                                   &  2 \cdot 4 \cdot 240  + \\
+                                   &  6 \cdot 4 \cdot 240 \\
+                                   = & 19920\\
+        \fxmess{\phi_C}{x_1}{1}(1) = &  \sum_{x_2,x_3} \phi_C(1,x_2,x_3) \xfmess{x_2}{\phi_C}{1}(x_2) \xfmess{x_3}{\phi_C}{1}(x_3)\\
+                                   = &  \phi_C(1,x_2,x_3) \xfmess{x_2}{\phi_C}{1}(x_2) \xfmess{x_3}{\phi_C}{1}(x_3) \mid_{(x_2,x_3)=(0,0)} +\\
+                                   & \phi_C(1,x_2,x_3) \xfmess{x_2}{\phi_C}{1}(x_2) \xfmess{x_3}{\phi_C}{1}(x_3) \mid_{(x_2,x_3)=(1,0)} +\\
+                                   & \phi_C(1,x_2,x_3) \xfmess{x_2}{\phi_C}{1}(x_2) \xfmess{x_3}{\phi_C}{1}(x_3) \mid_{(x_2,x_3)=(0,1)} +\\
+                                   & \phi_C(1,x_2,x_3) \xfmess{x_2}{\phi_C}{1}(x_2) \xfmess{x_3}{\phi_C}{1}(x_3) \mid_{(x_2,x_3)=(1,1)}\\
+                                   = & 2 \cdot 4 \cdot 510 +\\
+                                   &  6 \cdot 4 \cdot 510 +  \\
+                                   &  6 \cdot 4 \cdot 240  + \\
+                                   &  4 \cdot 4 \cdot 240 \\
+                                   = & 25920                 
+      \end{align}
+      and hence
+      \begin{align}
+        \fxmessb{\phi_C}{x_1} &= \begin{pmatrix}
+          19920\\
+          25920
+        \end{pmatrix}
+      \end{align}
+     
+      After step 5, variable node $x_1$ has received all incoming messages and the marginal can be computed.
+
+In addition to the messages needed for computation of $p(x_1)$ one can
+compute \emph{all} messages in the graph in five clock cycles, see
+Figure \ref{fig:all_messages}. This means that \emph{all} marginals,
+as well as the joints of those variables sharing a factor node, are
+available after five clock cycles.
+
+ \begin{figure}[h]
+   \begin{center}
+     \scalebox{1.6}{
+      \begin{tikzpicture}[ugraph]
+        \node[fact, label=above: {\tiny $\phi_A$}] (fa) at (0,0) {} ; %
+        \node[cont] (x1) at (1.5,0)  {$x_1$} ; %
+        \node[fact, label=below:  {\tiny$\phi_C$}] (fc) at (3,0) {} ; %
+        \node[cont] (x2) at (3,1)  {$x_2$} ; %
+        \node[fact, label=left: {\tiny $\phi_B$}] (fb) at (3,2) {} ; %
+        \node[cont] (x3) at (4.5,0)  {$x_3$} ; %
+        \node[fact, label=above: {\tiny  $\phi_D$}] (fd) at (5.5,1) {} ; %
+        \node[cont] (x4) at (7,1)  {$x_4$} ; %
+        \node[fact, label=above: {\tiny  $\phi_E$}] (fe) at (5.5,-1) {} ; %
+        \node[cont] (x5) at (7,-1)  {$x_5$} ; %
+        \node[fact, label=above:  {\tiny $\phi_F$}] (ff) at (8.5,-1) {} ; %
+        \draw (fa) -- (x1) node[midway,above,sloped] {$\substack{[1] \\ \rightarrow}$};
+        \draw (x1) -- (fc) node[midway,below,sloped] {$\substack{\leftarrow\\ [5]}$} node[near start,above,sloped] {$\substack{[2] \\ \rightarrow}$};
+        
+        \draw (fc) -- (x2) node[midway,left] {{\tiny $[2]$}$\downarrow$}  node[midway,right] {$\uparrow${\tiny $[5]$}} ;
+        \draw (x2) -- (fb) node[midway,left] {{\tiny $[1]$}$\downarrow$};
+        \draw (fc) -- (x3) node[midway,below] {$\substack{\leftarrow \\ [4]}$} node[near end,above] {$\substack{[3] \\ \rightarrow }$};
+        \draw (x3) -- (fd) node[midway,above,sloped] {$\substack{[2] \\\leftarrow}$} node[midway,below,sloped] {$\substack{\rightarrow \\ [4]}$};
+        \draw (fd) -- (x4) node[midway,above] {$\substack{[1] \\ \leftarrow}$} node[midway,below] {$\substack{\rightarrow \\ [5]}$}; 
+        \draw (x3) -- (fe) node[midway,below,sloped] {$\substack{\leftarrow \\ [3]}$}  node[midway,above,sloped] {$\substack{[4] \\ \rightarrow}$};
+        \draw (fe) -- (x5) node[midway,below] {$\substack{\leftarrow \\ [2]}$} node[midway,above] {$\substack{ [5] \\ \rightarrow }$}; 
+        \draw (ff) -- (x5) node[midway,below] {$\substack{\leftarrow \\ [1]}$};
+      \end{tikzpicture}}
+   \end{center}
+   \caption{\label{fig:all_messages} Answer to Exercise \ref{ex:sum-product-message-passing} Question \ref{q:messages}: Computing all messages in five clock cycles. If we also computed the messages toward the leaf factor nodes, we needed six cycles, but they are not necessary for computation of the marginals so they are omitted.}
+    \end{figure}
+
+
+    \end{solution}
+  
+\item What is $p(x_1=1)$?
+  
+    \begin{solution}
+      We compute the marginal $p(x_1)$ as
+      \begin{align}
+        p(x_1) \propto \fxmess{\phi_A}{x_1}{1}(x_1) \fxmess{\phi_C}{x_1}{1}(x_1)
+      \end{align}
+      which is in vector notation
+      \begin{align}
+        \begin{pmatrix}
+          p(x_1=0)\\
+          p(x_1=1)
+        \end{pmatrix}
+        & \propto 
+        \fxmessb{\phi_A}{x_1} \odot \fxmessb{\phi_C}{x_1}\\
+          & \propto  
+          \begin{pmatrix}
+            2 \\
+            4 \\
+          \end{pmatrix}
+          \odot
+          \begin{pmatrix}
+            19920\\
+            25920
+          \end{pmatrix}\\
+          & \propto
+          \begin{pmatrix}
+            39840\\
+            103680
+          \end{pmatrix}.
+      \end{align}
+      Normalisation gives
+      \begin{align}
+        \begin{pmatrix}
+          p(x_1=0)\\
+          p(x_1=1)
+        \end{pmatrix}
+     & =  \frac{1}{39840+103680}\begin{pmatrix}
+            39840\\
+            103680
+      \end{pmatrix}\\
+     & = \begin{pmatrix}
+        0.2776\\
+        0.7224
+      \end{pmatrix}
+      \end{align}
+      so that $p(x_1=1) = 0.7224$.
+
+      Note the relatively large numbers in the messages that we
+      computed. In other cases, one may obtain very small ones
+      depending on the scale of the factors. This can cause
+      numerical issues that can be addressed by working in the
+      logarithmic domain.
+  \end{solution}
+  
+\item Draw the factor graph corresponding to $p(x_1, x_3, x_4, x_5 | x_2 =1)$ and provide the numerical values for all factors.
+  
+  \begin{solution}
+    The pmf represented by the original factor graph is
+    $$p(x_1, \ldots, x_5) \propto \phi_A(x_1) \phi_B(x_2) \phi_C(x_1,x_2,x_3) \phi_D(x_3,x_4) \phi_E(x_3,x_5) \phi_F(x_5)$$
+    The conditional $p(x_1, x_3, x_4, x_5 | x_2 =1)$ is proportional to $p(x_1, \ldots, x_5)$ with $x_2$ fixed to $x_2=1$, i.e.\
+    \begin{align}
+      p(x_1, x_3, x_4, x_5 | x_2 =1) &\propto p(x_1,x_2=1, x_3, x_4, x_5) \\
+      & \propto \phi_A(x_1) \phi_B(x_2=1) \phi_C(x_1,x_2=1,x_3) \phi_D(x_3,x_4) \phi_E(x_3,x_5) \phi_F(x_5)\\
+      & \propto \phi_A(x_1) \phi^{x_2}_C(x_1,x_3) \phi_D(x_3,x_4) \phi_E(x_3,x_5) \phi_F(x_5)
+    \end{align}
+    where $\phi^{x_2}_C(x_1,x_3) = \phi_C(x_1,x_2=1,x_3)$. The numerical values of  $\phi^{x_2}_C(x_1,x_3)$ can be read from the table defining $\phi_C(x_1,x_2,x_3)$, extracting those rows where $x_2=1$,
+    \begin{center}
+      \begin{tabular}{lllll}
+        \toprule
+        & $x_1$ & $x_2$ & $x_3$ & $\phi_C$\\
+      \midrule
+      &0 & 0 & 0 & 4 \\
+      &1 & 0 & 0 & 2 \\
+      $\rightarrow$&0 & 1 & 0 & 2 \\
+      $\rightarrow$& 1 & 1 & 0 & 6 \\
+      &0 & 0 & 1 & 2 \\
+      &1 & 0 & 1 & 6 \\
+       $\rightarrow$&0 & 1 & 1 & 6 \\
+       $\rightarrow$&1 & 1 & 1 & 4 \\
+      \bottomrule
+      \end{tabular}
+      \hspace{3ex} \text{so that} \hspace{3ex}
+      \begin{tabular}{lll}
+        \toprule
+        $x_1$ & $x_3$ & $\phi^{x_2}_C$\\
+      \midrule
+      0 & 0 & 2 \\
+      1 & 0 & 6 \\
+      0 & 1 & 6 \\
+      1 & 1 & 4 \\
+      \bottomrule
+      \end{tabular}
+    \end{center}
+  
+    The factor graph for $p(x_1, x_3, x_4, x_5 | x_2 =1)$ is shown below. Factor $\phi_B$ has disappeared since it only depended on $x_2$ and thus became a constant. Factor $\phi_C$ is replaced by $\phi_C^{x_2}$ defined above. The remaining factors are the same as in the original factor graph.
+        
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[fact, label=above: $\phi_A$] (fa) at (0,0) {} ; %
+        \node[cont] (x1) at (1.5,0)  {$x_1$} ; %
+        \node[fact, label=below: $\phi^{x_2}_C$] (fc) at (3,0) {} ; %
+        %\node[cont] (x2) at (3,1)  {$x_2$} ; %
+        %\node[fact, label=left: $\phi_B$] (fb) at (3,2) {} ; %
+        \node[cont] (x3) at (4.5,0)  {$x_3$} ; %
+        \node[fact, label=above: $\phi_D$] (fd) at (5.5,1) {} ; %
+        \node[cont] (x4) at (7,1)  {$x_4$} ; %
+        \node[fact, label=above: $\phi_E$] (fe) at (5.5,-1) {} ; %
+        \node[cont] (x5) at (7,-1)  {$x_5$} ; %
+        \node[fact, label=above: $\phi_F$] (ff) at (8.5,-1) {} ; %
+        \draw (fa) -- (x1);
+        \draw (x1) -- (fc);
+        %\draw (fc) -- (x2);
+        %\draw (x2) -- (fb);
+        \draw (fc) -- (x3);
+        \draw (x3) -- (fd);
+        \draw (x3) -- (fe);
+        \draw (fd) -- (x4);
+        \draw (fe) -- (x5);
+        \draw (x5) -- (ff);
+      \end{tikzpicture}
+    \end{center}
+    
+  \end{solution}
+
+\item Compute $p(x_1 =1 | x_2 = 1)$, re-using messages that you have already computed for the evaluation of $p(x_1 =1)$.
+
+  \begin{solution}
+    The message $\fxmess{\phi_A}{x_1}{1}$ is the same as in the
+    original factor graph and $\xfmess{x_3}{\phi_C^{x_2}}{1} =
+    \xfmess{x_3}{\phi_C}{1}$. This is because the outgoing message
+    from $x_3$ corresponds to the effective factor obtained by summing
+    out all variables in the sub-trees attached to $x_3$ (without the
+    $\phi_C^{x_2}$ branch), and these sub-trees do not depend on $x_2$.
+
+    The message $\fxmess{\phi_C^{x_2}}{x_1}{1}$ needs to be newly
+    computed. We have
+    \begin{align}
+      \fxmess{\phi_C^{x_2}}{x_1}{1}(x_1) & = \sum_{x_3} \phi_C^{x_2}(x_1,x_3) \xfmess{x_3}{\phi_C^{x_2}}{1}
+    \end{align}
+    or in vector notation
+    \begin{align}
+      \fxmessb{\phi_C^{x_2}}{x_1} & = \pmb{\phi_C^{x_2}} \xfmessb{x_3}{\phi_C^{x_2}}\\
+      &= \begin{pmatrix}
+          \phi_C^{x_2}(x_1=0,x_3=0) &  \phi_C^{x_2}(x_1=0,x_3=1) \\
+          \phi_C^{x_2}(x_1=1,x_3=0) & \phi_C^{x_2}(x_1=1,x_3=1)  
+        \end{pmatrix}
+      \xfmessb{x_3}{\phi_C^{x_2}}\\
+      & = \begin{pmatrix}
+        2 & 6 \\
+        6 & 4
+      \end{pmatrix}
+      \begin{pmatrix}
+        510\\
+        240
+      \end{pmatrix}\\
+      &=
+      \begin{pmatrix}
+        2460\\
+        4020
+      \end{pmatrix}
+    \end{align}
+    We thus obtain for the marginal posterior of $x_1$ given $x_2=1$:
+      \begin{align}
+        \begin{pmatrix}
+          p(x_1=0 | x_2=1)\\
+          p(x_1=1 | x_2=1)
+        \end{pmatrix}
+        & \propto 
+        \fxmessb{\phi_A}{x_1} \odot \fxmessb{\phi^{x_2}_C}{x_1}\\
+          & \propto  
+          \begin{pmatrix}
+            2 \\
+            4 \\
+          \end{pmatrix}
+          \odot
+          \begin{pmatrix}
+            2460\\
+            4020
+          \end{pmatrix}\\
+          & \propto
+          \begin{pmatrix}
+            4920\\
+            16080
+          \end{pmatrix}.
+      \end{align}
+      Normalisation gives
+      \begin{align}
+        \begin{pmatrix}
+          p(x_1=0 | x_2=1)\\
+          p(x_1=1 | x_2=1)
+        \end{pmatrix}
+        & =  \begin{pmatrix}
+        0.2343\\
+        0.7657
+        \end{pmatrix}
+      \end{align}
+      and thus $p(x_1=1 | x_2 =1) =  0.7657$. The posterior probability is slightly larger than the prior probability, $p(x_1=1) = 0.7224$.
+  \end{solution}
+  
+\end{exenumerate}
+
+\ex{Sum-product message passing}
+The following factor graph represents a Gibbs distribution
+  over four binary variables $x_i \in \{0,1\}$.
+  \begin{figure}[h]
+    \begin{center}
+      \scalebox{1}{ % x,y
+        \begin{tikzpicture}[ugraph]
+          \node[fact, label=above: $\phi_a$] (fa) at (-1.5,0) {};
+          \node[cont] (x1) at (0,0) {$x_1$};
+     
+          \node[fact, label=above: $\phi_b$] (fb) at (0,1.5) {};
+          \node[cont] (x2) at (-1.5,1.5) {$x_2$};
+
+          \node[fact, label=above: $\phi_c$] (fc) at (1.5,0) {};
+          \node[cont] (x3) at (3,1.5) {$x_3$};
+          \node[cont] (x4) at (3,-1.5) {$x_4$};
+
+          \node[fact, label=above: $\phi_d$] (fd) at (4.5,1.5) {};
+          \node[fact, label=above: $\phi_e$] (fe) at (4.5,-1.5) {};
+
+          \draw (fa) -- (x1);
+          \draw (fb) -- (x1);
+          \draw (fb) -- (x2);
+          \draw (x1) -- (fc);
+          \draw (fc) -- (x3);
+          \draw (fc) -- (x4);
+          \draw (x3) -- (fd);
+          \draw (x4) -- (fe);
+      \end{tikzpicture}}
+    \end{center}
+  \end{figure}\\
+  The factors $\phi_a, \phi_b, \phi_d$ are defined as follows:\\
+  \begin{center}
+  \begin{tabular}{l l}
+    \toprule
+    $x_1$ & $\phi_a$\\
+    \midrule
+    0 & 2 \\
+    1 & 1\\
+    \bottomrule
+  \end{tabular}
+  \hspace{10ex}
+  \begin{tabular}{l l l}
+    \toprule
+    $x_1$ & $x_2$ & $\phi_b$\\
+    \midrule
+    0 & 0 & 5 \\
+    1 & 0 & 2 \\
+    0 & 1 & 2 \\
+    1 & 1 & 6 \\
+    \bottomrule
+  \end{tabular}
+  \hspace{10ex}
+  \begin{tabular}{l l}
+    \toprule
+    $x_3$ & $\phi_d$\\
+    \midrule
+    0 & 1 \\
+    1 & 2\\
+    \bottomrule
+  \end{tabular}\\
+  \end{center}
+  and $\phi_c(x_1,x_3,x_4) = 1$ if $x_1=x_3=x_4$, and is zero otherwise.\\[2ex]
+  For all questions below, justify your answer:
+  \begin{exenumerate}
+  \item Compute the values of $\xfmess{x_2}{\phi_b}{1}(x_2)$ for $x_2=0$ and $x_2=1$.
+
+    \begin{solution}
+      Messages from leaf-variable nodes to factor nodes are equal to one, so that $\xfmess{x_2}{\phi_b}{1}(x_2)=1$ for all $x_2$.
+    \end{solution}
+
+  \item Assume the message $\xfmess{x_4}{\phi_c}{1}(x_4)$ equals
+    $$\xfmess{x_4}{\phi_c}{1}(x_4) = \begin{cases}
+    1 & \text{if } x_4=0\\
+    3 & \text{if } x_4=1\\
+  \end{cases}$$
+    Compute the values of $\phi_e(x_4)$ for $x_4=0$ and $x_4=1$. 
+
+    \begin{solution}
+
+      Messages from leaf-factors to their variable nodes are
+      equal to the leaf-factors, and variable nodes with single
+      incoming messages copy the message. We thus have
+      \begin{align}
+        \fxmess{\phi_e}{x_4}{1}(x_4) & = \phi_e(x_4)\\
+        \xfmess{x_4}{\phi_c}{1}(x_4) & =  \fxmess{\phi_e}{x_4}{1}(x_4)
+      \end{align}
+      and hence
+      \begin{align}
+        \phi_e(x_4) &= \begin{cases}
+          1 & \text{if } x_4=0\\
+          3 & \text{if } x_4=1\\
+        \end{cases}
+      \end{align}
+  
+    \end{solution}
+
+
+  \item Compute the values of $\fxmess{\phi_c}{x_1}{1}(x_1)$ for $x_1=0$ and $x_1=1$.
+
+    \begin{solution}
+
+      We first compute $\xfmess{x_3}{\phi_c}{1}(x_3)$:
+      \begin{align}
+        \xfmess{x_3}{\phi_c}{1}(x_3) & = \fxmess{\phi_d}{x_3}{1}(x_3)\\
+        & = \begin{cases}
+          1 & \text{if } x_3=0\\
+           2 & \text{if } x_3=1
+        \end{cases}
+      \end{align}
+      The desired message $\fxmess{\phi_c}{x_1}{1}(x_1)$ is by definition
+      \begin{align}
+        \fxmess{\phi_c}{x_1}{1}(x_1) & = \sum_{x_3,x_4} \phi_c(x_1,x_3,x_4) \xfmess{x_3}{\phi_c}{1}(x_3) \xfmess{x_4}{\phi_c}{1}(x_4)
+      \end{align}
+      Since $\phi_c(x_1,x_3,x_4)$ is only non-zero if $x_1=x_3=x_4$, where it equals one, the computations simplify:
+      \begin{align}
+        \fxmess{\phi_c}{x_1}{1}(x_1=0) & = \phi_c(0,0,0) \xfmess{x_3}{\phi_c}{1}(0) \xfmess{x_4}{\phi_c}{1}(0)\\
+        & = 1 \cdot 1 \cdot 1\\
+        & = 1
+      \end{align}
+      \begin{align}
+        \fxmess{\phi_c}{x_1}{1}(x_1=1) & = \phi_c(1,1,1) \xfmess{x_3}{\phi_c}{1}(1) \xfmess{x_4}{\phi_c}{1}(1)\\
+        & = 1 \cdot 2 \cdot 3\\
+        & = 6
+      \end{align}
+    \end{solution}
+
+    
+  \item The message $\fxmess{\phi_b}{x_1}{1}(x_1)$ equals
+    $$ \fxmess{\phi_b}{x_1}{1}(x_1) = \begin{cases}
+    7 & \text{if } x_1=0\\
+    8 & \text{if } x_1=1\\
+  \end{cases} $$
+    What is the probability that $x_1=1$, i.e.\ $p(x_1=1)$?
+
+    \begin{solution}
+      The unnormalised marginal $p(x_1)$ is given by the product of the three incoming messages
+      \begin{align}
+        p(x_1) & \propto \fxmess{\phi_a}{x_1}{1}(x_1)\fxmess{\phi_b}{x_1}{1}(x_1) \fxmess{\phi_c}{x_1}{1}(x_1)
+      \end{align}
+      With
+      \begin{align}
+        \fxmess{\phi_b}{x_1}{1}(x_1) & = \sum_{x_2} \phi_b(x_1,x_2)
+      \end{align}
+      it follows that
+      \begin{align}
+        \fxmess{\phi_b}{x_1}{1}(x_1=0) & = \sum_{x_2} \phi_b(0,x_2)\\
+        & = 5+2 \\
+        & = 7\\
+        \fxmess{\phi_b}{x_1}{1}(x_1=1) & = \sum_{x_2} \phi_b(1,x_2)\\
+        & = 2+6\\
+        & = 8
+      \end{align}
+      Hence, we obtain
+      \begin{align}
+        p(x_1=0) &\propto 2 \cdot 7 \cdot 1 = 14\\
+        p(x_1=1) &\propto 1 \cdot 8 \cdot 6 = 48
+      \end{align}
+      and normalisation yields the desired result
+      \begin{align}
+        p(x_1=1) & = \frac{48}{14+48} = \frac{48}{62} = \frac{24}{31} = 0.774
+      \end{align}
+     
+    \end{solution}
+
+
+    
+  \end{exenumerate}
+
+  
+
+
+\ex{Max-sum message passing}
+\label{ex:max-sum-message-passing}
+We here compute most probable states for the factor graph and factors below.
+
+  \begin{center}
+    \begin{tikzpicture}[ugraph]
+      \node[fact, label=above: $\phi_A$] (fa) at (0,0) {} ; %
+      \node[cont] (x1) at (1.5,0)  {$x_1$} ; %
+      \node[fact, label=below: $\phi_C$] (fc) at (3,0) {} ; %
+      \node[cont] (x2) at (3,1)  {$x_2$} ; %
+      \node[fact, label=left: $\phi_B$] (fb) at (3,2) {} ; %
+      \node[cont] (x3) at (4.5,0)  {$x_3$} ; %
+      \node[fact, label=above: $\phi_D$] (fd) at (5.5,1) {} ; %
+      \node[cont] (x4) at (7,1)  {$x_4$} ; %
+      \node[fact, label=above: $\phi_E$] (fe) at (5.5,-1) {} ; %
+      \node[cont] (x5) at (7,-1)  {$x_5$} ; %
+      \node[fact, label=above: $\phi_F$] (ff) at (8.5,-1) {} ; %
+      \draw (fa) -- (x1);
+      \draw (x1) -- (fc);
+      \draw (fc) -- (x2);
+      \draw (x2) -- (fb);
+      \draw (fc) -- (x3);
+      \draw (x3) -- (fd);
+      \draw (x3) -- (fe);
+      \draw (fd) -- (x4);
+      \draw (fe) -- (x5);
+      \draw (x5) -- (ff);
+    \end{tikzpicture}
+  \end{center}
+ 
+ Let all variables be binary, $x_i \in \{0,1\}$, and the factors be defined as follows:
+  \begin{center}
+    \begin{tabular}{ll}
+      \toprule
+      $x_1$ & $\phi_A$\\
+      \midrule
+      0 & 2\\
+      1 & 4\\
+      \bottomrule
+    \end{tabular}
+    \hfill
+    \begin{tabular}{ll}
+      \toprule
+      $x_2$ & $\phi_B$\\
+      \midrule
+      0 & 4\\
+      1 & 4\\
+      \bottomrule
+    \end{tabular}
+    \hfill
+    \begin{tabular}{llll}
+      \toprule
+      $x_1$ & $x_2$ & $x_3$ & $\phi_C$\\
+      \midrule
+    0 & 0 & 0 & 4 \\
+    1 & 0 & 0 & 2 \\
+    0 & 1 & 0 & 2 \\
+    1 & 1 & 0 & 6 \\
+    0 & 0 & 1 & 2 \\
+    1 & 0 & 1 & 6 \\
+    0 & 1 & 1 & 6 \\
+    1 & 1 & 1 & 4 \\
+      \bottomrule
+    \end{tabular}
+    \hfill
+    \begin{tabular}{lll}
+      \toprule
+      $x_3$ & $x_4$ & $\phi_D$\\
+      \midrule
+    0 & 0 &  8 \\
+    1 & 0 &  2 \\
+    0 & 1 &  2 \\
+    1 & 1 &  6 \\
+      \bottomrule
+    \end{tabular}
+    \hfill
+    \begin{tabular}{lll}
+      \toprule
+      $x_3$ & $x_5$ & $\phi_E$\\
+      \midrule
+    0 & 0 &  3 \\
+    1 & 0 &  6 \\
+    0 & 1 &  6 \\
+    1 & 1 &  3 \\
+      \bottomrule
+    \end{tabular}
+   \hfill
+    \begin{tabular}{ll}
+      \toprule
+      $x_5$ & $\phi_F$\\
+      \midrule
+      0 & 1\\
+      1 & 8\\
+      \bottomrule
+    \end{tabular}
+
+  \end{center}
+ 
+  \begin{exenumerate}
+  \item Will we need to compute the normalising constant $Z$ to determine $\argmax_{\x} p(x_1, \ldots, x_5)$?
+
+    \begin{solution}
+      This is not necessary since $\argmax_{\x} p(x_1, \ldots, x_5) =
+      \argmax_{\x} c p(x_1, \ldots, x_5)$ for any constant
+      $c$. Algorithmically, the backtracking algorithm is also
+      invariant to any scaling of the factors.
+    \end{solution}
+  \item Compute $\argmax_{x_1, x_2, x_3} p(x_1, x_2, x_3 | x_4=0, x_5=0)$ via max-sum message passing.
+    \begin{solution}
+      We first derive the factor graph and corresponding factors for
+      $p(x_1, x_2, x_3 | x_4=0, x_5=0)$.
+
+      For fixed values of $x_4, x_5$, the two variables are removed
+      from the graph, and the factors $\phi_D(x_3,x_4)$ and
+      $\phi_E(x_3, x_5)$ are reduced to univariate factors
+      $\phi_D^{x_4}(x_3)$ and $\phi_D^{x_5}(x_3)$ by retaining those
+      rows in the table where $x_4=0$ and $x_5=0$, respectively:
+      \begin{center}
+        \begin{tabular}{ll}
+          \toprule
+          $x_3$ & $\phi_D^{x_4}$\\
+          \midrule
+          0 & 8\\
+          1 & 2\\
+          \bottomrule
+        \end{tabular}
+        \hspace{4ex}
+        \begin{tabular}{ll}
+          \toprule
+          $x_3$ & $\phi_E^{x_5}$\\
+          \midrule
+          0 & 3\\
+          1 & 6\\
+          \bottomrule
+        \end{tabular}   
+      \end{center}
+      Since both factors only depend on $x_3$, they can be combined into a new factor $\tilde{\phi}(x_3)$ by element-wise multiplication.
+      \begin{center}
+        \begin{tabular}{ll}
+          \toprule
+          $x_3$ & $\tilde{\phi}$\\
+          \midrule
+          0 & 24\\
+          1 & 12\\
+          \bottomrule
+        \end{tabular}
+      \end{center}
+      Moreover, since we work with an unnormalised model, we can rescale
+      the factor so that the maximum value is one, so that
+      \begin{center}
+        \begin{tabular}{ll}
+          \toprule
+          $x_3$ & $\tilde{\phi}$\\
+          \midrule
+          0 & 2\\
+          1 & 1\\
+          \bottomrule
+        \end{tabular}
+      \end{center}
+      Factor $\phi_F(x_5)$ is a constant for fixed value of $x_5$ and can be ignored. The factor graph for $p(x_1, x_2, x_3 | x_4=0, x_5=0)$ thus is
+      \begin{center}
+        \begin{tikzpicture}[ugraph]
+          \node[fact, label=above: $\phi_A$] (fa) at (0,0) {} ; %
+          \node[cont] (x1) at (1.5,0)  {$x_1$} ; %
+          \node[fact, label=below: $\phi_C$] (fc) at (3,0) {} ; %
+          \node[cont] (x2) at (3,1)  {$x_2$} ; %
+          \node[fact, label=left: $\phi_B$] (fb) at (3,2) {} ; %
+          \node[cont] (x3) at (4.5,0)  {$x_3$} ; %
+          \node[fact, label=above: $\tilde{\phi}$] (fnew) at (6,0) {} ; %
+          \draw (fa) -- (x1);
+          \draw (x1) -- (fc);
+          \draw (fc) -- (x2);
+          \draw (x2) -- (fb);
+          \draw (fc) -- (x3);
+          \draw (x3) -- (fnew);
+        \end{tikzpicture}
+      \end{center}
+
+      Let us fix $x_1$ as root towards which we compute the messages. The messages that we need to compute are shown in the following graph
+      \begin{center}
+        \begin{tikzpicture}[ugraph]
+          \node[fact, label=above: $\phi_A$] (fa) at (0,0) {} ; %
+          \node[cont] (x1) at (1.5,0)  {$x_1$} ; %
+          \node[fact, label=below: $\phi_C$] (fc) at (3,0) {} ; %
+          \node[cont] (x2) at (3,1)  {$x_2$} ; %
+          \node[fact, label=left: $\phi_B$] (fb) at (3,2) {} ; %
+          \node[cont] (x3) at (4.5,0)  {$x_3$} ; %
+          \node[fact, label=above: $\tilde{\phi}$] (fnew) at (6,0) {} ; %
+          \draw (fa) -- (x1) node[midway,above] {$\rightarrow$}; 
+          \draw (x1) -- (fc) node[midway,above] {$\leftarrow$}; 
+          \draw (fc) -- (x2) node[midway,left] {$\downarrow$}; 
+          \draw (x2) -- (fb) node[midway,left] {$\downarrow$}; 
+          \draw (fc) -- (x3) node[midway,above] {$\leftarrow$}; 
+          \draw (x3) -- (fnew) node[midway,above] {$\leftarrow$}; 
+        \end{tikzpicture}
+      \end{center}
+      
+      Next, we compute the leaf (log) messages. We only have factor nodes as leaf nodes so that
+      \begin{align}
+        \lambdab_{\phi_A \to x_1} & =  \begin{pmatrix}
+            \log \phi_A(x_1=0)\\
+            \log \phi_A(x_1=1)
+          \end{pmatrix}
+          = \begin{pmatrix}
+            \log 2\\
+            \log 4
+          \end{pmatrix}
+      \end{align}
+      and similarly
+      \begin{align}
+        \lambdab_{\phi_B \to x_2} & =   \begin{pmatrix}
+            \log \phi_B(x_2=0)\\
+            \log \phi_B(x_2=1)
+        \end{pmatrix} = \begin{pmatrix}
+          \log 4\\
+          \log 4
+        \end{pmatrix}
+        &
+        \lambdab_{\tilde{\phi} \to x_3} & =   \begin{pmatrix}
+            \log \tilde{\phi}(x_3=0)\\
+            \log \tilde{\phi}(x_3=1)
+          \end{pmatrix}= \begin{pmatrix}
+            \log 2\\
+            \log 1
+          \end{pmatrix}
+      \end{align}
+      Since the variable nodes $x_2$ and $x_3$ only have one incoming
+      edge each, we obtain
+      \begin{align}
+        \lambdab_{x_2 \to \phi_C} = \lambdab_{\phi_B \to x_2} & =  \begin{pmatrix}
+          \log 4\\
+          \log 4
+        \end{pmatrix}
+        &
+        \lambdab_{x_3 \to \phi_C} = \lambdab_{\tilde{\phi} \to x_3} & =  \begin{pmatrix}
+          \log 2\\
+          \log 1
+        \end{pmatrix}
+      \end{align}
+      The message $\lambda_{\phi_C \to x_1}(x_1)$ equals
+      \begin{align}
+        \lambda_{\phi_C \to x_1}(x_1) & = \max_{x_2, x_3} \log \phi_C(x_1, x_2, x_3) +  \lambda_{x_2 \to \phi_C}(x_2) + \lambda_{x_3 \to \phi_C}(x_3)
+      \end{align}
+      where we wrote the messages in non-vector notation to highlight
+      their dependency on the variables $x_2$ and $x_3$. We now have to consider all combinations of $x_2$ and $x_3$
+      \begin{center}
+        \begin{tabular}{lll}
+          \toprule
+          $x_2$ & $x_3$ & $\log \phi_C(x_1=0, x_2, x_3)$\\
+          \midrule
+          0 & 0 & $\log 4$ \\
+          1 & 0 &  $\log 2$\\
+          0 & 1 & $\log 2$ \\
+          1 & 1 & $\log 6$ \\
+          \bottomrule
+        \end{tabular}
+        \hspace{4ex}
+        \begin{tabular}{lll}
+          \toprule
+          $x_2$ & $x_3$ & $\log \phi_C(x_1=1, x_2, x_3)$\\
+          \midrule
+          0 & 0 & $\log 2$  \\
+          1 & 0 & $\log 6 $ \\
+          0 & 1 & $\log 6$  \\
+          1 & 1 & $\log 4$ \\
+          \bottomrule
+        \end{tabular}
+       \end{center}
+      Furthermore
+      \begin{center}
+        \begin{tabular}{lll}
+          \toprule
+          $x_2$ & $x_3$ & $\lambda_{x_2 \to \phi_C}(x_2) + \lambda_{x_3 \to \phi_C}(x_3)$\\
+          \midrule
+          0 & 0 & $\log 4 + \log 2 = \log 8$  \\
+          1 & 0 & $\log 4 + \log 2 = \log 8$\\
+          0 & 1 & $\log 4$\\
+          1 & 1 & $\log 4$\\
+          \bottomrule
+        \end{tabular}
+      \end{center}
+      Hence for $x_1=0$, we have
+       \begin{center}
+         \begin{tabular}{lll}
+           \toprule
+           $x_2$ & $x_3$ & $\log \phi_C(x_1=0, x_2, x_3) + \lambda_{x_2 \to \phi_C}(x_2) + \lambda_{x_3 \to \phi_C}(x_3)$\\
+           \midrule
+            0 & 0 & $\log 4 + \log 8 = \log 32$  \\
+            1 & 0 & $\log 2 + \log 8 = \log 16$ \\
+            0 & 1 & $\log 2 + \log 4 = \log 8$  \\
+            1 & 1 & $\log 6 + \log 4 = \log 24$ \\
+           \bottomrule
+         \end{tabular}
+       \end{center}
+       The maximal value is $\log 32$ and for backtracking, we also
+       need to keep track of the $\argmax$ which is here
+       $\hat{x}_2=\hat{x}_3=0$.
+
+       For $x_1=1$, we have
+        \begin{center}
+         \begin{tabular}{lll}
+           \toprule
+           $x_2$ & $x_3$ & $\log \phi_C(x_1=1, x_2, x_3) + \lambda_{x_2 \to \phi_C}(x_2) + \lambda_{x_3 \to \phi_C}(x_3)$\\
+           \midrule
+           0 & 0 & $\log 2 + \log 8 = \log 16 $  \\
+           1 & 0 & $\log 6 + \log 8 = \log 48$\\
+           0 & 1 & $\log 6 + \log 4 = \log 24$ \\
+           1 & 1 & $\log 4 + \log 4 = \log 16$ \\
+           \bottomrule
+         \end{tabular}
+       \end{center}
+        The maximal value is $\log 48$ and the $\argmax$ is $(\hat{x}_2=1, \hat{x}_3=0)$.
+        
+        So overall, we have
+        \begin{equation}
+          \lambdab_{\phi_C \to x_1} = \begin{pmatrix}
+            \lambda_{\phi_C \to x_1}(x_1=0)\\
+            \lambda_{\phi_C \to x_1}(x_1=1)
+          \end{pmatrix}
+          = \begin{pmatrix}
+            \log 32\\
+            \log 48
+      \end{pmatrix}
+    \end{equation}
+    and the $\argmax$ back-tracking function is
+    \begin{equation}
+      \lambda^*_{\phi_C \to x_1}(x_1) = \begin{cases}
+        (\hat{x}_2 = 0, \hat{x}_3 = 0) & \text{if } x_1=0\\
+        (\hat{x}_2=1, \hat{x}_3=0) & \text{if } x_1=1
+      \end{cases}
+    \end{equation}
+    We now have all incoming messages to the assigned root node $x_1$. \emph{Ignoring the normalising constant}, we obtain
+    \begin{align}
+      \boldsymbol{\gamma}&=\begin{pmatrix}
+      \gamma^*(x_1=0) \\
+      \gamma^*(x_1=1)
+      \end{pmatrix}
+      =  \lambdab_{\phi_A \to x_1} +  \lambdab_{\phi_C \to x_1}\\
+      &=  \begin{pmatrix}
+        \log 2\\
+        \log 4
+      \end{pmatrix} +
+      \begin{pmatrix}
+        \log 32\\
+        \log 48
+      \end{pmatrix}
+      =
+      \begin{pmatrix}
+        \log 64\\
+        \log 192
+      \end{pmatrix}
+    \end{align}
+    The value $x_1$ for which $\gamma^*(x_1)$ is largest is thus
+    $\hat{x}_1 = 1$. Plugging $\hat{x}_1 = 1$ into the backtracking
+    function $\lambda^*_{\phi_C \to x_1}(x_1)$ gives 
+    \begin{equation}
+      (\hat{x}_1, \hat{x}_2, \hat{x}_3) = \argmax_{x_1, x_2, x_3} p(x_1, x_2, x_3 | x_4=0, x_5=0) = (1,1,0).
+    \end{equation}
+    
+    In this low-dimensional example, we can verify the solution by
+    computing the unnormalised pmf for all combinations of
+    $x_1,x_2,x_3$. This is done in the following table where we start
+    with the table for $\phi_C$ and then multiply-in the further
+    factors $\phi_A$, $\tilde{\phi}$ and $\phi_B$. 
+    \begin{center}
+      \begin{tabular}{lllllll}
+        \toprule
+        $x_1$ & $x_2$ & $x_3$ & $\phi_C$ & $\phi_C \phi_A$ & $\phi_C \phi_A\tilde{\phi}$& $\phi_C \phi_A\tilde{\phi}\phi_B$ \\
+        \midrule
+        0 & 0 & 0 & 4 & 8 & 16 & $16\cdot 4$\\
+        1 & 0 & 0 & 2 & 8 & 16 & $16 \cdot 4$\\
+        0 & 1 & 0 & 2 & 8 & 16 & $16\cdot 4$\\
+        1 & 1 & 0 & 6 & 24& 48 & $48 \cdot 4$\\
+        0 & 0 & 1 & 2 & 8 & 8  & $8 \cdot 4$\\
+        1 & 0 & 1 & 6 & 24 & 24 & $24 \cdot 4$\\
+        0 & 1 & 1 & 6 & 12 & 12 & $12 \cdot 4$\\
+        1 & 1 & 1 & 4 & 16 & 16 & $16\cdot 4$\\
+        \bottomrule
+      \end{tabular}
+    \end{center}
+    For example, for the column $\phi_c \phi_A$, we multiply each
+    value of $\phi_C(x_1, x_2, x_3)$ by $\phi_A(x_1)$, so that the
+    rows with $x_1=0$ get multiplied by 2, and the rows with $x_1=1$
+    by 4.
+
+    The maximal value in the final column is achieved for $x_1=1,
+    x_2=1, x_3=0$, in line with the result above (and $48\cdot 4 =
+    192$). Since $\phi_B(x_2)$ is a constant, being equal to 4 for all
+    values of $x_2$, we could have ignored it in the computation. The
+    formal reason for this is that since the model is unnormalised, we
+    are allowed to rescale each factor by an arbitrary
+    (factor-dependent) \emph{constant}. This operation does not change
+    the model. So we could divide $\phi_B$ by 4 which would give a
+    value of 1, so that the factor can indeed be ignored.
+   
+    \end{solution}
+  \item Compute $\argmax_{x_1, \ldots, x_5} p(x_1, \ldots, x_5)$ via max-sum message passing with $x_1$ as root.
+    \label{q:x_1-root}
+    \begin{solution}
+      As discussed in the solution to the answer above, we can drop
+      factor $\phi_B(x_2)$ since it takes the same value for all
+      $x_2$. Moreover, we can rescale the individual factors by a
+      constant so they are more amenable to calculations by hand. We
+      normalise them such that the largest value is one, which gives
+      the following factors. Note that this is entirely optional.
+      \begin{center}
+        \begin{tabular}{ll}
+          \toprule
+          $x_1$ & $\phi_A$\\
+          \midrule
+          0 & 1\\
+          1 & 2\\
+          \bottomrule
+        \end{tabular}
+        \hfill
+        \begin{tabular}{llll}
+          \toprule
+          $x_1$ & $x_2$ & $x_3$ & $\phi_C$\\
+          \midrule
+          0 & 0 & 0 & 2 \\
+          1 & 0 & 0 & 1 \\
+          0 & 1 & 0 & 1 \\
+          1 & 1 & 0 & 3 \\
+          0 & 0 & 1 & 1 \\
+          1 & 0 & 1 & 3 \\
+          0 & 1 & 1 & 3 \\
+          1 & 1 & 1 & 2 \\
+          \bottomrule
+        \end{tabular}
+        \hfill
+        \begin{tabular}{lll}
+          \toprule
+          $x_3$ & $x_4$ & $\phi_D$\\
+          \midrule
+          0 & 0 &  4 \\
+          1 & 0 &  1 \\
+          0 & 1 &  1 \\
+          1 & 1 &  3 \\
+          \bottomrule
+        \end{tabular}
+        \hfill
+        \begin{tabular}{lll}
+          \toprule
+          $x_3$ & $x_5$ & $\phi_E$\\
+          \midrule
+          0 & 0 &  1 \\
+          1 & 0 &  2 \\
+          0 & 1 &  2 \\
+          1 & 1 &  1 \\
+          \bottomrule
+        \end{tabular}
+        \hfill
+        \begin{tabular}{ll}
+          \toprule
+          $x_5$ & $\phi_F$\\
+          \midrule
+          0 & 1\\
+          1 & 8\\
+          \bottomrule
+        \end{tabular}   
+      \end{center}
+      The factor graph without $\phi_B$ together with the messages that we need to compute is:
+      \begin{center}
+        \begin{tikzpicture}[ugraph]
+          \node[fact, label=above: $\phi_A$] (fa) at (0,0) {} ; %
+          \node[cont] (x1) at (1.5,0)  {$x_1$} ; %
+          \node[fact, label=below: $\phi_C$] (fc) at (3,0) {} ; %
+          \node[cont] (x2) at (3,1)  {$x_2$} ; %
+          \node[cont] (x3) at (4.5,0)  {$x_3$} ; %
+          \node[fact, label=above: $\phi_D$] (fd) at (5.5,1) {} ; %
+          \node[cont] (x4) at (7,1)  {$x_4$} ; %
+          \node[fact, label=above: $\phi_E$] (fe) at (5.5,-1) {} ; %
+          \node[cont] (x5) at (7,-1)  {$x_5$} ; %
+          \node[fact, label=above: $\phi_F$] (ff) at (8.5,-1) {} ; %
+          \draw (fa) -- (x1) node[midway,above] {$\rightarrow$}; 
+          \draw (x1) -- (fc) node[midway,above] {$\leftarrow$}; 
+          \draw (fc) -- (x2) node[midway,left] {$\downarrow$}; 
+          \draw (fc) -- (x3) node[midway,above] {$\leftarrow$}; 
+          \draw (x3) -- (fd) node[midway,above, sloped] {$\leftarrow$}; 
+          \draw (x3) -- (fe) node[midway,below, sloped] {$\leftarrow$}; 
+          \draw (fd) -- (x4) node[midway,above, sloped] {$\leftarrow$}; 
+          \draw (fe) -- (x5) node[midway,below, sloped] {$\leftarrow$}; 
+          \draw (x5) -- (ff) node[midway,below, sloped] {$\leftarrow$}; 
+        \end{tikzpicture}
+      \end{center}
+      The leaf (log) messages are (using vector notation where the top element corresponds to $x_i=0$ and the bottom one to $x_i=1$):
+      \begin{align}
+        \lambdab_{\phi_A \to x_1} & = \begin{pmatrix}
+          0\\
+          \log 2
+        \end{pmatrix}
+        &
+        \lambdab_{x_2 \to \phi_C} & = \begin{pmatrix}
+          0\\
+          0
+        \end{pmatrix}
+        &
+        \lambdab_{x_4 \to \phi_D} &  = \begin{pmatrix}
+          0\\
+          0
+        \end{pmatrix}
+        &
+        \lambdab_{\phi_F \to x_5} &  = \begin{pmatrix}
+          0\\
+          \log 8
+        \end{pmatrix}
+      \end{align}
+      The variable node $x_5$ only has one incoming edge so that
+      $\lambdab_{x_5 \to \phi_E} = \lambdab_{\phi_F \to x_5}$. The
+      message $\lambda_{\phi_E \to x_3}(x_3)$ equals
+      \begin{align}
+        \lambda_{\phi_E \to x_3}(x_3) & = \max_{x_5} \log \phi_E(x_3, x_5) +  \lambda_{x_5 \to \phi_E}(x_5)
+      \end{align}
+      Writing out $\log \phi_E(x_3, x_5) +  \lambda_{x_5 \to \phi_E}(x_5)$ for all $x_5$ as a function of $x_3$ we have
+      \begin{center}
+        \begin{tabular}{ll}
+          \toprule
+          $x_5$ &  $\log \phi_E(x_3=0, x_5) +  \lambda_{x_5 \to \phi_E}(x_5)$\\
+          \midrule
+          0  &  $\log 1 + 0 =0$\\
+          1  &  $\log 2 + \log 8 = \log 16$\\
+          \bottomrule
+        \end{tabular}
+        \hspace{3ex}
+        \begin{tabular}{ll}
+          \toprule
+          $x_5$ &  $\log \phi_E(x_3=1, x_5) +  \lambda_{x_5 \to \phi_E}(x_5)$\\
+          \midrule
+          0  &  $\log 2 + 0 =\log 2$\\
+          1  &  $\log 1 + \log 8 = \log 8$\\
+          \bottomrule
+        \end{tabular}
+      \end{center}
+      Taking the maximum over $x_5$ as a function of $x_3$, we obtain
+      \begin{equation}
+        \lambdab_{\phi_E \to x_3} = \begin{pmatrix}
+          \log 16\\
+          \log 8
+        \end{pmatrix}
+      \end{equation}
+      and the backtracking function that indicates the maximiser
+      $\hat{x}_5 = \argmax_{x_5} \log \phi_E(x_3, x_5) + \lambda_{x_5
+        \to \phi_E}(x_5)$ as a function of $x_3$ equals
+      \begin{equation}
+        \lambda^*_{\phi_E \to x_3}(x_3) = \begin{cases}
+          \hat{x}_5=1 & \text{if } x_3= 0\\
+          \hat{x}_5=1 & \text{if } x_3= 1
+          \end{cases}
+      \end{equation}
+      We perform the same kind of operation for $\lambda_{\phi_D \to x_3}(x_3)$ 
+      \begin{align}
+        \lambda_{\phi_D \to x_3}(x_3) & = \max_{x_4} \log \phi_D(x_3, x_4) +  \lambda_{x_4 \to \phi_D}(x_4)
+      \end{align}
+      Since $\lambda_{x_4 \to \phi_D}(x_4)=0$ for all $x_4$, the table with all values of $\log \phi_D(x_3, x_4) +  \lambda_{x_4 \to \phi_D}(x_4)$ is
+      \begin{center}
+        \begin{tabular}{lll}
+          \toprule
+          $x_3$ & $x_4$ & $\log \phi_D(x_3, x_4) +  \lambda_{x_4 \to \phi_D}(x_4)$ \\
+          \midrule
+          0 & 0 &  $\log 4 + 0 = \log 4$ \\
+          1 & 0 &  $\log 1 +0 = 0$\\
+          0 & 1 &  $\log 1 +0 =0$\\
+          1 & 1 &  $\log 3 +0 = \log3$ \\
+          \bottomrule
+        \end{tabular}
+      \end{center}
+      Taking the maximum over $x_4$ as a function of $x_3$ we thus obtain
+      \begin{equation}
+        \lambdab_{\phi_D \to x_3} = \begin{pmatrix}
+          \log 4\\
+          \log 3
+        \end{pmatrix}
+      \end{equation}
+      and the backtracking function that indicates the maximiser
+      $\hat{x}_4 = \argmax_{x_4} \log \phi_D(x_3, x_4) +  \lambda_{x_4 \to \phi_D}(x_4)$ as a function of $x_3$ equals
+      \begin{equation}
+        \lambda^*_{\phi_D \to x_3}(x_3) = \begin{cases}
+          \hat{x}_4=0 & \text{if } x_3= 0\\
+          \hat{x}_4=1 & \text{if } x_3= 1
+          \end{cases}
+      \end{equation}
+      For the message $\lambda_{x_3 \to \phi_C}(x_3)$ we add together
+      the messages $\lambda_{\phi_E \to x_3}(x_3)$ and
+      $\lambda_{\phi_D \to x_3}(x_3)$ which gives
+      \begin{equation}
+        \lambdab_{ x_3 \to \phi_C} = \begin{pmatrix}
+          \log 16 + \log 4\\
+          \log 8 + \log 3\\
+        \end{pmatrix}
+        =\begin{pmatrix}
+        \log 64\\
+        \log 24\\
+        \end{pmatrix}
+      \end{equation}
+      
+    Next we compute the message $\lambda_{\phi_C \to x_1}(x_1)$ by maximising over $x_2$ and $x_3$,
+    \begin{equation}
+      \lambda_{\phi_C \to x_1}(x_1)  = \max_{x_2, x_3} \log \phi_C(x_1, x_2, x_3) +  \lambda_{x_2 \to \phi_C}(x_2) + \lambda_{x_3 \to \phi_C}(x_3)
+    \end{equation}
+    Since $\lambda_{x_2 \to \phi_C}(x_2) = 0$, the problem becomes
+    \begin{equation}
+      \lambda_{\phi_C \to x_1}(x_1)  = \max_{x_2, x_3} \log \phi_C(x_1, x_2, x_3) + \lambda_{x_3 \to \phi_C}(x_3)
+    \end{equation}
+    Building on the table for $\phi_C$, we form a table with all
+    values of $\log \phi_C(x_1, x_2, x_3) + \lambda_{x_3 \to
+      \phi_C}(x_3)$
+    \begin{center}
+      \begin{tabular}{llll}
+        \toprule
+        $x_1$ & $x_2$ & $x_3$ & $\log \phi_C(x_1, x_2, x_3) + \lambda_{x_3 \to \phi_C}(x_3)$\\
+        \midrule
+        0 & 0 & 0 & $\log 2 + \log 64 = \boldsymbol{\log 128}$ \\
+        1 & 0 & 0 & $0 + \log 64 = \log 64$ \\
+        0 & 1 & 0 & $0 + \log 64 = \log 64$ \\
+        1 & 1 & 0 & $\log 3 + \log 64 = \boldsymbol{\log 192}$ \\
+        0 & 0 & 1 & $\log 24$ \\
+        1 & 0 & 1 & $\log 3 + \log 24 = \log 72$ \\
+        0 & 1 & 1 & $\log 3 + \log 24 = \log 72 $ \\
+        1 & 1 & 1 & $\log 2 + \log 24 = \log 48$ \\
+        \bottomrule
+      \end{tabular}
+    \end{center}
+    The maximal value as a function of $x_1$ are highlighted in the table, which gives the message
+    \begin{equation}
+      \lambdab_{\phi_C \to x_1} = \begin{pmatrix}
+        \log 128\\
+        \log 192
+      \end{pmatrix}
+    \end{equation}
+    and the backtracking function
+    \begin{equation}
+      \lambda^*_{\phi_C \to x_1}(x_1) = \begin{cases}
+        (\hat{x}_2=0, \hat{x}_3=0) & \text{if } x_1=0\\
+        (\hat{x}_2=1, \hat{x}_3=0) & \text{if } x_1=1
+      \end{cases}
+    \end{equation}
+    We now have all incoming messages to the assigned root node $x_1$. \emph{Ignoring the normalising constant}, we obtain
+    \begin{align}
+      \boldsymbol{\gamma}&=\begin{pmatrix}
+      \gamma^*(x_1=0) \\
+      \gamma^*(x_1=1)
+      \end{pmatrix}
+      = \begin{pmatrix}
+        0 + \log 128 \\
+        \log 2 + \log 192 
+      \end{pmatrix}
+    \end{align}
+    We can now start the backtracking to compute the desired
+    $\argmax_{x_1, \ldots, x_5} p(x_1, \ldots, x_5)$. Starting at the
+    root we have $\hat{x}_1 = \argmax_{x_1} \gamma^*(x_1) =
+    1$. Plugging this value into the look-up table $\lambda^*_{\phi_C
+      \to x_1}(x_1)$, we obtain $(\hat{x}_2=1, \hat{x}_3=0)$. With the
+    look-up table $\lambda^*_{\phi_E \to x_3}(x_3)$ we find
+    $\hat{x}_5=1$ and $\lambda^*_{\phi_D \to x_3}(x_3)$ gives
+    $\hat{x}_4=0$ so that overall
+    \begin{equation}
+      \argmax_{x_1, \ldots, x_5} p(x_1, \ldots, x_5) = (1, 1, 0, 0, 1).
+    \end{equation}
+
+    
+    \end{solution}
+    
+  \item Compute $\argmax_{x_1, \ldots, x_5} p(x_1, \ldots, x_5)$ via max-sum message passing with $x_3$ as root.
+    \begin{solution}
+      With $x_3$ as root, we need the following messages:
+        \begin{center}
+        \begin{tikzpicture}[ugraph]
+          \node[fact, label=above: $\phi_A$] (fa) at (0,0) {} ; %
+          \node[cont] (x1) at (1.5,0)  {$x_1$} ; %
+          \node[fact, label=below: $\phi_C$] (fc) at (3,0) {} ; %
+          \node[cont] (x2) at (3,1)  {$x_2$} ; %
+          \node[cont] (x3) at (4.5,0)  {$x_3$} ; %
+          \node[fact, label=above: $\phi_D$] (fd) at (5.5,1) {} ; %
+          \node[cont] (x4) at (7,1)  {$x_4$} ; %
+          \node[fact, label=above: $\phi_E$] (fe) at (5.5,-1) {} ; %
+          \node[cont] (x5) at (7,-1)  {$x_5$} ; %
+          \node[fact, label=above: $\phi_F$] (ff) at (8.5,-1) {} ; %
+          \draw (fa) -- (x1) node[midway,above] {$\rightarrow$}; 
+          \draw (x1) -- (fc) node[midway,above] {$\rightarrow$}; 
+          \draw (fc) -- (x2) node[midway,left] {$\downarrow$}; 
+          \draw (fc) -- (x3) node[midway,above] {$\rightarrow$}; 
+          \draw (x3) -- (fd) node[midway,above, sloped] {$\leftarrow$}; 
+          \draw (x3) -- (fe) node[midway,below, sloped] {$\leftarrow$}; 
+          \draw (fd) -- (x4) node[midway,above, sloped] {$\leftarrow$}; 
+          \draw (fe) -- (x5) node[midway,below, sloped] {$\leftarrow$}; 
+          \draw (x5) -- (ff) node[midway,below, sloped] {$\leftarrow$}; 
+        \end{tikzpicture}
+      \end{center}
+        The following messages are the same as when $x_1$ was the root:
+        \begin{align}
+          \lambdab_{\phi_D \to x_3} &= \begin{pmatrix}
+          \log 4\\
+          \log 3
+        \end{pmatrix}
+          &
+          \lambdab_{\phi_E \to x_3} &= \begin{pmatrix}
+            \log 16\\
+            \log 8
+          \end{pmatrix}
+          &
+          \lambdab_{\phi_A \to x_1} & = \begin{pmatrix}
+            0\\
+            \log 2
+          \end{pmatrix}
+          &
+           \lambdab_{x_2 \to \phi_C} & = \begin{pmatrix}
+          0\\
+          0
+        \end{pmatrix}
+        \end{align}
+        Since $x_1$ has only one incoming message, we further have
+        \begin{equation}
+          \lambdab_{x_1 \to \phi_C} = \lambdab_{\phi_A \to x_1} =  \begin{pmatrix}
+            0\\
+            \log 2
+          \end{pmatrix}.
+        \end{equation}
+       We next compute $\lambda_{\phi_C \to x_3}(x_3)$,
+       \begin{equation}
+         \lambda_{\phi_C \to x_3}(x_3) = \max_{x_1, x_2} \log \phi_C(x_1,x_2,x_3) + \lambda_{x_1 \to \phi_C}(x_1) + \lambda_{x_2 \to \phi_C}(x_2).
+       \end{equation}
+       We first form a table for $ \log \phi_C(x_1,x_2,x_3) + \lambda_{x_1 \to \phi_C}(x_1) + \lambda_{x_2 \to \phi_C}(x_2)$ noting that $\lambda_{x_2 \to \phi_C}(x_2)=0$
+       \begin{center}
+         \begin{tabular}{llll}
+          \toprule
+          $x_1$ & $x_2$ & $x_3$ & $\log \phi_C(x_1,x_2,x_3) + \lambda_{x_1 \to \phi_C}(x_1) + \lambda_{x_2 \to \phi_C}(x_2)$  \\
+          \midrule
+          0 & 0 & 0 & $\log 2 + 0 = \log 2$ \\
+          1 & 0 & 0 & $0+\log 2 = \log 2$ \\
+          0 & 1 & 0 & $0+0 = 0$ \\
+          1 & 1 & 0 & $\log 3+ \log 2 = \boldsymbol{\log 6}$ \\
+          0 & 0 & 1 & $0+0 = 0 $ \\
+          1 & 0 & 1 & $\log 3+ \log 2 = \boldsymbol{\log 6}$ \\
+          0 & 1 & 1 & $\log 3+0 = \log 3$ \\
+          1 & 1 & 1 & $\log 2+\log 2 = \log 4$ \\
+          \bottomrule
+        \end{tabular}
+       \end{center}
+       The maximal value as a function of $x_3$ are highlighted in the table, which gives the message
+       \begin{equation}
+         \lambdab_{\phi_C \to x_3} = \begin{pmatrix}
+           \log 6\\
+           \log 6
+         \end{pmatrix}
+       \end{equation}
+       and the backtracking function
+       \begin{equation}
+         \lambda^*_{\phi_C \to x_3}(x_3) = \begin{cases}
+           (\hat{x}_1=1, \hat{x}_2=1) & \text{if } x_3=0\\
+           (\hat{x}_1=1, \hat{x}_2=0) & \text{if } x_3=1
+         \end{cases}
+       \end{equation}
+       We have now all incoming messages for $x_3$ and can compute
+       $\gamma^*(x_3)$ up the normalising constant $-\log Z$ (which is
+       not needed if we are interested in the $\argmax$ only:
+       \begin{align}
+         \boldsymbol{\gamma}&=\begin{pmatrix}
+         \gamma^*(x_3=0) \\
+         \gamma^*(x_3=1)
+         \end{pmatrix}
+         =  \lambdab_{\phi_C \to x_3} +  \lambdab_{\phi_D \to x_3} +  \lambdab_{\phi_E \to x_3}\\
+         & = \begin{pmatrix}
+           \log 6 + \log 4 + \log 16 = \log 384 \\
+           \log 6 + \log 3 + \log 8 = \log 144
+         \end{pmatrix}
+       \end{align}
+       We can now start the backtracking which gives: $\hat{x}_3 = 0$,
+       so that $\lambda^*_{\phi_C \to x_3}(0) = (\hat{x}_1=1,
+       \hat{x}_2=1)$. The backtracking functions $\lambda^*_{\phi_E
+         \to x_3}(x_3)$ and $\lambda^*_{\phi_D \to x_3}(x_3)$ are the
+       same for question \ref{q:x_1-root}, which gives
+       $\lambda^*_{\phi_E \to x_3}(0) = \hat{x}_5=1$ and
+       $\lambda^*_{\phi_D \to x_3}(0) = \hat{x}_4=0$. Hence, overall, we
+       find
+       \begin{equation}
+         \argmax_{x_1, \ldots, x_5} p(x_1, \ldots, x_5) = (1, 1, 0, 0, 1).
+       \end{equation}
+       Note that this matches the result from question
+       \ref{q:x_1-root} where $x_1$ was the root. This is because the
+       output of the max-sum algorithm is invariant to the choice of
+       the root.
+
+    \end{solution}
+    
+  \end{exenumerate}
+  
+\ex{Choice of elimination order in factor graphs}
+Consider the following factor graph, which contains a loop:
+
+\begin{center}
+  \begin{tikzpicture}[ugraph]
+    \node[cont] (x1) at (0,0)  {$x_1$} ; %
+    \node[fact, label=above: $\phi_A$] (fa) at (1.5,0) {} ; %
+    \node[cont] (x2) at (2.5,1)  {$x_2$} ; %
+    \node[cont] (x3) at (2.5,-1)  {$x_3$} ; %
+    \node[fact, label=above: $\phi_B$] (fb) at (3.5,0) {} ; %
+    \node[cont] (x4) at (5,0)  {$x_4$} ; %
+    \node[fact, label=above: $\phi_C$] (fc) at (6,1) {} ; %
+    \node[cont] (x5) at (7.5,1)  {$x_5$} ; %
+    \node[cont] (x6) at (7.5,-1)  {$x_6$} ;
+    \node[fact, label=above: $\phi_D$] (fd) at (6,-1) {} ; %
+
+    \draw (fd) -- (x6);
+    \draw (x1) -- (fa);
+    \draw (fa) -- (x2);
+    \draw (fa) -- (x3);
+    \draw (x2) -- (fb);
+    \draw (x3) -- (fb);
+    \draw (fb) -- (x4);
+    \draw (x4) -- (fc);
+    \draw (x4) -- (fd);
+    \draw (fc) -- (x5);
+  \end{tikzpicture}
+\end{center}
+
+Let all variables be binary, $x_i \in \{0,1\}$, and the factors be defined as follows:
+\begin{center}
+  \hfill
+  %
+  % phi_A (x_1, x_2, x_3)
+  \begin{tabular}{llll}
+    \toprule
+    $x_1$ & $x_2$ & $x_3$ & $\phi_A$\\
+    \midrule
+    0 & 0 & 0 & 4 \\
+    1 & 0 & 0 & 2 \\
+    0 & 1 & 0 & 2 \\
+    1 & 1 & 0 & 6 \\
+    0 & 0 & 1 & 2 \\
+    1 & 0 & 1 & 6 \\
+    0 & 1 & 1 & 6 \\
+    1 & 1 & 1 & 4 \\
+    \bottomrule
+  \end{tabular}
+  \hfill
+  %
+  % phi_B (x_2, x_3, x_4)
+  \begin{tabular}{llll}
+    \toprule
+    $x_2$ & $x_3$ & $x_4$ & $\phi_B$\\
+    \midrule
+    0 & 0 & 0 & 2 \\
+    1 & 0 & 0 & 2 \\
+    0 & 1 & 0 & 4 \\
+    1 & 1 & 0 & 2 \\
+    0 & 0 & 1 & 6 \\
+    1 & 0 & 1 & 8 \\
+    0 & 1 & 1 & 4 \\
+    1 & 1 & 1 & 2 \\
+    \bottomrule
+  \end{tabular}
+  \hfill
+  %
+  % phi_C (x_4, x_5)
+  \begin{tabular}{lll}
+    \toprule
+    $x_4$ & $x_5$ & $\phi_C$\\
+    \midrule
+    0 & 0 & 8 \\
+    1 & 0 & 2 \\
+    0 & 1 & 2 \\
+    1 & 1 & 6 \\
+    \bottomrule
+  \end{tabular}
+  \hfill
+  %
+  % phi_D (x_4, x_6)
+  \begin{tabular}{lll}
+    \toprule
+    $x_4$ & $x_6$ & $\phi_D$\\
+    \midrule
+    0 & 0 & 3 \\
+    1 & 0 & 6 \\
+    0 & 1 & 6 \\
+    1 & 1 & 3 \\
+    \bottomrule
+  \end{tabular}
+  \hfill
+\end{center}
+
+\begin{exenumerate}
+
+  %
+  % Question a – condition on x_1 and x_6.
+  \item Draw the factor graph corresponding to $p(x_2, x_3, x_4, x_5 \mid x_1=0, x_6=1)$ and give the tables defining the new factors $\phi_A^{x_1=0}(x_2, x_3)$ and $\phi_D^{x_6=1}(x_4)$ that you obtain.
+
+  %
+  % Question a – solution
+  \begin{solution}
+    First condition on $x_1 = 0$:
+
+    Factor node $\phi_A(x_1, x_2, x_3)$ depends on $x_1$, thus we create a new factor $\phi_A^{x_1=0}(x_2, x_3)$ from the table for $\phi_A$ using the rows where $x_1 = 0$.
+
+    % p(x_2, x_3, x_4, x_5, x_6 | x_1=0)
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[fact, label=above: $\phi_A^{x_1=0}$] (fa) at (1.5,0) {} ; %
+        \node[cont] (x2) at (2.5,1)  {$x_2$} ; %
+        \node[cont] (x3) at (2.5,-1)  {$x_3$} ; %
+        \node[fact, label=above: $\phi_B$] (fb) at (3.5,0) {} ; %
+        \node[cont] (x4) at (5,0)  {$x_4$} ; %
+        \node[fact, label=above: $\phi_C$] (fc) at (6,1) {} ; %
+        \node[cont] (x5) at (7.5,1)  {$x_5$} ; %
+        \node[cont] (x6) at (7.5,-1)  {$x_6$} ;
+        \node[fact, label=above: $\phi_D$] (fd) at (6,-1) {} ; %
+
+        \draw (fd) -- (x6);
+        \draw (fa) -- (x2);
+        \draw (fa) -- (x3);
+        \draw (x2) -- (fb);
+        \draw (x3) -- (fb);
+        \draw (fb) -- (x4);
+        \draw (x4) -- (fc);
+        \draw (x4) -- (fd);
+        \draw (fc) -- (x5);
+      \end{tikzpicture}
+    \end{center}
+
+    % phi_A^{x_1=0} (x_2, x_3)
+    \begin{center}
+      %
+      % phi_A (x_1, x_2, x_3)
+      \begin{tabular}{lllll}
+        \toprule
+        & $x_1$ & $x_2$ & $x_3$ & $\phi_A$\\
+        \midrule
+        $\rightarrow$ & 0 & 0 & 0 & 4 \\
+                      & 1 & 0 & 0 & 2 \\
+        $\rightarrow$ & 0 & 1 & 0 & 2 \\
+                      & 1 & 1 & 0 & 6 \\
+        $\rightarrow$ & 0 & 0 & 1 & 2 \\
+                      & 1 & 0 & 1 & 6 \\
+        $\rightarrow$ & 0 & 1 & 1 & 6 \\
+                      & 1 & 1 & 1 & 4 \\
+        \bottomrule
+      \end{tabular}
+      \hspace{3ex} \text{so that} \hspace{3ex}
+      %
+      % phi_A (x_2, x_3) for x_1 = 0
+      \begin{tabular}{lll}
+        \toprule
+        $x_2$ & $x_3$ & $\phi_A^{x_1=0}$\\
+        \midrule
+        0 & 0 & 4 \\
+        1 & 0 & 2 \\
+        0 & 1 & 2 \\
+        1 & 1 & 6 \\
+        \bottomrule
+      \end{tabular}
+    \end{center}
+
+    Next condition on $x_6 = 1$:
+
+    Factor node $\phi_D(x_4, x_6)$ depends on $x_6$, thus we create a new factor $\phi_D^{x_6=1}(x_4)$ from the table for $\phi_D$ using the rows where $x_6 = 1$.
+
+    % p(x_2, x_3, x_4, x_5 | x_1=0, x_6=1)$
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[fact, label=above: $\phi_A^{x_1=0}$] (fa) at (1.5,0) {} ; %
+        \node[cont] (x2) at (2.5,1)  {$x_2$} ; %
+        \node[cont] (x3) at (2.5,-1)  {$x_3$} ; %
+        \node[fact, label=above: $\phi_B$] (fb) at (3.5,0) {} ; %
+        \node[cont] (x4) at (5,0)  {$x_4$} ; %
+        \node[fact, label=above: $\phi_C$] (fc) at (6,1) {} ; %
+        \node[cont] (x5) at (7.5,1)  {$x_5$} ; %
+        \node[fact, label=right: $\phi_D^{x_6=1}$] (fd) at (6,-1) {} ; %
+
+        \draw (fa) -- (x2);
+        \draw (fa) -- (x3);
+        \draw (x2) -- (fb);
+        \draw (x3) -- (fb);
+        \draw (fb) -- (x4);
+        \draw (x4) -- (fc);
+        \draw (x4) -- (fd);
+        \draw (fc) -- (x5);
+      \end{tikzpicture}
+    \end{center}
+
+    % phi_D^{x_6=1} (x_4)
+    \begin{center}
+      %
+      % phi_D (x_4, x_6)
+      \begin{tabular}{llll}
+        \toprule
+        & $x_4$ & $x_6$ & $\phi_D$\\
+        \midrule
+                      & 0 & 0 & 3 \\
+                      & 1 & 0 & 6 \\
+        $\rightarrow$ & 0 & 1 & 6 \\
+        $\rightarrow$ & 1 & 1 & 3 \\
+        \bottomrule
+      \end{tabular}
+      \hspace{3ex} \text{so that} \hspace{3ex}
+      %
+      % phi_D (x_4) for x_6 = 1
+      \begin{tabular}{ll}
+        \toprule
+        $x_4$ & $\phi_D^{x_6=1}$\\
+        \midrule
+        0 & 6 \\
+        1 & 3 \\
+        \bottomrule
+      \end{tabular}
+    \end{center}
+
+  \end{solution}
+
+  %
+  % Question b – find p(x_2 | x_1, x_6) with a bad variable ordering.
+  \item Find $p(x_2 \mid x_1=0, x_6=1)$ using the elimination ordering $(x_4, x_5, x_3)$:
+
+  \begin{exenumerate}
+    \item Draw the graph for $p(x_2, x_3, x_5 \mid x_1=0, x_6=1)$ by marginalising $x_4$ \\
+    Compute the table for the new factor $\tilde{\phi}_4(x_2, x_3, x_5)$ \\
+
+    \item Draw the graph for $p(x_2, x_3 \mid x_1=0, x_6=1)$ by marginalising $x_5$ \\
+    Compute the table for the new factor $\tilde{\phi}_{45}(x_2, x_3)$ \\
+
+    \item Draw the graph for $p(x_2 \mid x_1=0, x_6=1)$ by marginalising $x_3$ \\
+    Compute the table for the new factor $\tilde{\phi}_{453}(x_2)$ 
+  \end{exenumerate}
+
+  %
+  % Question b – solution
+  \begin{solution}
+
+    Starting with the factor graph for $p(x_2, x_3, x_4, x_5 \mid x_1=0, x_6=1)$
+
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[fact, label=above: $\phi_A^{x_1=0}$] (fa) at (1.5,0) {} ; %
+        \node[cont] (x2) at (2.5,1)  {$x_2$} ; %
+        \node[cont] (x3) at (2.5,-1)  {$x_3$} ; %
+        \node[fact, label=above: $\phi_B$] (fb) at (3.5,0) {} ; %
+        \node[cont] (x4) at (5,0)  {$x_4$} ; %
+        \node[fact, label=above: $\phi_C$] (fc) at (6,1) {} ; %
+        \node[cont] (x5) at (7.5,1)  {$x_5$} ; %
+        \node[fact, label=right: $\phi_D^{x_6=1}$] (fd) at (6,-1) {} ; %
+
+        \draw (fa) -- (x2);
+        \draw (fa) -- (x3);
+        \draw (x2) -- (fb);
+        \draw (x3) -- (fb);
+        \draw (fb) -- (x4);
+        \draw (x4) -- (fc);
+        \draw (x4) -- (fd);
+        \draw (fc) -- (x5);
+      \end{tikzpicture}
+    \end{center}
+
+    Marginalising $x_4$ combines the three factors $\phi_B$, $\phi_C$ and $\phi_D^{x_6=1}$
+
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[fact, label=above: $\phi_A^{x_1=0}$] (fa) at (1.5,0) {} ; %
+        \node[cont] (x2) at (2.5,1)  {$x_2$} ; %
+        \node[cont] (x3) at (2.5,-1)  {$x_3$} ; %
+        \node[fact, label=above: $\tilde{\phi}_4$] (f4) at (3.5,0) {} ; %
+        \node[cont] (x5) at (5,0)  {$x_5$} ; %
+
+        \draw (fa) -- (x2);
+        \draw (fa) -- (x3);
+        \draw (x2) -- (f4);
+        \draw (x3) -- (f4);
+        \draw (f4) -- (x5);
+      \end{tikzpicture}
+    \end{center}
+
+    Marginalising $x_5$ modifies the factor $\tilde{\phi}_4$
+
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[fact, label=above: $\phi_A^{x_1=0}$] (fa) at (1.5,0) {} ; %
+        \node[cont] (x2) at (2.5,1)  {$x_2$} ; %
+        \node[cont] (x3) at (2.5,-1)  {$x_3$} ; %
+        \node[fact, label=right: $\tilde{\phi}_{45}$] (f45) at (3.5,0) {} ; %
+
+        \draw (fa) -- (x2);
+        \draw (fa) -- (x3);
+        \draw (x2) -- (f45);
+        \draw (x3) -- (f45);
+      \end{tikzpicture}
+    \end{center}
+
+    Marginalising $x_3$ combines the factors $\phi_A^{x_1=0}$ and $\tilde{\phi}_{45}$
+
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[cont] (x2) at (0,0)  {$x_2$} ; %
+        \node[fact, label=right: $\tilde{\phi}_{453}$] (f453) at (2,0) {} ; %
+
+        \draw (x2) -- (f453);
+      \end{tikzpicture}
+    \end{center}
+
+    We now compute the tables for the new factors $\tilde{\phi}_4$, $\tilde{\phi}_{45}$, $\tilde{\phi}_{453}$.
+
+    First find $\tilde{\phi}_4(x_2, x_3, x_5)$
+    % ~phi_4 (x_2, x_3, x_5)
+    \begin{center}
+      %
+      % phi_B (x_2, x_3, x_4)
+      \begin{tabular}{llll}
+        \toprule
+        $x_2$ & $x_3$ & $x_4$ & $\phi_B$\\
+        \midrule
+        0 & 0 & 0 & 2 \\
+        1 & 0 & 0 & 2 \\
+        0 & 1 & 0 & 4 \\
+        1 & 1 & 0 & 2 \\
+        0 & 0 & 1 & 6 \\
+        1 & 0 & 1 & 8 \\
+        0 & 1 & 1 & 4 \\
+        1 & 1 & 1 & 2 \\
+        \bottomrule
+      \end{tabular}\hspace{2ex}
+      %
+      % phi_C (x_4, x_5)
+      \begin{tabular}{lll}
+        \toprule
+        $x_4$ & $x_5$ & $\phi_C$\\
+        \midrule
+        0 & 0 & 8 \\
+        1 & 0 & 2 \\
+        0 & 1 & 2 \\
+        1 & 1 & 6 \\
+        \bottomrule
+      \end{tabular}\hspace{2ex}
+      %
+      % phi_D (x_4) for x_6 = 1
+      \begin{tabular}{ll}
+        \toprule
+        $x_4$ & $\phi_D^{x_6=1}$\\
+        \midrule
+        0 & 6 \\
+        1 & 3 \\
+        \bottomrule
+      \end{tabular}
+    \end{center}
+    so that  $\phi_*(x_2,x_3,x_4,x_5) = \phi_B(x_2, x_3, x_4) \phi_C(x_4, x_5) \phi_D^{x_6=1}(x_4)$ equals
+   %
+    % ~phi_4 (x_2, x_3, x_5)
+    \begin{center}
+      \begin{tabular}{lllll}
+        \toprule
+        $x_2$ & $x_3$ & $x_4$& $x_5$ & $\phi_*(x_2,x_3,x_4,x_5)$\\
+        \midrule
+        0 & 0 & 0 & 0 & 2 * 8 * 6 \\
+        1 & 0 & 0 & 0 & 2 * 8 * 6 \\
+        0 & 1 & 0 & 0 & 4 * 8 * 6 \\
+        1 & 1 & 0 & 0 & 2 * 8 * 6 \\
+        0 & 0 & 1 & 0 & 6 * 2 * 3\\
+        1 & 0 & 1 & 0 & 8 * 2 * 3\\
+        0 & 1 & 1 & 0 & 4 * 2 * 3\\
+        1 & 1 & 1 & 0 & 2 * 2 * 3\\
+        0 & 0 & 0 & 1 & 2 * 2 * 6\\
+        1 & 0 & 0 & 1 & 2 * 2 * 6\\
+        0 & 1 & 0 & 1 & 4 * 2 * 6\\
+        1 & 1 & 0 & 1 & 2 * 2 * 6\\
+        0 & 0 & 1 & 1 & 6 * 6 * 3\\
+        1 & 0 & 1 & 1 & 8 * 6 * 3\\
+        0 & 1 & 1 & 1 & 4 * 6 * 3\\
+        1 & 1 & 1 & 1 & 2 * 6 * 3\\
+        \bottomrule
+      \end{tabular}
+    \end{center}
+and
+    %
+    % ~phi_4 (x_2, x_3, x_5)
+    \begin{center}
+      \begin{tabular}{llllll}
+        \toprule
+        $x_2$ & $x_3$ & $x_5$ & $\sum_{x_4} \phi_B(x_2, x_3, x_4) \phi_C(x_4, x_5) \phi_D^{x_6=1}(x_4)$ &  & $\tilde{\phi}_4$\\
+        \midrule
+        0 & 0 & 0 & (2 * 8 * 6) + (6 * 2 * 3) & = & 132 \\
+        1 & 0 & 0 & (2 * 8 * 6) + (8 * 2 * 3) & = & 144 \\
+        0 & 1 & 0 & (4 * 8 * 6) + (4 * 2 * 3) & = & 216 \\
+        1 & 1 & 0 & (2 * 8 * 6) + (2 * 2 * 3) & = & 108 \\
+        0 & 0 & 1 & (2 * 2 * 6) + (6 * 6 * 3) & = & 132 \\
+        1 & 0 & 1 & (2 * 2 * 6) + (8 * 6 * 3) & = & 168 \\
+        0 & 1 & 1 & (4 * 2 * 6) + (4 * 6 * 3) & = & 120 \\
+        1 & 1 & 1 & (2 * 2 * 6) + (2 * 6 * 3) & = & 60 \\
+        \bottomrule
+      \end{tabular}
+    \end{center}
+
+    Next find $\tilde{\phi}_{45}(x_2, x_3)$
+    % ~phi_{45} (x_2, x_3)
+    \begin{center}
+      %
+      % ~phi_4 (x_2, x_3, x_5) for x_6 = 1
+      \begin{tabular}{llll}
+        \toprule
+        $x_2$ & $x_3$ & $x_5$ & $\tilde{\phi}_4$\\
+        \midrule
+        0 & 0 & 0 & 132 \\
+        1 & 0 & 0 & 144 \\
+        0 & 1 & 0 & 216 \\
+        1 & 1 & 0 & 108 \\
+        0 & 0 & 1 & 132 \\
+        1 & 0 & 1 & 168 \\
+        0 & 1 & 1 & 120 \\
+        1 & 1 & 1 & 60 \\
+        \bottomrule
+      \end{tabular}
+      \hspace{3ex} \text{so that} \hspace{3ex}
+      %
+      % ~phi_{45} (x_2, x_3)
+      \begin{tabular}{lllll}
+        \toprule
+        $x_2$ & $x_3$ & $\sum_{x_5} \tilde{\phi}_4(x_2, x_3, x_5)$ &  & $\tilde{\phi}_{45}$\\
+        \midrule
+        0 & 0 & 132 + 132 & = & 264 \\
+        1 & 0 & 144 + 168 & = & 312 \\
+        0 & 1 & 216 + 120 & = & 336 \\
+        1 & 1 & 108 + 60  & = & 168 \\
+        \bottomrule
+      \end{tabular}
+    \end{center}
+
+    Finally find $\tilde{\phi}_{453}(x_2)$
+    % ~phi_{453} (x_2)
+    \begin{center}
+      %
+      % phi_A (x_2, x_3) for x_1 = 0
+      \begin{tabular}{lll}
+        \toprule
+        $x_2$ & $x_3$ & $\phi_A^{x_1=0}$\\
+        \midrule
+        0 & 0 & 4 \\
+        1 & 0 & 2 \\
+        0 & 1 & 2 \\
+        1 & 1 & 6 \\
+        \bottomrule
+      \end{tabular}\hspace{2ex}
+      %
+      % ~phi_{45} (x_2, x_3)
+      \begin{tabular}{lll}
+        \toprule
+        $x_2$ & $x_3$ & $\tilde{\phi}_{45}$\\
+        \midrule
+        0 & 0 & 264 \\
+        1 & 0 & 312 \\
+        0 & 1 & 336 \\
+        1 & 1 & 168 \\
+        \bottomrule
+      \end{tabular}
+      \end{center}
+    so that
+    \begin{center}
+      % ~phi_{453} (x_2)
+      \begin{tabular}{llll}
+        \toprule
+        $x_2$ & $\sum_{x_3} \tilde{\phi}_{45}(x_2, x_3) \phi_A^{x_1=0}(x_2,x_3)$  &  & $\tilde{\phi}_{453}$\\
+        \midrule
+        0 & (4 * 264) + (2 * 336) & = & 1728 \\
+        1 & (2 * 312) + (6 * 168) & = & 1632 \\
+        \bottomrule
+      \end{tabular}
+    \end{center}\vspace{1ex}
+
+   The normalising constant is $Z = 1728 + 1632$. Our conditional marginal is thus:
+    \begin{equation}
+      p(x_2 \mid x_1=0, x_6=1) = 
+      \begin{pmatrix}
+        1728 / Z \\
+        1632 / Z \\
+      \end{pmatrix} = 
+      \begin{pmatrix}
+        0.514 \\
+        0.486 \\
+      \end{pmatrix}
+    \end{equation}
+
+  \end{solution}
+
+  %
+  % Question c – find p(x_2 | x_1, x_6) with a good variable ordering.
+  \item Now determine $p(x_2 \mid x_1=0, x_6=1)$ with the elimination ordering $(x_5, x_4, x_3)$:
+
+  \begin{exenumerate}
+    \item Draw the graph for $p(x_2, x_3, x_4, \mid x_1=0, x_6=1)$ by marginalising $x_5$ \\
+    Compute the table for the new factor $\tilde{\phi}_{5}(x_4)$ \\
+
+    \item Draw the graph for $p(x_2, x_3 \mid x_1=0, x_6=1)$ by marginalising $x_4$ \\
+    Compute the table for the new factor $\tilde{\phi}_{54}(x_2, x_3)$ \\
+
+    \item Draw the graph for $p(x_2 \mid x_1=0, x_6=1)$ by marginalising $x_3$ \\
+      Compute the table for the new factor $\tilde{\phi}_{543}(x_2)$ 
+  \end{exenumerate}
+
+  %
+  % Question c – solution
+  \begin{solution}
+
+    Starting with the factor graph for $p(x_2, x_3, x_4, x_5 \mid x_1=0, x_6=1)$
+
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[fact, label=above: $\phi_A^{x_1=0}$] (fa) at (1.5,0) {} ; %
+        \node[cont] (x2) at (2.5,1)  {$x_2$} ; %
+        \node[cont] (x3) at (2.5,-1)  {$x_3$} ; %
+        \node[fact, label=above: $\phi_B$] (fb) at (3.5,0) {} ; %
+        \node[cont] (x4) at (5,0)  {$x_4$} ; %
+        \node[fact, label=above: $\phi_C$] (fc) at (6,1) {} ; %
+        \node[cont] (x5) at (7.5,1)  {$x_5$} ; %
+        \node[fact, label=right: $\phi_D^{x_6=1}$] (fd) at (6,-1) {} ; %
+
+        \draw (fa) -- (x2);
+        \draw (fa) -- (x3);
+        \draw (x2) -- (fb);
+        \draw (x3) -- (fb);
+        \draw (fb) -- (x4);
+        \draw (x4) -- (fc);
+        \draw (x4) -- (fd);
+        \draw (fc) -- (x5);
+      \end{tikzpicture}
+    \end{center}
+
+    Marginalising $x_5$ modifies the factor $\phi_C$
+
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[fact, label=above: $\phi_A^{x_1=0}$] (fa) at (1.5,0) {} ; %
+        \node[cont] (x2) at (2.5,1)  {$x_2$} ; %
+        \node[cont] (x3) at (2.5,-1)  {$x_3$} ; %
+        \node[fact, label=above: $\phi_B$] (fb) at (3.5,0) {} ; %
+        \node[cont] (x4) at (5,0)  {$x_4$} ; %
+        \node[fact, label=right: $\tilde{\phi}_5$] (f5) at (6,1) {} ; %
+        \node[fact, label=right: $\phi_D^{x_6=1}$] (fd) at (6,-1) {} ; %
+
+        \draw (fa) -- (x2);
+        \draw (fa) -- (x3);
+        \draw (x2) -- (fb);
+        \draw (x3) -- (fb);
+        \draw (fb) -- (x4);
+        \draw (x4) -- (f5);
+        \draw (x4) -- (fd);
+      \end{tikzpicture}
+    \end{center}
+
+    Marginalising $x_4$ combines the three factors $\phi_B$, $\tilde{\phi}_5$ and $\phi_D^{x_6=1}$
+
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[fact, label=above: $\phi_A^{x_1=0}$] (fa) at (1.5,0) {} ; %
+        \node[cont] (x2) at (2.5,1)  {$x_2$} ; %
+        \node[cont] (x3) at (2.5,-1)  {$x_3$} ; %
+        \node[fact, label=right: $\tilde{\phi}_{54}$] (f54) at (3.5,0) {} ; %
+
+        \draw (fa) -- (x2);
+        \draw (fa) -- (x3);
+        \draw (x2) -- (f54);
+        \draw (x3) -- (f54);
+      \end{tikzpicture}
+    \end{center}
+
+    Marginalising $x_3$ combines the factors $\phi_A^{x_1=0}$ and $\tilde{\phi}_{54}$
+
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[cont] (x2) at (0,0)  {$x_2$} ; %
+        \node[fact, label=right: $\tilde{\phi}_{543}$] (f543) at (2,0) {} ; %
+
+        \draw (x2) -- (f543);
+      \end{tikzpicture}
+    \end{center}
+
+    We now compute the tables for the new factors $\tilde{\phi}_5$, $\tilde{\phi}_{54}$, and $\tilde{\phi}_{543}$.
+
+    First find $\tilde{\phi}_5(x_4)$
+    % ~phi_5 (x_4) for x_6 = 1
+    \begin{center}
+      %
+      % phi_C (x_4, x_5)
+      \begin{tabular}{lll}
+        \toprule
+        $x_4$ & $x_5$ & $\phi_C$\\
+        \midrule
+        0 & 0 & 8 \\
+        1 & 0 & 2 \\
+        0 & 1 & 2 \\
+        1 & 1 & 6 \\
+        \bottomrule
+      \end{tabular}
+      \hspace{3ex} \text{so that} \hspace{3ex}
+      %
+      % ~phi_5 (x_4) for x_6 = 1
+      \begin{tabular}{llll}
+        \toprule
+        $x_4$ & $\sum_{x_5} \phi_C(x_4, x_5)$ &  & $\tilde{\phi}_5$\\
+        \midrule
+        0 & 8 + 2 & = & 10 \\
+        1 & 2 + 6 & = & 8 \\
+        \bottomrule
+      \end{tabular}
+    \end{center}
+
+    Next find $\tilde{\phi}_{54}(x_2, x_3)$
+    % ~phi_{54} (x_2, x_3)
+    \begin{center}
+      %
+      % phi_B (x_2, x_3, x_4)
+      \begin{tabular}{llll}
+        \toprule
+        $x_2$ & $x_3$ & $x_4$ & $\phi_B$\\
+        \midrule
+        0 & 0 & 0 & 2 \\
+        1 & 0 & 0 & 2 \\
+        0 & 1 & 0 & 4 \\
+        1 & 1 & 0 & 2 \\
+        0 & 0 & 1 & 6 \\
+        1 & 0 & 1 & 8 \\
+        0 & 1 & 1 & 4 \\
+        1 & 1 & 1 & 2 \\
+        \bottomrule
+      \end{tabular}\hspace{2ex}
+      %
+      % ~phi_5 (x_4) for x_6 = 1
+      \begin{tabular}{ll}
+        \toprule
+        $x_4$ & $\tilde{\phi}_5$\\
+        \midrule
+        0 & 10 \\
+        1 & 8 \\
+        \bottomrule
+      \end{tabular}\hspace{2ex}
+      %
+      % phi_D (x_4) for x_6 = 1
+      \begin{tabular}{ll}
+        \toprule
+        $x_4$ & $\phi_D^{x_6=1}$\\
+        \midrule
+        0 & 6 \\
+        1 & 3 \\
+        \bottomrule
+      \end{tabular}
+    \end{center}
+      so that $\phi_*(x_2,x_3,x_4) = \phi_B(x_2, x_3, x_4) \tilde{\phi}_5(x_4) \phi_D^{x_6=1}(x_4)$ equals
+      %
+      \begin{center}
+        \begin{tabular}{lllll}
+          \toprule
+          $x_2$ & $x_3$ & $x_4$ & $\phi_*(x_2,x_3,x_4)$\\
+          \midrule
+          0 & 0 & 0 & 2 * 10 * 6 \\ 
+          1 & 0 & 0 & 2 * 10 * 6 \\
+          0 & 1 & 0 & 4 * 10 * 6 \\
+          1 & 1 & 0 & 2 * 10 * 6 \\
+          0 & 0 & 1 & 6 * 8 * 3 \\
+          1 & 0 & 1 & 8 * 8 * 3 \\
+          0 & 1 & 1 & 4 * 8 * 3 \\
+          1 & 1 & 1 & 2 * 8 * 3 \\
+          \bottomrule
+        \end{tabular}
+      \end{center}
+    and
+    % ~phi_{54} (x_2, x_3)
+    \begin{center}
+      \begin{tabular}{lllll}
+        \toprule
+        $x_2$ & $x_3$ & $\sum_{x_4} \phi_B(x_2, x_3, x_4) \tilde{\phi}_5(x_4) \phi_D^{x_6=1}(x_4)$ &  & $\tilde{\phi}_{54}$\\
+        \midrule
+        0 & 0 & (2 * 10 * 6) + (6 * 8 * 3) & = & 264 \\
+        1 & 0 & (2 * 10 * 6) + (8 * 8 * 3) & = & 312 \\
+        0 & 1 & (4 * 10 * 6) + (4 * 8 * 3) & = & 336 \\
+        1 & 1 & (2 * 10 * 6) + (2 * 8 * 3) & = & 168 \\
+        \bottomrule
+      \end{tabular}
+    \end{center}
+
+    Finally find $\tilde{\phi}_{543}(x_2)$
+    % ~phi_{543} (x_2)
+    \begin{center}
+      %
+      % phi_A (x_2, x_3) for x_1 = 0
+      \begin{tabular}{lll}
+        \toprule
+        $x_2$ & $x_3$ & $\phi_A^{x_1=0}$\\
+        \midrule
+        0 & 0 & 4 \\
+        1 & 0 & 2 \\
+        0 & 1 & 2 \\
+        1 & 1 & 6 \\
+        \bottomrule
+      \end{tabular}\hspace{2ex}
+      %
+      % ~phi_{54} (x_2, x_3)
+      \begin{tabular}{lll}
+        \toprule
+        $x_2$ & $x_3$ & $\tilde{\phi}_{54}$\\
+        \midrule
+        0 & 0 & 264 \\
+        1 & 0 & 312 \\
+        0 & 1 & 336 \\
+        1 & 1 & 168 \\
+        \bottomrule
+      \end{tabular}
+      \end{center}
+    so that
+    \begin{center}
+      %
+      % ~phi_{ABCD}^{x_1=0, x_6=1} (x_2)
+      \begin{tabular}{llll}
+        \toprule
+        $x_2$ & $\sum_{x_3} \tilde{\phi}_{54}(x_2, x_3) \phi_A^{x_1=0}(x_2,x_3)$ &  & $\tilde{\phi}_{543}$\\
+        \midrule
+        0 & (4 * 264) + (2 * 336) & = & 1728 \\
+        1 & (2 * 312) + (6 * 168) & = & 1632 \\
+        \bottomrule
+      \end{tabular}
+    \end{center}
+
+    As with the ordering in the previous part, we should come to the
+    same result for our conditional marginal distribution.The
+    normalising constant is $Z = 1728 + 1632$, so that the conditional
+    marginal is
+    \begin{equation}
+      p(x_2 \mid x_1=0, x_6=1) = 
+      \begin{pmatrix}
+        1728 / Z \\
+        1632 / Z \\
+      \end{pmatrix} = 
+      \begin{pmatrix}
+        0.514 \\
+        0.486 \\
+      \end{pmatrix}
+    \end{equation}
+
+  \end{solution}
+
+\item Which variable ordering, $(x_4, x_5, x_3)$ or $(x_5, x_4, x_3)$ do you prefer?
+
+  \begin{solution}
+    The ordering $(x_5, x_4, x_3)$ is cheaper and should be preferred
+    over the ordering $(x_4, x_5, x_3)$ .
+
+    The reason for the difference in the cost is that $x_4$ has three
+    neighbours in the factor graph for $p(x_2, x_3, x_4, x_5 \mid
+    x_1=0, x_6=1)$. However, after elimination of $x_5$, which has
+    only one neighbour, $x_4$ has only two neighbours
+    left. Eliminating variables with more neighbours leads to
+    larger (temporary) factors and hence a larger cost. We can see
+    this from the tables that were generated during the computation
+    (or numbers that we needed to add together): for the ordering
+    $(x_4, x_5, x_3)$, the largest table had $2^4$ entries while for
+    $(x_5, x_4, x_3)$, it had $2^3$ entries.
+
+    Choosing a reasonable variable ordering has a direct effect on the
+    computational complexity of variable elimination. This effect
+    becomes even more pronounced when the domain of our discrete
+    variables has a size greater than 2 (binary variables), or if the
+    variables are continuous.
+    
+    \begin{center}
+      \begin{tikzpicture}[ugraph]
+        \node[fact, label=above: $\phi_A^{x_1=0}$] (fa) at (1.5,0) {} ; %
+        \node[cont] (x2) at (2.5,1)  {$x_2$} ; %
+        \node[cont] (x3) at (2.5,-1)  {$x_3$} ; %
+        \node[fact, label=above: $\phi_B$] (fb) at (3.5,0) {} ; %
+        \node[cont] (x4) at (5,0)  {$x_4$} ; %
+        \node[fact, label=above: $\phi_C$] (fc) at (6,1) {} ; %
+        \node[cont] (x5) at (7.5,1)  {$x_5$} ; %
+        \node[fact, label=right: $\phi_D^{x_6=1}$] (fd) at (6,-1) {} ; %
+
+        \draw (fa) -- (x2);
+        \draw (fa) -- (x3);
+        \draw (x2) -- (fb);
+        \draw (x3) -- (fb);
+        \draw (fb) -- (x4);
+        \draw (x4) -- (fc);
+        \draw (x4) -- (fd);
+        \draw (fc) -- (x5);
+      \end{tikzpicture}
+    \end{center}
+
+    
+
+  \end{solution}
+  
+\end{exenumerate}
+
+\ex{Choice of elimination order in factor graphs}
+
+We would like to compute the marginal $p(x_1)$ by variable
+elimination for a joint pmf represented by the following factor
+graph. All variables $x_i$ can take $K$ different values. \\
+\begin{center}
+  \scalebox{1}{ % x,y
+    \begin{tikzpicture}[ugraph]
+      \node[cont] (x1) at (0,0) {$x_1$};
+      \node[fact, label=above: $\phi_a$] (fa) at (1,-1) {};
+      \node[cont] (x2) at (2,0) {$x_2$};
+      \node[fact, label={[xshift=0.15cm,  yshift=0cm]left: $\phi_b$}] (fb) at (2,-1) {};
+      \node[cont] (x3) at (4,0) {$x_3$};
+      \node[fact, label=above: $\phi_c$] (fc) at (3,-1) {};
+
+      \node[cont] (x4) at (2,-2) {$x_4$};
+
+      \node[cont] (x5) at (0,-4) {$x_5$};
+      \node[fact, label=above: $\phi_d$] (fd) at (1,-3) {};
+      \node[cont] (x6) at (2,-4) {$x_6$};
+      \node[fact, label={[xshift=0.15cm,  yshift=0cm]left: $\phi_e$}] (fe) at (2,-3) {};
+      \node[cont] (x7) at (4,-4) {$x_7$};
+      \node[fact, label=above: $\phi_f$] (ff) at (3,-3) {};
+      
+      \draw(x1) -- (fa);
+      \draw(x2) -- (fb);
+      \draw(x3) -- (fc);
+      \draw(x4) -- (fa);
+      \draw(x4) -- (fb);
+      \draw(x4) -- (fc);
+
+      \draw(x4) -- (fc);
+
+      \draw(x4) -- (fd);
+      \draw(x4) -- (fe);
+      \draw(x4) -- (ff);
+
+      \draw(fd) -- (x5);
+      \draw(fe) -- (x6);
+      \draw(ff) -- (x7);
+  \end{tikzpicture}}
+\end{center}
+\begin{exenumerate}
+\item A friend proposes the elimination order $x_4, x_5, x_6, x_7, x_3, x_2$, i.e.\ to do $x_4$ first and $x_2$ last. Explain why this is computationally inefficient.
+
+  \begin{solution}
+
+    According to the factor graph, $p(x_1, \ldots, x_7)$ factorises as
+    \begin{align}
+      p(x_1, \ldots, x_7) &\propto \phi_a(x_1,x_4)\phi_b(x_2,x_4)\phi_c(x_3,x_4)\phi_d(x_5,x_4)\phi_e(x_6,x_4)\phi_f(x_7,x_4)
+    \end{align}
+    If we choose to eliminate $x_4$ first, i.e. compute
+    \begin{align}
+      p(x_1,x_2,x_3,x_5, x_6, x_7) &= \sum_{x_4}   p(x_1, \ldots, x_7) \\
+      & \propto \sum_{x_4} \phi_a(x_1,x_4)\phi_b(x_2,x_4)\phi_c(x_3,x_4)\phi_d(x_5,x_4)\phi_e(x_6,x_4)\phi_f(x_7,x_4)
+    \end{align}
+    we cannot pull any of the factors out of the sum since each of them depends on $x_4$. This means the
+    cost to sum out $x_4$ for all combinations of the six variables
+    $(x_1,x_2,x_3,x_5, x_6, x_7)$ is $K^7$. Moreover, the new factor
+    \begin{equation}
+      \tilde{\phi}(x_1,x_2,x_3,x_5, x_6, x_7) =  \sum_{x_4} \phi_a(x_1,x_4)\phi_b(x_2,x_4)\phi_c(x_3,x_4)\phi_d(x_5,x_4)\phi_e(x_6,x_4)\phi_f(x_7,x_4)
+    \end{equation}
+    does not factorise anymore so that subsequent variable eliminations will be expensive too.
+  \end{solution}
+  
+\item Propose an elimination ordering that achieves $O(K^2)$ computational cost per variable elimination and explain why it does so.
+
+  \begin{solution}
+
+    Any ordering where $x_4$ is eliminated last will do. At any stage,
+    elimination of one of the variables $x_2, x_3, x_5, x_6, x_7$ is
+    then a $O(K^2)$ operation. This is because e.g.\
+  \begin{align}
+    p(x_1, \ldots, x_6) & = \sum_{x_7} p(x_1, \ldots, x_7)\\
+    & \propto \phi_a(x_1,x_4)\phi_b(x_2,x_4)\phi_c(x_3,x_4)\phi_d(x_5,x_4)\phi_e(x_6,x_4) \underbrace{\sum_{x_7} \phi_f(x_7,x_4)}_{\tilde{\phi}_7(x_4)}\\
+    & \propto \phi_a(x_1,x_4)\phi_b(x_2,x_4)\phi_c(x_3,x_4)\phi_d(x_5,x_4)\phi_e(x_6,x_4) \tilde{\phi}_7(x_4)
+  \end{align}
+  where computing $\tilde{\phi}_7(x_4)$ for all values of $x_4$ is $O(K^2)$. Further,
+  \begin{align}
+    p(x_1, \ldots, x_5) & = \sum_{x_6} p(x_1, \ldots, x_6)\\
+    & \propto \phi_a(x_1,x_4)\phi_b(x_2,x_4)\phi_c(x_3,x_4)\phi_d(x_5,x_4) \tilde{\phi}_7(x_4) \sum_{x_6}\phi_e(x_6,x_4)\\
+    & \propto \phi_a(x_1,x_4)\phi_b(x_2,x_4)\phi_c(x_3,x_4)\phi_d(x_5,x_4) \tilde{\phi}_7(x_4) \tilde{\phi}_6(x_4), 
+  \end{align}
+  where computation of $\tilde{\phi}_6(x_4)$ for all values of $x_4$ is again $O(K^2)$. Continuing in this manner, one obtains
+  \begin{align}
+    p(x_1, x_4) &\propto \phi_a(x_1,x_4) \tilde{\phi}_2(x_4)\tilde{\phi}_3(x_4)\tilde{\phi}_5(x_4)\tilde{\phi}_6(x_4)\tilde{\phi}_7(x_4).
+  \end{align}
+  where each derived factor $\tilde{\phi}$ has $O(K^2)$ cost. Summing out $x_4$ and normalising the pmf is again a $O(K^2)$ operation.
+  \end{solution}
+  
+\end{exenumerate}
+
