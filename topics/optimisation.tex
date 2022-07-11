@@ -531,7 +531,7 @@ The goal of this exercise is to determine the gradient of
 
 \ex{Descent directions for matrix-valued functions}
 \label{ex:descent-directions-for-matrix-valued-functions}
-Assume we would like to minimise a matrix valued function $J(\W)$ by gradient
+Assume we would like to minimise a matrix-valued function $J(\W)$ by gradient
 descent, i.e. the update equation is
 \begin{equation}
   \W \leftarrow \W - \epsilon \nabla J(\W),
@@ -563,7 +563,7 @@ $\A$ and $\B$ is also a descent direction or leaves the leaves the objective inv
   As in the introduction to the question, we appeal to \eqref{eq:grad-matrix} to
   obtain
   \begin{align}
-    J(\W - \epsilon \nabla J(\W)\A^\top\A \B\B^\top) & = J(\W) - \epsilon \tr(\nabla J(\W)^\top \A^\top \A \nabla J(\W)\B\B^\top) + O(\epsilon^2)\\
+    J(\W - \epsilon \A^\top \A \nabla J(\W) \B\B^\top) & = J(\W) - \epsilon \tr(\nabla J(\W)^\top \A^\top \A \nabla J(\W)\B\B^\top) + O(\epsilon^2)\\
                                                      & =  J(\W) - \epsilon \tr(\B^\top \nabla J(\W)^\top \A^\top \A \nabla J(\W)\B) + O(\epsilon^2),
   \end{align}
   where $\tr(\B^\top \nabla J(\W)^\top\A^\top \A \nabla J(\W)\B)$ takes the form
