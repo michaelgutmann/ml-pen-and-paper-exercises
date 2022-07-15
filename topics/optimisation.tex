@@ -289,8 +289,8 @@ For functions $J$ that map a matrix $\W \in \mathbb{R}^{n\times m}$ to $\mathbb{
 
 Alternatively, it is defined to be the matrix $\nabla J$ such that
 \begin{align}
-  J(\W+\epsilon \H) &= J(\w) + \epsilon \tr(\nabla J^\top \H) + O(\epsilon^2) \label{eq:grad-matrix}\\
-                    &= J(\w) + \epsilon \tr(\nabla J \H^\top) + O(\epsilon^2)
+  J(\W+\epsilon \H) &= J(\W) + \epsilon \tr(\nabla J^\top \H) + O(\epsilon^2) \label{eq:grad-matrix}\\
+                    &= J(\W) + \epsilon \tr(\nabla J \H^\top) + O(\epsilon^2)
 \end{align}
 This definition is analogue to the one for vector-valued functions
 in \eqref{eq:grad-vector}. It phrases the derivative in terms of a linear
@@ -410,7 +410,7 @@ J(\W + \epsilon \H) &= \sum_{k=1}^n f(\e^{[k]}(\W + \epsilon \H)\v) \\
     
     Let us thus make a first-order approximation of the perturbed objective $J(\W + \epsilon \H)$: 
     \begin{align}
-      J(\W + \epsilon\H) &= \u^\top(\W + \epsilon\H\v)^{-1}\v \\
+      J(\W + \epsilon\H) &= \u^\top(\W + \epsilon\H)^{-1}\v \\
                          &\overset{\textrm{hint}}{=} \u^\top(\W^{-1} - \epsilon \W^{-1}\H \W^{-1} + O(\epsilon^2))\v \\
                          &= \u^\top \W^{-1}\v - \epsilon \u^\top\W^{-1}\H\W^{-1}\v + O(\epsilon^2) \\
                          &= J(\W) -  \epsilon \tr\left(\u^\top\W^{- 1}\H\W^{-1}\v\right) + O(\epsilon^2) \\
