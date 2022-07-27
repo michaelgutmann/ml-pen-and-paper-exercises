@@ -710,7 +710,7 @@ with $\x=(x_1, \ldots, x_t)$ and where the $f_i$ are (conditional) pdfs. We thus
     y_1, \ldots, y_t)$ factorises as
     \begin{align}
       p(x_1, \ldots, x_t | y_1, \ldots, y_t) \propto f_1(x_1) g_1(x_1)
-      \prod_{i=1}^t f_i(x_i|x_{i-1}) g_i(x_i).
+      \prod_{i=2}^t f_i(x_i|x_{i-1}) g_i(x_i).
     \end{align}
     where $g_i(x_i)$ is $\phi^y_i(x_i,y_i)$ for a fixed value of $y_i$. 
   \end{solution}
@@ -766,11 +766,11 @@ with $\x=(x_1, \ldots, x_t)$ and where the $f_i$ are (conditional) pdfs. We thus
   \begin{solution}
     With
     \begin{align}
-      p(x_1, \ldots, x_t, y_1, \ldots, y_t) \propto f_1(x_1) \prod_{2=1}^t f_i(x_i|x_{i-1}) \prod_{i=1}^t \phi_i^y(x_i, y_i).
+      p(x_1, \ldots, x_t | y_1, \ldots, y_t) \propto f_1(x_1) \prod_{i=2}^t f_i(x_i|x_{i-1}) \prod_{i=1}^t \phi_i^y(x_i, y_i).
     \end{align}
     The normalising constant is given by
     \begin{align}
-      Z & = \int f_1(x_1) \prod_{2=1}^t f_i(x_i|x_{i-1})\prod_{i=1}^t g_i(x_i) \ud x_1 \ldots \ud x_t\\
+      Z & = \int f_1(x_1) \prod_{i=2}^t f_i(x_i|x_{i-1})\prod_{i=1}^t g_i(x_i) \ud x_1 \ldots \ud x_t\\
       & = \E_f\left [\prod_{i=1}^t g_i(x_i) \right]
     \end{align}
     Since we can use ancestral sampling to sample from $f$, the
@@ -787,7 +787,7 @@ with $\x=(x_1, \ldots, x_t)$ and where the $f_i$ are (conditional) pdfs. We thus
     By definition, the expectation over a test function $h(\x)$ is
     \begin{align}
       \E_{p(x_1, \ldots, x_t | y_1,
-        \ldots, y_t)}[ h(\x) ] & = \frac{1}{Z} \int h(\x) f_1(x_1) \prod_{2=1}^t f(x_i|x_{i-1})\prod_{i=1}^t g_i(x_i) \ud x_1 \ldots \ud x_t\\
+        \ldots, y_t)}[ h(\x) ] & = \frac{1}{Z} \int h(\x) f_1(x_1) \prod_{i=2}^t f(x_i|x_{i-1})\prod_{i=1}^t g_i(x_i) \ud x_1 \ldots \ud x_t\\
       & = \frac{\E_f \left[ h(\x) \prod_i g_i(x_i) \right]}{\E_f\left [\prod_i g_i(x_i) \right]}
     \end{align}
     Both the numerator and denominator can be approximated using
