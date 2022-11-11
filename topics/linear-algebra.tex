@@ -163,7 +163,7 @@
   they span a parallelogram. Use \exref{ex:gram-schmidt} to show that the
   squared area $S^2$ of the parallelogram is given by
   \begin{equation}
-    S^2 = (\a_2^T\a_2)(\a_1^T\a_1)-(\a_2^T\a_1)^2
+    S^2 = (\a_2^\top\a_2)(\a_1^\top\a_1)-(\a_2^\top\a_1)^2
   \end{equation}
   
   \begin{solution}
@@ -382,9 +382,9 @@ eigenvalues $\lambda_i$ (which are not necessarily distinct).
     \end{align}
   \end{solution}
   
-\item Show that we can write, with $\V^T=\U^{-1}$,
+\item Show that we can write, with $\V^\top=\U^{-1}$,
   \begin{align}
-    \A &= \U \Lambdab \V^\top,&     \A &= \sum_{i=1}^n \lambda_i \u_i\v_i^T,\\
+    \A &= \U \Lambdab \V^\top,&     \A &= \sum_{i=1}^n \lambda_i \u_i\v_i^\top,\\
     \A^{-1} &= \U \Lambdab^{-1} \V^\top, & \A^{-1} &= \sum_{i=1}^n \frac{1}{\lambda_i} \u_i\v_i^\top,
   \end{align}
   where $\v_i$ is the $i$-th column of $\V$.
@@ -496,7 +496,7 @@ eigenvalues $\lambda_i$ (which are not necessarily distinct).
 
   \end{solution}
 
-\item A symmetric matrix $\A$ is said to be positive definite if $\v^T\A\v>0$
+\item A symmetric matrix $\A$ is said to be positive definite if $\v^\top\A\v>0$
   for all non-zero vectors $\v$. Show that positive definiteness implies that
   $\lambda_i>0$, $i=1,\ldots, M$. Show that, vice versa, $\lambda_i>0$,
   $i=1 \ldots M$ implies that the matrix $\A$ is positive definite. Conclude
@@ -522,7 +522,7 @@ eigenvalues $\lambda_i$ (which are not necessarily distinct).
                   &= \sum_i \alpha_i\alpha_i\lambda_i\u_i^\top\u_i \\
                   &= \sum_i (\alpha_i)^2||\u_i||^2\lambda_i,
     \end{align}
-    where we have used that $\u_i^T\u_j = 0$ if $i \neq j$, due to orthogonality of the basis. Since $(\alpha_i)^2 > 0$, $||\u_i||^2 > 0$ and $\lambda_i > 0$ for all $i$, we find that $\v^\top\A\v > 0.$
+    where we have used that $\u_i^\top\u_j = 0$ if $i \neq j$, due to orthogonality of the basis. Since $(\alpha_i)^2 > 0$, $||\u_i||^2 > 0$ and $\lambda_i > 0$ for all $i$, we find that $\v^\top\A\v > 0.$
 
     Since every eigenvalue of $\A$ is nonzero, we can use \exref{ex:eigenvalue-decomposition} to conclude that inverse of $\A$ exists and equals $\sum_i 1/\lambda_i \u_i \u_i^\top$.
 
@@ -562,7 +562,7 @@ where $||\v_{k+1}||_2$ denotes the Euclidean norm.
   \end{solution}
   
   
-\item Let $\tilde{\v}_{k}= \U^T \v_k$ and $\tilde{\w}_{k}= \U^T \w_k$. Write the update equations of the power method in terms of $\tilde{\v}_{k}$ and $\tilde{\w}_{k}$. This means that we are making a change of basis to represent the vectors $\w_k$ and $\v_k$ in the basis given by the eigenvectors of $\Sigmab$.
+\item Let $\tilde{\v}_{k}= \U^\top \v_k$ and $\tilde{\w}_{k}= \U^\top \w_k$. Write the update equations of the power method in terms of $\tilde{\v}_{k}$ and $\tilde{\w}_{k}$. This means that we are making a change of basis to represent the vectors $\w_k$ and $\v_k$ in the basis given by the eigenvectors of $\Sigmab$.
   
   \begin{solution}
     With
