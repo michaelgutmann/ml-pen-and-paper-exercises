@@ -160,7 +160,7 @@ where $y_1, y_2, n$ are statistically independent.
   Since $x$ is the sum of three random variables that have the
   same distribution, it makes intuitive sense that the mean assigns
   $1/3$ of the observed value of $x$ to $y_1$ and $y_2$. Moreover,
-  $y_1$ and $y_2$ are negatively corrected since an increase in $y_1$
+  $y_1$ and $y_2$ are negatively correlated since an increase in $y_1$
   must be compensated with a decrease in $y_2$.
 
   Let us now approximate the posterior $p(y_1, y_2 | x)$ with mean
@@ -170,7 +170,7 @@ where $y_1, y_2, n$ are statistically independent.
     p(y_1, y_2, x) &= \Gauss\left( (y_1, y_2, x); \zerob, \Sigmab \right) &  \Sigmab &= \begin{pmatrix} 
       1 & 0 & 1\\
       0 & 1 & 1\\
-      0 & 1 & 3
+      1 & 1 & 3
     \end{pmatrix}
     &
     \Sigmab^{-1} &= \begin{pmatrix} 
@@ -429,7 +429,7 @@ variational distributions does not include the true posterior.
     We similarly obtain
     \begin{align}
     \E_q \log \normal(x_i ; \sigma_i^2) & = \E_q \log \left[ \frac{1}{\sqrt{2\pi \sigma_i^2}} \exp \left[-\frac{x_i^2}{2 \sigma_i^2} \right] \right]\\
-      & = -\log \left[ \frac{1}{\sqrt{2\pi \sigma_i^2}}\right] -\E_q \left[\frac{x_i^2}{2 \sigma_i^2}\right]\\
+      & = \log \left[ \frac{1}{\sqrt{2\pi \sigma_i^2}}\right] -\E_q \left[\frac{x_i^2}{2 \sigma_i^2}\right]\\
     & = -\log \sigma_i - \frac{\lambda^2}{2\sigma_i^2} + \text{const}\\
     & = - \frac{\lambda^2}{2\sigma_i^2} + \text{const}
     \end{align}
