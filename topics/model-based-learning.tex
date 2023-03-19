@@ -869,13 +869,13 @@ parametrised probability table:
   \begin{exenumerate}
   \item What are the maximum likelihood estimates for $p(s=1 | b=0,
     t=0)$ and $p(s=1 | b=0, t=1)$, i.e.\ the parameters $\theta^1_s$
-    and $\theta^3_s$?
+    and $\theta^2_s$?
     
     \begin{solution}
       The maximum likelihood estimates (MLEs) are equal to the fraction of occurrences of the relevant events.
       \begin{align}
         \hat{\theta}^1_s & =\frac{\sum_{i=1}^n \ind(s_i=1, b_i=0, t_i=0)}{\sum_{i=1}^n \ind(b_i=0, t_i=0)} = \frac{0}{3} = 0\\
-        \hat{\theta}^3_s & =\frac{\sum_{i=1}^n \ind(s_i=1, b_i=0, t_i=1)}{\sum_{i=1}^n \ind(b_i=0, t_i=1)} = \frac{1}{1} = 1
+        \hat{\theta}^2_s & =\frac{\sum_{i=1}^n \ind(s_i=1, b_i=0, t_i=1)}{\sum_{i=1}^n \ind(b_i=0, t_i=1)} = \frac{1}{1} = 1
       \end{align}
 
     \end{solution}
@@ -892,7 +892,7 @@ parametrised probability table:
       \ref{q:dgm-posterior-predictive}, we have
       \begin{align}
         \E(\theta_s^1 | \data) & = \frac{\alpha_0+0}{\alpha_0+\beta_0+3} = \frac{1}{5}\\
-        \E(\theta_s^3 | \data) & = \frac{\alpha_0+1}{\alpha_0+\beta_0+1} = \frac{2}{3}
+        \E(\theta_s^2 | \data) & = \frac{\alpha_0+1}{\alpha_0+\beta_0+1} = \frac{2}{3}
       \end{align}
       Compared to the MLE, the posterior mean is less extreme. It can
       be considered a ``smoothed out'' or regularised estimate, where
