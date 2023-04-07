@@ -491,3 +491,383 @@ variational distributions does not include the true posterior.
   
 \end{exenumerate}
 
+
+% --------------------------------------------------------------- %
+\ex{EM algorithm for mixture models}
+\label{ex:EM-mixture-models}
+Mixture models are statistical models of the form
+\begin{equation}
+  p(\x; \thetab) = \sum_{k=1}^K \pi_k p_k(\x; \thetab_k)
+  \label{eq:mixture-model}
+\end{equation}
+where each $p_k(\x; \thetab_k)$ is itself a statistical model parameterised by
+$\thetab_k$ and the $\pi_k\ge 0$ are mixture weights that sum to one. The
+parameters $\thetab$ of the mixture model consist of the parameters $\thetab_k$
+of each mixture component and the mixture weights $\pi_k$, i.e.\ $\thetab =
+(\thetab_1, \ldots, \thetab_K, \pi_1, \ldots, \pi_K)$. An example is a mixture
+of Gaussians where each $p_k(\x; \thetab_k)$ is a Gaussian with parameters given
+by the mean vector $\mub_k$ and a covariance matrix $\Sigmab_k$.
+
+The mixture model in \eqref{eq:mixture-model} can be considered to be the
+marginal distribution of a latent variable model $p(\x, h; \thetab)$ where $h$
+is an unobserved variable that takes on values $1, \ldots, K$ and $p(h=k) =
+\pi_k$. Defining $p(\x|h=k; \thetab) = p_k(\x; \thetab_k)$, the latent variable
+model corresponding to \eqref{eq:mixture-model} thus is
+\begin{equation}
+  p(\x, h=k; \thetab) = p(\x|h=k; \thetab)p(h=k) = \pi_k p_k(\x; \thetab_k).
+  \label{eq:latent-var-model-long}
+\end{equation}
+In particular note that marginalising out $h$ gives $p(\x; \thetab)$ in
+\eqref{eq:mixture-model}.
+
+\begin{exenumerate}
+\item Verify that the latent variable model in \eqref{eq:latent-var-model-long} can be written as
+  \begin{equation}
+    p(\x, h; \thetab) = \prod_{k=1}^K \left[  \pi_k  p_k(\x; \thetab_k) \right]^{\ind(h=k)}
+    \label{eq:latent-var-model}
+  \end{equation}
+  where $h$ takes values in $1, \ldots, K$.
+  
+  \begin{solution}
+    Since $\ind(h=k)$ is one if $h=k$ and zero otherwise, we have
+    \begin{equation}
+      p(\x, h=j; \thetab) =  \prod_{k=1}^K \left[  \pi_k  p_k(\x; \thetab_k) \right]^{\ind(j=k)} = \pi_j p_j(\x ; \thetab_j)
+    \end{equation}
+    for any $j \in \{1, \ldots, K\}$, which matches
+    \eqref{eq:latent-var-model-long}.
+  \end{solution}
+
+\item Since the mixture model in \eqref{eq:mixture-model} can be seen as the
+  marginal of a latent-variable model, we can use the expectation maximisation
+  (EM) algorithm to estimate the parameters $\thetab$.
+
+  For a general model $p(\data,\h; \thetab)$ where $\data$ are the observed data
+  and $\h$ the corresponding unobserved variables, the EM algorithm iterates between
+  computing the expected complete-data log-likelihood $J^l(\thetab)$ and maximising
+  it with respect to $\thetab$: 
+  \begin{align}
+    \textbf{E-step at iteration l:}\quad J^l(\thetab) &= \E_{p(\h | \data; \thetab^l)} [ \log p(\data,\h; \thetab)]\\
+    \textbf{M-step at iteration l:}\quad \thetab^{l+1} &= \argmax_{\thetab} J^l(\thetab) 
+  \end{align}
+  Here $\thetab^l$ is the value of $\thetab$ in the $l$-th iteration. When
+  solving the optimisation problem, we also need to take into account
+  constraints on the parameters, e.g.\ that the $\pi_k$ correspond to a pmf.
+  
+  Assume that the data $\mathcal{D}$ consists of $n$ iid data points $\x_i$,
+  that each $\x_i$ has associated with it a scalar unobserved variable $h_i$,
+  and that the tuples $(\x_i, h_i)$ are all iid. What is $J^l(\thetab)$ under
+  these additional assumptions?
+  
+  \begin{solution}
+    Since the $(\x_i, h_i)$ are iid, we have that $p(\data,\h; \thetab) =
+    \prod_{i=1}^n p(\x_i, h_i; \thetab)$. Hence
+    \begin{align}
+      J^l\thetab) &= \E_{p(\h | \data; \thetab^l)} [ \log p(\data,\h; \thetab)]\\
+                  & = \E_{p(\h | \data; \thetab^l)}\left[ \sum_{i=1}^n \log  p(\x_i, h_i; \thetab)\right]\\
+                  & = \sum_{i=1}^n \E_{p(\h | \data; \thetab^l)}[ \log  p(\x_i, h_i; \thetab)]\\
+                  & =  \sum_{i=1}^n \E_{p(h_i | \data; \thetab^l)}[ \log  p(\x_i, h_i; \thetab)]\\
+                  & =  \sum_{i=1}^n \E_{p(h_i | \x_i; \thetab^l)}[ \log  p(\x_i, h_i; \thetab)] \label{eq:Jl-intermediate}
+    \end{align}
+    where in the second last step, we have used that each $\log p(\x_i, h_i;
+    \thetab)]$ only involves one latent variable $h_i$ so that we only need to
+    take the expectation over $p(h_i | \data; \thetab^l)$, and in the last step,
+    we have used that $h_i \independent \x_j$, for $j\neq i$.
+   
+  \end{solution}
+
+\item Show that for the latent variable model in \eqref{eq:latent-var-model},
+  $J^l(\thetab)$ equals
+  \begin{align}
+    J^l(\thetab) & = \sum_{i=1}^n  \sum_{k=1}^K w_{ik}^l  \log[  \pi_k  p_k(\x_i; \thetab_k) ],\label{eq:Jl-expression}\\
+     w_{ik}^l & =  \frac{ \pi^l_k p_k(\x_i; \thetab^l_k)}{ \sum_{k=1}^K \pi^l_k p_k(\x_i; \thetab^l_k)}\label{eq:w-def}
+  \end{align}
+  Note that the $w_{ik}^l$ are defined in terms of the parameters $\pi_k^l$ and
+  $\thetab_k^l$ from iteration $l$. They are equal to the conditional
+  probabilities $p(h=k|\x_i; \thetab^l)$, i.e.\ the probability that $\x_i$
+  has been sampled from component $p_k(\x_i; \thetab^l_k)$. 
+  
+  \begin{solution}
+    We consider a single term $ \E_{p(h| \x; \thetab^l)}[ \log p(\x, h;
+    \thetab)]$ in \eqref{eq:Jl-intermediate}.
+
+    Given the form of the model in \eqref{eq:latent-var-model}, we have that
+    \begin{align}
+      \log p(\x, h; \thetab) = \sum_{k=1}^K \ind(h=k) \log[  \pi_k  p_k(\x; \thetab_k) ]
+    \end{align}
+    and hence
+    \begin{align}
+      \E_{p(h| \x; \thetab^l)}[ \log p(\x, h; \thetab)] &=  \E_{p(h| \x; \thetab^l)}\left[ \sum_{k=1}^K \ind(h=k) \log[  \pi_k  p_k(\x; \thetab_k) ] \right]\\
+                                                        &=  \sum_{k=1}^K  \E_{p(h| \x; \thetab^l)}\left[ \ind(h=k) \right] \log[  \pi_k  p_k(\x; \thetab_k) ]\\
+                                                        & = \sum_{k=1}^K p(h=k|\x; \thetab^l)  \log[  \pi_k  p_k(\x; \thetab_k) ]
+    \end{align}
+    where we have used that the expectation over an indicator event equals the
+    probability for the event to happen, i.e.\ $\E_{p(h| \x; \thetab^l)}\left[
+      \ind(h=k) \right] =  p(h=k|\x; \thetab^l)$.
+    
+    The probability  $p(h=k|\x; \thetab^l)$ can be determined via the product
+    (Bayes') rule and Equations \eqref{eq:latent-var-model-long} and \eqref{eq:mixture-model}
+    \begin{align}
+      p(h=k|\x; \thetab^l) &= \frac{p(\x, h=k, \thetab^l)}{p(\x; \thetab^l)}\\
+                           & = \frac{ \pi^l_k p_k(\x; \thetab^l_k)}{ \sum_{k=1}^K \pi^l_k p_k(\x; \thetab^l_k)}
+                             \label{eq:posterior-def}
+    \end{align}
+    Note that the superscript $^l$ indicates that the $\pi_k^l$ are the mixture
+    weights and the $\thetab^l_k$ the model parameters from iteration $l$.
+
+    The objective $J^l(\thetab)$ sums over $n$ terms $ \E_{p(h| \x_i; \thetab^l)}[ \log p(\x_i, h;
+    \thetab)]$. Let us denote $p(h=k|\x_i; \thetab^l)$ from \eqref{eq:posterior-def} by $w_{ik}^l$ so that
+    \begin{equation}
+      \E_{p(h| \x_i; \thetab^l)}[ \log p(\x_i, h; \thetab)] =  \sum_{k=1}^K w_{ik}^l  \log[  \pi_k  p_k(\x; \thetab_k) ]
+    \end{equation}
+    and
+    \begin{align}
+      J^l(\thetab) & = \sum_{i=1}^n  \sum_{k=1}^K w_{ik}^l  \log[  \pi_k  p_k(\x_i; \thetab_k) ].
+    \end{align}
+    The objective $J^l(\thetab)$ takes the form of a weighted log-likelihood. In
+    more detail, since $\sum_k w_{ik}^l=1$ for all data points $\x_i$ (and
+    $w_{ik}^l\ge 0 $), $ \sum_{k=1}^K w_{ik}^l \log[ \pi_k p_k(\x_i; \thetab_k)
+    ]$ is a convex combination. This means that the different components of the
+    mixture model compete with each other: larger weights for some
+    components mean smaller weights for others. In the extreme case, some
+    components may contribute in a negligible way to the $i$-th term of the
+    log-likelihood.
+
+    The weights $w_{ik}^l$ are sometimes, in particular for mixture of
+    Gaussians, called ``soft-assignments'' because they specify to which extent
+    a data points $\x_i$ ``belongs'' to a mixture component $p_k$.
+    Alternatively, we can interpret the $w_{ik}^l$ to be the
+    ``responsibilities'' of each mixture component $p_k$ for a datapoint $\x_i$.
+
+    In some cases, e.g.\ for computational reasons, we may determine which of
+    the $K$ weights $w_{i1}^l, \ldots, w_{iK}^l$ is the largest and then set it
+    to one while setting the other weights to zero. This corresponds to
+    ``hard-assignments'' (and ``hard EM'') where a data point $\x_i$ is
+    exclusively assigned to a single mixture component $p_k$. 
+  \end{solution}
+
+\item Assume that the different mixture components $p_k(\x; \thetab_k), k=1,
+  \ldots, K$ do not share any parameters. Show that the updated parameter values
+  $\thetab_k^{l+1}$ are given by weighted maximum likelihood estimates.
+
+  \begin{solution}
+   We interchange the order of the summations in \eqref{eq:Jl-expression} so
+   that
+   \begin{align}
+     J^l(\thetab) & = \sum_{k=1}^K \sum_{i=1}^n  w_{ik}^l  \log[  \pi_k  p_k(\x_i; \thetab_k) ]\\
+                  & =  \sum_{k=1}^K\sum_{i=1}^n  w_{ik}^l\log \pi_k + \sum_{k=1}^K\underbrace{\sum_{i=1}^n  w_{ik}^l \log p_k(\x_i; \thetab_k)}_{\ell_k^l(\thetab_k)}
+                    \label{eq:Jl-interchanged}
+   \end{align}
+   When we update the parameters $\thetab_k$ of the mixture components, the
+   first term is a constant. The second term is a sum over weighted
+   log-likelihoods $\ell_k^l(\thetab_k)$, one for each mixture component. If the
+   mixture components do not share parameters, we thus have
+   \begin{equation}
+     \thetab_k^{l+1} =  \argmax_{\thetab_k}  J^l(\thetab) = \argmax_{\thetab_k} \ell_k^l(\thetab_k)
+   \end{equation}
+   This means that we can compute $\thetab_k^{l+1}$ as if we performed maximum
+   likelihood estimation for the model $p_k(\x; \thetab_k)$, expect that
+   the data points $\x_i$ are weighted by the $w_{ik}^l$.
+  \end{solution}
+
+\item Show that maximising $J^l(\thetab)$ with respect to the mixture weights
+  $\pi_k$ gives the update rule
+  \begin{align}
+    \pi_k^{l+1} &=  \frac{1}{n}\sum_{i=1}^n w_{ik}^l
+  \end{align}
+  \begin{solution}
+    We start with \eqref{eq:Jl-expression} and drop additive terms that do not
+    depend on the $\pi_k$. Since
+    \begin{align}
+      J^l(\thetab) & =  \sum_{i=1}^n  \sum_{k=1}^K w_{ik}^l  \log \pi_k + \text{terms not depending on the $\pi_k$}
+    \end{align}
+    we can focus on the objective
+    \begin{align}
+      J^l_\pi(\pi_1, \ldots, \pi_K) & = \sum_{i=1}^n  \sum_{k=1}^K w_{ik}^l  \log \pi_k\\ 
+      &= \sum_{k=1}^K \underbrace{\left( \sum_{i=1}^n w_{ik}^l \right)}_{\omega_k^l}  \log \pi_k \\
+                                        & =  \sum_{k=1}^K \omega_k^l \log \pi_k.
+    \end{align}
+    Taking into account that the $\pi_k = p(h=k)$ define a pmf, the optimisation problem to solve is
+    \begin{align}
+      \text{maximise} \quad&  \sum_{k=1}^K \omega_k^l \log \pi_k\\
+      \text{subject to}\quad &  \pi_k \ge 0 \\
+                     &  \sum_{k=1}^K \pi_k = 1 
+    \end{align}
+    The constrained optimisation problem could be solved via Lagrange
+    multipliers. But we here take another approach and solve the optimisation
+    problem by phrasing it in terms of a KL-divergence minimisation problem.
+
+    First, note that the $\pi_k$ that maximise $J^l_\pi(\pi_1, \ldots,
+    \pi_K)$ will also maximise the re-scaled objective
+    \begin{align}
+      \frac{1}{\sum_{k=1}^K \omega_k^l}  J_\pi^l(\pi_1, \ldots, \pi_K) & =  \frac{1}{\sum_{k=1}^K \omega_k^l}\sum_{k=1}^K \omega_k^l \log \pi_k\\
+                                                                          &=   \sum_{k=1}^K q_k^l \log \pi_k
+    \end{align}
+    where we introduced
+    \begin{equation}
+      q_k^l = \frac{\omega_k^l}{\sum_{k=1}^K \omega_{k}^l}.
+    \end{equation}
+    The $q_k^l$ are non-negative and sum to one. Hence, we can consider them to
+    define a pmf.
+
+    Second, note that the $\pi_k$ that maximise $J_\pi^l(\pi_1, \ldots,
+    \pi_K)$ will also maximise
+    \begin{align}
+      \sum_{k=1}^K q_k^l \log \pi_k - \sum_{k=1}^K q_k^l \log q_k^l & = \sum_{k=1}^K q_k^l\log \frac{\pi_k}{q_k^l}\\
+                                                                    & = -\sum_{k=1}^K q_k^l \log \frac{q_k^l}{\pi_k}\\
+                                                                    & = -\KL(q^l, \pi)
+    \end{align}
+    since adding constants does not change the solution. Hence, the
+    optimal $\pi_k$ are given by the pmf $\pi$ that minimises the KL-divergence
+    $\KL(q^l, \pi)$. This means that the optimal $\pi_k$ are
+    \begin{align}
+      \pi_k & = q_k^l= \frac{\omega_k^l}{\sum_{k=1}^K \omega_{k}^l} = \frac{\sum_{i=1}^n w_{ik}^l}{\sum_{k=1}^K \sum_{i=1}^n w_{ik}^l }.
+    \end{align}
+    The denominator can be simplified by noting that, with \eqref{eq:w-def},
+    $\sum_{k=1}^K w_{ik}^l=1$ so that
+    \begin{align}
+      \sum_{k=1}^K \sum_{i=1}^n w_{ik}^l = \sum_{i=1}^n \sum_{k=1}^K w_{ik}^l = n
+    \end{align}   
+    The requested update rule thus is
+    \begin{align}
+      \pi_k^{l+1} &=  \frac{1}{n}\sum_{i=1}^n w_{ik}^l
+    \end{align}
+    The update rule does not depend directly on the statistical model $p_k(\x;
+    \thetab_k)$ that we may choose for the mixture components. Their influence
+    occurs indirectly via the $w_{ik}^l$.
+  \end{solution}
+
+\item \label{ex:EM-mixture-models-summary} Summarise the EM-algorithm to learn the parameters $\thetab$ of the
+  mixture model in \eqref{eq:mixture-model} from iid data $\x_1, \ldots, \x_n$.
+
+  \begin{solution}
+    We collect and summarise the results from the previous questions:
+    \begin{itemize}
+    \item \textbf{E-step at iteration l:} Compute the posterior probabilities (soft assignments)
+      \begin{align}
+        w_{ik}^l & =  \frac{ \pi^l_k p_k(\x_i; \thetab^l_k)}{ \sum_{k=1}^K \pi^l_k p_k(\x_i; \thetab^l_k)} 
+      \end{align}
+      for all data points $\x_i$ and and mixture components $k$. Then formulate
+      the objective function $J^l(\thetab)$
+      \begin{align}
+        J^l(\thetab) & = \sum_{i=1}^n  \sum_{k=1}^K w_{ik}^l  \log[  \pi_k  p_k(\x_i; \thetab_k) ]
+      \end{align}
+    \item  \textbf{M-step at iteration l:} Compute the new mixture weights
+      \begin{align}
+        \pi_k^{l+1} &=  \frac{1}{n}\sum_{i=1}^n w_{ik}^l
+      \end{align}
+      To compute the new mixture parameters $\thetab_k^{l+1}$, maximise
+      $J^l(\thetab)$ if some parameters are shared or tied. If the $p_k(\x;
+      \thetab_k)$ do not share parameters, the new parameters $\thetab_k^{l+1}$
+      are obtained by maximising a weighted log-likelihood for each mixture
+      component separately:
+      \begin{align}
+         \thetab_k^{l+1} &= \argmax_{\thetab_k} \sum_{i=1}^n  w_{ik}^l \log p_k(\x_i; \thetab_k)
+      \end{align}
+      for $k=1, \ldots, K$.
+    \end{itemize}
+  \end{solution}
+    
+\end{exenumerate}
+
+ 
+% --------------------------------------------------------------- %
+
+\ex{EM algorithm for mixture of Gaussians}
+\label{ex:EM-MoG}
+
+We here use the results from \exref{ex:EM-mixture-models} to derive the EM
+update rules for a mixture of Gaussians. This is a mixture model where each
+mixture component is a Gaussian distribution, i.e.
+\begin{align}
+  p(\x; \thetab) = \sum_{i=1}^K \pi_k \normal(\x; \mub_k, \Sigmab_k).
+\end{align}
+We consider the case where each $\mub_k$ and $\Sigmab_k$ can be individually
+changed (no tying of parameters). The overall parameters of the model are given
+by the $\mub_k, \Sigmab_k$ and the mixture weights $\pi_k\ge 0$, $k=1, \ldots
+K$. As in the case of general mixture models, the mixture weights sum to one.
+
+\begin{exenumerate}
+
+\item Determine the maximum likelihood estimates for a multivariate Gaussian
+  $\normal(\x; \mub, \Sigmab)$ for iid data $\data = (\x_1, \ldots, \x_n)$ when
+  each data point $\x_i$ has a weight $w_i$. The weights are non-negative but do
+  not necessarily sum to one.
+
+  \begin{solution}
+    The weighted log-likelihood is
+    \begin{align}
+      \ell(\mub, \Sigmab) & = \sum_{i=1}^n w_i \log \normal(\x_i; \mub, \Sigmab)\\
+                          & =  \sum_{i=1}^n w_i \log |\det 2 \pi \Sigmab|^{-1/2} - \frac{1}{2} \sum_{i=1}^n w_i (\x_i-\mub)^\top\Sigmab^{-1}(\x_i-\mub)
+    \end{align}
+    Introducing the normalised weights $W_i = w_i/ \sum_{i=1}^n w_i$, we have
+    \begin{align}
+      \frac{1}{ \sum_{i=1}^n w_i} \ell(\mub, \Sigmab)  &=  \log |\det 2 \pi \Sigmab|^{-1/2} - \frac{1}{2} \sum_{i=1}^n W_i (\x_i-\mub)^\top\Sigmab^{-1}(\x_i-\mub)
+    \end{align}
+    Let us write out the quadratic term
+    \begin{align}
+      (\x_i-\mub)^T\Sigmab^{-1}(\x_i-\mub) &= \x_i^\top\Sigmab^{-1}\x_i- 2\x_i^\top \Sigmab^{-1} \mub + \mub^\top \mub
+    \end{align}
+    Hence
+    \begin{align}
+      \sum_{i=1}^n W_i (\x_i-\mub)^T\Sigmab^{-1}(\x_i-\mub) &= \sum_{i=1}^n W_i \x_i^\top\Sigmab^{-1}\x_i -  2 \sum_{i=1}^n W_i\x_i^\top \Sigmab^{-1} \mub +
+                                                             \underbrace{\sum_{i=1}^n W_i}_{=1}    \mub^\top \mub  \\
+                                                            &= \tr\left[ \left( \sum_{i=1}^n W_i \x_i \x_i^\top \right) \Sigmab^{-1} \right]- 2 \left( \sum_{i=1}^n W_i\x_i  \right)^\top \Sigmab^{-1} \mub +  \mub^\top \mub \\
+      &= \tr \left( \R \Sigmab^{-1}\right) -2 \b^\top \Sigmab^{-1}\mub +  \mub^\top \mub
+    \end{align}
+    where $\R = \sum_{i=1}^n W_i \x_i \x_i^\top $ and $\b =  \sum_{i=1}^n
+    W_i\x_i$. Hence
+     \begin{align}
+       \frac{1}{ \sum_{i=1}^n w_i} \ell(\mub, \Sigmab)  &=  \log |\det 2 \pi \Sigmab|^{-1/2} - \frac{1}{2} \tr \left( \R \Sigmab^{-1}\right) + \b^\top \Sigmab^{-1}\mub - \frac{1}{2}  \mub^\top \mub
+     \end{align}
+     This has exactly the same form as the unweighted likelihood function, just the
+     sufficient statistics $\R$ and $\b$ are computed using the weights. Hence,
+     the maximum likelihood estimates, when expressed in terms of $\R$ and $\b$
+     remain the same as in the unweighted case:
+     \begin{align}
+       \hat{\mub} & = \b  =  \sum_{i=1}^n W_i\x_i\\
+       \hat{\Sigmab} & = \R - \b\b^\top=  \sum_{i=1}^n W_i \x_i \x_i^\top - \b\b^\top
+     \end{align}
+     Moreover, since
+     \begin{align}
+       \sum_{i=1}^n W_i (\x_i-\b)(\x_i-\b)^\top  & =  \sum_{i=1}^n W_i \x_i \x_i^\top - \underbrace{\sum_{i=1}^n W_i \x_i}_{\b} \b^\top - \b \underbrace{\sum_{i=1}^n W_i \x_i^\top}_{\b^\top} + \b\b^\top\\
+                                                 &=\R - \b \b^\top - \b \b^\top + \b\b^\top\\
+                                                 & =  \R - \b\b^\top
+     \end{align}
+     we find that the weighted maximum likelihood estimates are the weighted
+     average and weighted covariance matrix:
+     \begin{align}
+       \hat{\mub} & =   \sum_{i=1}^n W_i\x_i&  \hat{\Sigmab} &=    \sum_{i=1}^n W_i (\x_i-\hat{\mub})(\x_i-\hat{\mub})^\top & W_i&= \frac{w_i}{\sum_{i=1}^n w_i}
+     \end{align}
+  \end{solution}
+
+  \item Use the results from  \exref{ex:EM-mixture-models} to derive the EM update
+    rules for the parameters of the Gaussian mixture model.
+
+    \begin{solution}
+      From the solution to \exref{ex:EM-mixture-models}\ref{ex:EM-mixture-models-summary} and the derived
+      weighted MLE solutions, we find:
+      \begin{itemize}
+      \item \textbf{E-step at iteration l:} Compute the posterior probabilities (soft assignments)
+        \begin{align}
+          w_{ik}^l & =  \frac{ \pi^l_k \normal(\x_i; \mub^l_k, \Sigmab_k^l)}{ \sum_{k=1}^K\pi^l_k \normal(\x_i; \mub^l_k, \Sigmab_k^l) } 
+      \end{align}
+      for all data points $\x_i$ and and mixture components $k$.
+    \item  \textbf{M-step at iteration l:}
+      \begin{itemize}
+      \item Determine the weighted MLEs
+        \begin{align}
+          \mub_k^{l+1} & =   \sum_{i=1}^n W^l_{ik}\x_i&  \Sigmab_k^{l+1} &=    \sum_{i=1}^n W^l_{ik} (\x_i- \mub_k^{l+1})(\x_i- \mub_k^{l+1})^\top
+        \end{align}
+        where $W^l_{ik} = w_{ik}^l/(\sum_{i=1}^n w_{ik}^l)$.
+      \item Compute the new mixture weights
+      \begin{align}
+        \pi_k^{l+1} &=  \frac{1}{n}\sum_{i=1}^n w_{ik}^l
+      \end{align}
+    \end{itemize}
+  \end{itemize}
+  
+      
+    \end{solution}
+      
+\end{exenumerate}
+ 
