@@ -64,12 +64,13 @@ are marginalised out due to the expectation with respect to $q(\y_{\setminus
     \begin{equation}
       \ELBOx(q) = \E_{q_1(y_1|\x)} \E_{q(\y_{\setminus 1}|\x)}\left[ \log p(\x,\y)\right] - \sum_{i=1}^d \E_{q_i(y_i|\x)} \left[\log q_i(y_i|\x)\right]
     \end{equation}
-    we drop terms that do not depend on $q_1$. We then obtain
-    \begin{align}
+  we drop terms that do not depend on $q_1$. We then obtain
+  \begin{align}
       J(q_1) & =  \E_{q_1(y_1|\x)} \E_{q(\y_{\setminus 1}|\x)}\left[ \log p(\x,\y)\right] -  \E_{q_1(y_1|\x)} \left[\log q_1(y_1|\x)\right]\\
-      & = \E_{q_1(y_1|\x)} \log \bar{p}(y_1|\x) - \E_{q_1(y_1|\x)} \left[\log q_1(y_1|\x)\right] + \text{const}\\
-      & = \E_{q_1(y_1|\x)}\left[ \log \frac{\bar{p}(y_1|\x)}{ q_1(y_1|\x)} \right]\\
-      & = -\KL( q_1(y_1|\x) || \bar{p}(y_1|\x) )
+            & =  \E_{q_1(y_1|\x)} \left[\log \bar{p}(y_1|\x) - \text{const} \right]- \E_{q_1(y_1|\x)} \left[\log q_1(y_1|\x)\right]\\
+            & = \E_{q_1(y_1|\x)} \log \bar{p}(y_1|\x) - \E_{q_1(y_1|\x)} \left[\log q_1(y_1|\x)\right] - \text{const}\\
+            & = \E_{q_1(y_1|\x)}\left[ \log \frac{\bar{p}(y_1|\x)}{ q_1(y_1|\x)} \right] - \text{const}\\
+            & = -\KL( q_1(y_1|\x) || \bar{p}(y_1|\x) ) - \text{const}
     \end{align}
     Hence
     \begin{equation}
