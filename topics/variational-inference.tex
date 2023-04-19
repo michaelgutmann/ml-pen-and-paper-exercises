@@ -795,7 +795,7 @@ K$. As in the case of general mixture models, the mixture weights sum to one.
   not necessarily sum to one.
 
   \begin{solution}
-    The weighted log-likelihood is
+ The weighted log-likelihood is
     \begin{align}
       \ell(\mub, \Sigmab) & = \sum_{i=1}^n w_i \log \normal(\x_i; \mub, \Sigmab)\\
                           & =  \sum_{i=1}^n w_i \log |\det 2 \pi \Sigmab|^{-1/2} - \frac{1}{2} \sum_{i=1}^n w_i (\x_i-\mub)^\top\Sigmab^{-1}(\x_i-\mub)
@@ -805,20 +805,20 @@ K$. As in the case of general mixture models, the mixture weights sum to one.
       \frac{1}{ \sum_{i=1}^n w_i} \ell(\mub, \Sigmab)  &=  \log |\det 2 \pi \Sigmab|^{-1/2} - \frac{1}{2} \sum_{i=1}^n W_i (\x_i-\mub)^\top\Sigmab^{-1}(\x_i-\mub)
     \end{align}
     Let us write out the quadratic term
-    \begin{align}
-      (\x_i-\mub)^T\Sigmab^{-1}(\x_i-\mub) &= \x_i^\top\Sigmab^{-1}\x_i- 2\x_i^\top \Sigmab^{-1} \mub + \mub^\top \mub
+    \begin{align} 
+            (\x_i-\mub)^T\Sigmab^{-1}(\x_i-\mub) &= \x_i^\top\Sigmab^{-1}\x_i- 2\x_i^\top \Sigmab^{-1} \mub + \mub^\top \Sigmab^{-1} \mub
     \end{align}
     Hence
     \begin{align}
       \sum_{i=1}^n W_i (\x_i-\mub)^T\Sigmab^{-1}(\x_i-\mub) &= \sum_{i=1}^n W_i \x_i^\top\Sigmab^{-1}\x_i -  2 \sum_{i=1}^n W_i\x_i^\top \Sigmab^{-1} \mub +
-                                                             \underbrace{\sum_{i=1}^n W_i}_{=1}    \mub^\top \mub  \\
-                                                            &= \tr\left[ \left( \sum_{i=1}^n W_i \x_i \x_i^\top \right) \Sigmab^{-1} \right]- 2 \left( \sum_{i=1}^n W_i\x_i  \right)^\top \Sigmab^{-1} \mub +  \mub^\top \mub \\
-      &= \tr \left( \R \Sigmab^{-1}\right) -2 \b^\top \Sigmab^{-1}\mub +  \mub^\top \mub
+                                                             \underbrace{\sum_{i=1}^n W_i}_{=1}    \mub^\top \Sigmab^{-1} \mub  \\
+                                                            &= \tr\left[ \left( \sum_{i=1}^n W_i \x_i \x_i^\top \right) \Sigmab^{-1} \right]- 2 \left( \sum_{i=1}^n W_i\x_i  \right)^\top \Sigmab^{-1} \mub +  \mub^\top \Sigmab^{-1} \mub \\
+            &= \tr \left( \R \Sigmab^{-1}\right) -2 \b^\top \Sigmab^{-1}\mub +  \mub^\top\Sigmab^{-1} \mub
     \end{align}
     where $\R = \sum_{i=1}^n W_i \x_i \x_i^\top $ and $\b =  \sum_{i=1}^n
     W_i\x_i$. Hence
      \begin{align}
-       \frac{1}{ \sum_{i=1}^n w_i} \ell(\mub, \Sigmab)  &=  \log |\det 2 \pi \Sigmab|^{-1/2} - \frac{1}{2} \tr \left( \R \Sigmab^{-1}\right) + \b^\top \Sigmab^{-1}\mub - \frac{1}{2}  \mub^\top \mub
+             \frac{1}{ \sum_{i=1}^n w_i} \ell(\mub, \Sigmab)  &=  \log |\det 2 \pi \Sigmab|^{-1/2} - \frac{1}{2} \tr \left( \R \Sigmab^{-1}\right) + \b^\top \Sigmab^{-1}\mub - \frac{1}{2}  \mub^\top\Sigmab^{-1} \mub
      \end{align}
      This has exactly the same form as the unweighted likelihood function, just the
      sufficient statistics $\R$ and $\b$ are computed using the weights. Hence,
