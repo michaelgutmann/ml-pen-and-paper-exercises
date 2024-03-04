@@ -10,7 +10,7 @@ $$p(x_1, \ldots, x_5) \propto \phi_{12}(x_1,x_2)\phi_{13}(x_1,x_3)\phi_{14}(x_1,
 
   \begin{solution}
 
-   We draw a node for each random variable $x_i$. There is an edge between two nodes if the corresponding variables co-occur in a factor. 
+   We draw a node for each random variable $x_i$. There is an edge between two nodes if the corresponding variables co-occur in a factor.
 \begin{center}
 \scalebox{0.9}{
 \begin{tikzpicture}[ugraph]
@@ -36,7 +36,7 @@ $$p(x_1, \ldots, x_5) \propto \phi_{12}(x_1,x_2)\phi_{13}(x_1,x_3)\phi_{14}(x_1,
 \item What are the neighbours of $x_3$ in the graph?
 
   \begin{solution}
-    The neighbours are all the nodes for which there is a single connecting edge. Thus:   
+    The neighbours are all the nodes for which there is a single connecting edge. Thus:
     $\ne(x_3) = \{x_1, x_2\}$. (Note that sometimes, we may denote $\ne(x_3)$ by $\ne_3$.)
   \end{solution}
 
@@ -45,20 +45,20 @@ $$p(x_1, \ldots, x_5) \propto \phi_{12}(x_1,x_2)\phi_{13}(x_1,x_3)\phi_{14}(x_1,
   \begin{solution}
     Yes. The conditioning set $\{x_1,x_2\}$ equals $\ne_3$, which is also the Markov blanket of  $x_3$. This means that $x_3$ is conditionally independent of all the other variables given $\{x_1,x_2\}$, i.e.\ $x_3 \independent x_4,x_5 \mid x_1, x_2$, which implies that $x_3 \independent x_4 \mid x_1, x_2$. (One can also use graph separation to answer the question.)
   \end{solution}
-  
-\item What is the Markov blanket of $x_4$? 
+
+\item What is the Markov blanket of $x_4$?
 
   \begin{solution}
-  
+
     The Markov blanket of a node in a undirected graphical model equals the set of its neighbours: $\MB(x_4) = \ne(x_4) = \ne_4 = \{x_1,x_5\}$.  This implies, for example, that
     $x_4 \independent x_2,x_3 \mid x_1,x_5$.
   \end{solution}
-  
+
 \item On which minimal set of variables $A$ do we need to condition to have $x_1 \independent x_5 \mid A$?
 
   \begin{solution}
 We first identify all trails from $x_1$ to $x_5$. There are three such trails: $(x_1,x_2,x_5)$, $(x_1, x_3, x_2, x_5)$, and $(x_1,x_4, x_5)$. Conditioning on $x_2$ blocks the first two trails, conditioning on $x_4$ blocks the last. We thus have: $x_1 \independent x_5 \mid x_2,x_4$, so that $A=\{x_2,x_4\}$.
-    
+
 \end{solution}
 
 \end{exenumerate}
@@ -90,11 +90,11 @@ Consider the undirected graphical model defined by the graph in Figure \ref{fig:
    \end{tikzpicture}}
   \end{center}
   \caption{\label{fig:undirected-graphical-model} Graph for \exref{ex:factorisation-independencies-undirected-graphical-model}}
-\end{figure}  
+\end{figure}
 
 \begin{exenumerate}
 
-  
+
 \item What is the set of Gibbs distributions that is induced by the graph?
 
   \begin{solution}
@@ -115,21 +115,21 @@ Consider the undirected graphical model defined by the graph in Figure \ref{fig:
     graph, we thus cannot conclude that $x_3 \independent x_2 \mid x_4$,
     and $p(x_3 | x_2, x_4) = p(x_3 | x_4)$ will generally not hold
     (the relation may hold for some carefully defined factors $\phi_i$).
-    
+
   \end{solution}
 
 \item Explain why $x_2 \independent x_5 \mid x_1,x_3,x_4,x_6$ holds for all distributions that factorise over the graph.
 
   \begin{solution}
     Distributions that factorise over the graph satisfy the pairwise Markov property. Since $x_2$ and $x_5$ are not neighbours, and $x_1,x_3,x_4,x_6$
-    are the remaining nodes in the graph, the independence relation follows from the pairwise Markov property.    
+    are the remaining nodes in the graph, the independence relation follows from the pairwise Markov property.
   \end{solution}
-  
+
 \item Assume you would like to approximate $\E (x_1 x_2 x_5 \mid
   x_3,x_4)$, i.e.\ the expected value of the product of $x_1$, $x_2$,
   and $x_5$ given $x_3$ and $x_4$, with a sample average. Do you
   need to have joint observations for all five variables $x_1, \ldots, x_5$?
-  
+
   \begin{solution}
 
     In the graph, all trails from $\{x_1,x_2\}$ to $x_5$ are blocked by $\{x_3,x_4\}$, so that $x_1, x_2 \independent x_5 \mid x_3, x_4$. We thus have
@@ -137,7 +137,7 @@ Consider the undirected graphical model defined by the graph in Figure \ref{fig:
     Hence, we only need joint observations of $(x_1, x_2, x_3, x_4)$ and $(x_3, x_4,x_5)$. Variables $(x_1,x_2)$ and $x_5$ do not need to be jointly measured.
 
   \end{solution}
-  
+
 \end{exenumerate}
 
 
@@ -173,7 +173,7 @@ Consider the undirected graphical model defined by the following graph, sometime
     \begin{equation}
       p(x, w, z, y) \propto \phi_1(x,w) \phi_2(w,z) \phi_3(z,y) \phi_4(x,y)
     \end{equation}
-    
+
   \end{solution}
 
 \item List all independencies that hold for the undirected graphical model.
@@ -192,10 +192,10 @@ Consider the undirected graphical model defined by the following graph, sometime
     conditioning on three nodes does not lead to any independencies in
     a model with four variables.
   \end{solution}
-      
+
 
 \end{exenumerate}
-  
+
 % --------------------------------------------------
 
 \ex{Factorisation from the Markov blankets I}
@@ -203,7 +203,7 @@ Consider the undirected graphical model defined by the following graph, sometime
 
 Assume you know the following Markov blankets for all variables $x_1,
 \ldots, x_4, y_1, \ldots y_4$ of a pdf or pmf $p(x_1, \ldots, x_4,
-y_1, \ldots,y_4)$. 
+y_1, \ldots,y_4)$.
 \begin{align}
   \MB(x_1) &= \{x_2, y_1\} & \MB(x_2)&=\{x_1, x_3, y_2\} & \MB(x_3)&=\{x_2, x_4, y_3\} & \MB(x_4)&=\{x_3, y_4\}\\
   \MB(y_1) &= \{x_1\}      & \MB(y_2)&= \{x_2\}         &  \MB(y_3)&= \{x_3\}         &  \MB(y_4) &= \{x_4\}
@@ -316,7 +316,7 @@ We thus have a graph as follows:
       \draw(x1)--(y1);\draw(x2)--(y2);\draw(x3)--(y3);\draw(x4)--(y4);
       \draw(x1)--(x2);\draw(x2)--(x3);\draw(x3)--(x4);
       \draw(y1)--(y2);\draw(y1) to [bend right= 45] (y3);\draw(y1)  to [bend right= 45] (y4);
-      \draw(y2)--(y3);\draw(y2) to [bend right=45]  (y4);\draw(y3)--(y4);   
+      \draw(y2)--(y3);\draw(y2) to [bend right=45]  (y4);\draw(y3)--(y4);
   \end{tikzpicture}}
 \end{center}
 
@@ -344,8 +344,8 @@ variables $x_1, \ldots, x_d$ then take the form
 $$p(x_1, \ldots, x_d) \propto \prod_{i \le j} \phi_{ij}(x_i,x_j)$$
 Such models are sometimes called pairwise Markov networks.
 
-\begin{exenumerate} 
-  
+\begin{exenumerate}
+
 \item Let $p(x_1, \ldots, x_d) \propto \exp\left( -\frac{1}{2} \x^\top
   \A \x - \b^\top \x \right)$ where $\A$ is symmetric and $\x = (x_1,
   \ldots, x_d)^\top$. What are the corresponding factors $\phi_{ij}$
@@ -396,11 +396,11 @@ on the diagonal.
     $x_i \independent x_j \mid \{x_1, \ldots, x_d\} \setminus \{x_i,x_j\}$.
 
   \end{solution}
-  
+
 \end{exenumerate}
 
-  
-% --------------------------------------------------------------- 
+
+% ---------------------------------------------------------------
 
 \ex{Restricted Boltzmann machine {\small \citep[based on][Exercise 4.4]{Barber2012}}}%
 The restricted Boltzmann machine is an undirected
@@ -431,35 +431,35 @@ assumed that we cannot measure them.
       \centering
       \scalebox{1}{
         \begin{tikzpicture}[ugraph]
-          
+
           \node[cont] (h1) at (-1,0) {$h_1$};
           \node[cont] (h2) at (1,0) {$h_2$};
           \node[cont] (v1) at (-2,-2) {$v_1$};
           \node[cont] (v2) at (0,-2) {$v_2$};
           \node[cont] (v3) at (2,-2) {$v_3$};
-          
+
           \draw(h1) -- (v1);
           \draw(h1) -- (v2);
           \draw(h1) -- (v3);
           \draw(h2) -- (v1);
           \draw(h2) -- (v2);
           \draw(h2) -- (v3);
-          
+
           % -----------------
-          
+
           \node[cont] (h1) at (7,0) {$h_1$};
           \node[cont] (h2) at (9,0) {$h_2$};
           \node[contobs] (v1) at (6,-2) {$v_1$};
           \node[contobs] (v2) at (8,-2) {$v_2$};
           \node[contobs] (v3) at (10,-2) {$v_3$};
-          
+
           \draw(h1) -- (v1);
           \draw(h1) -- (v2);
           \draw(h1) -- (v3);
           \draw(h2) -- (v1);
           \draw(h2) -- (v2);
           \draw(h2) -- (v3);
-          
+
       \end{tikzpicture}}
       \caption{\label{fig:restricted-boltzmann-machine} Left: Graph for $p(\v,\h)$. Right: Graph for $p(\h | \v)$}
     \end{figure}
@@ -482,7 +482,7 @@ where $W_{ji}$ is the $(ji)$-th element of $\W$, so that $\sum_j W_{ji} v_j$ is 
         & \propto p(\h,\v) \\
         & \propto \exp\left( \v^\top \W \h + \a^\top\v + \b^\top\h \right)\\
         & \propto \exp\left( \v^\top \W \h + \b^\top\h \right)\\
-        & \propto \exp\left( \sum_i \sum_j v_j W_{ji} h_i + \sum_i b_i h_i \right) 
+        & \propto \exp\left( \sum_i \sum_j v_j W_{ji} h_i + \sum_i b_i h_i \right)
      \end{align}
      As we are interested in $p(h_i | \v)$ for a fixed $i$, we can drop all the terms not depending on that $h_i$, so that
       \begin{align}
@@ -527,14 +527,14 @@ where $W_{ji}$ is the $(ji)$-th element of $\W$, so that $\sum_j W_{ji} v_j$ is 
       \begin{align*}
         p(h_i=1 | \v) &= \sigma\left(\sum_j W_{ji} v_j  + b_i\right).
       \end{align*}
-      
+
     \end{solution}
 
   \item Use a symmetry argument to show that
     $$p(\v | \h) = \prod_i p(v_i | \h) \quad \text{ and }  \quad p(v_i = 1 | \h) = \frac{1}{1+\exp\left(-a_i-\sum_j W_{ij} h_j\right)}$$
 
     \begin{solution}
-      Since $\v^\top \W \h$ is a scalar we have  $(\v^\top \W \h)^\top = \h^\top \W^\top \v =  \v^\top \W \h$, so that  
+      Since $\v^\top \W \h$ is a scalar we have  $(\v^\top \W \h)^\top = \h^\top \W^\top \v =  \v^\top \W \h$, so that
       \begin{align}
       p(\v,\h) & \propto \exp\left( \v^\top \W \h + \a^\top\v + \b^\top\h \right) \\
       & \propto \exp\left( \h^\top \W^\top \v + \b^\top\h + \a^\top\v  \right).
@@ -573,7 +573,7 @@ where $W_{ji}$ is the $(ji)$-th element of $\W$, so that $\sum_j W_{ji} v_j$ is 
        assumption that the visibles $v_i$ are binary. The same
        expression would thus obtained if the visibles were defined in
        another space, e.g.\ the real numbers.
-       
+
        While $p(\v)$ is written as a product, $p(\v)$ does not
        factorise into terms that depend on subsets of the
        $v_i$. On the contrary, all $v_i$ are present in all
@@ -592,7 +592,7 @@ where $W_{ji}$ is the $(ji)$-th element of $\W$, so that $\sum_j W_{ji} v_j$ is 
 
        It is instructive to write $p(\v)$ in the log-domain,
        \begin{align}
-         \log p(\v) & = \log Z + \sum_{i=1}^n a_i v_i + \sum_{j=1}^m \log\left[1+ \exp\left(\sum_i v_i W_{ij} + b_j \right)\right],
+         \log p(\v) & = -\log Z + \sum_{i=1}^n a_i v_i + \sum_{j=1}^m \log\left[1+ \exp\left(\sum_i v_i W_{ij} + b_j \right)\right],
        \end{align}
        and to introduce the nonlinearity $f(u)$,
        \begin{align}
@@ -636,7 +636,7 @@ where $W_{ji}$ is the $(ji)$-th element of $\W$, so that $\sum_j W_{ji} v_j$ is 
        v_i W_{ij} + b_j \right)$ will be non-zero for many $j$, and
        $\log p(\v)$ will be large.
 
-       
+
        \begin{center}
          \vspace{3ex}
          \begin{tikzpicture}
@@ -651,12 +651,12 @@ where $W_{ji}$ is the $(ji)$-th element of $\W$, so that $\sum_j W_{ji} v_j$ is 
            \end{axis}
          \end{tikzpicture}
       \end{center}
-    
-       
+
+
     \end{solution}
 
 
-    
+
 \end{exenumerate}
 
 
@@ -698,11 +698,11 @@ Let us consider the situation where $\prod_{i=2}^t \phi^x_i(x_{i-1}, x_i)$ equal
 with $\x=(x_1, \ldots, x_t)$ and where the $f_i$ are (conditional) pdfs. We thus have
 \begin{align}
   p(x_1, \ldots, x_t, y_1, \ldots, y_t) \propto f_1(x_1) \prod_{i=2}^t f_i(x_i|x_{i-1}) \prod_{i=1}^t \phi_i^y(x_i, y_i).
-  \label{eq:Markov-model-joint-def} 
+  \label{eq:Markov-model-joint-def}
 \end{align}
 
 \begin{exenumerate}
-  
+
 \item Provide a factorised expression for $ p(x_1, \ldots, x_t | y_1, \ldots, y_t)$
 
   \begin{solution}
@@ -712,7 +712,7 @@ with $\x=(x_1, \ldots, x_t)$ and where the $f_i$ are (conditional) pdfs. We thus
       p(x_1, \ldots, x_t | y_1, \ldots, y_t) \propto f_1(x_1) g_1(x_1)
       \prod_{i=2}^t f_i(x_i|x_{i-1}) g_i(x_i).
     \end{align}
-    where $g_i(x_i)$ is $\phi^y_i(x_i,y_i)$ for a fixed value of $y_i$. 
+    where $g_i(x_i)$ is $\phi^y_i(x_i,y_i)$ for a fixed value of $y_i$.
   \end{solution}
 
 \item Draw the undirected graph for $p(x_1, \ldots, x_t | y_1, \ldots, y_t)$
@@ -735,7 +735,7 @@ with $\x=(x_1, \ldots, x_t)$ and where the $f_i$ are (conditional) pdfs. We thus
   \end{tikzpicture}
   }
 \end{center}
-   
+
  \end{solution}
 
 \item Show that if $\phi_i^y(x_i, y_i)$ equals the conditional pdf of
@@ -758,10 +758,10 @@ with $\x=(x_1, \ldots, x_t)$ and where the $f_i$ are (conditional) pdfs. We thus
       & = f_1(x_1) \prod_{i=2}^t f_i(x_i|x_{i-1})\\
       & = f(\x)
     \end{align}
-    
+
   \end{solution}
-  
-  
+
+
 \item Compute the normalising constant for $p(x_1, \ldots, x_t | y_1, \ldots, y_t)$ and express it as an expectation over $f(\x)$.
   \begin{solution}
     With
@@ -774,8 +774,8 @@ with $\x=(x_1, \ldots, x_t)$ and where the $f_i$ are (conditional) pdfs. We thus
       & = \E_f\left [\prod_{i=1}^t g_i(x_i) \right]
     \end{align}
     Since we can use ancestral sampling to sample from $f$, the
-    above expectation can be easily computed via sampling.    
-    
+    above expectation can be easily computed via sampling.
+
   \end{solution}
 
 \item Express the expectation of a test function $h(\x)$ with respect
@@ -819,6 +819,6 @@ with $\x=(x_1, \ldots, x_t)$ and where the $f_i$ are (conditional) pdfs. We thus
     \end{align}
     where $x^{(k)}_i$ is the $i$-th dimension of the vector $\x^{(k)}$.
   \end{solution}
-  
+
 \end{exenumerate}
 
